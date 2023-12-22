@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+main page
+<hr>
+<h1>Welcome, <span th:text="${id}"></span>!</h1>
+<p>Your role is: <span th:text="${role}"></span></p>
+<hr>
+<button onclick="login()">login</button>
+<form action="/logut"  method="get">
+    <input type="submit" value="logout">
+</form>
+
+<button onclick="boardSaveReq()"> 글 작성</button>
+<button onclick="boardListReq()"> 글 목록</button>
+<button onclick="boardPagingReq()"> 글 페이지</button>
+<button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()">즐겨찾기 조회</button>
+
+</body>
+
+<script>
+
+    const login = () => {
+        location.href="/login";
+    }
+
+    const boardSaveReq = () => {
+        location.href="/board/save";
+    }
+    const boardListReq = () => {
+        location.href="/board/list";
+    }
+    const boardPagingReq = () => {
+        location.href="/board/paging";
+    }
+
+    const favoriteReq = () => {
+        location.href="/favorite/list"
+    }
+</script>
+</html>

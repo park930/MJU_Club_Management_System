@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +30,9 @@ public class BoardEntity extends BaseEntity{
     private String boardContents;
     @Column
     private int boardHits;
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
 
     public static BoardEntity toBoardEntity(BoardDTO boardDTO){ //초기 DB에 게시글 저장할 때, DTO를 Entity로 변환

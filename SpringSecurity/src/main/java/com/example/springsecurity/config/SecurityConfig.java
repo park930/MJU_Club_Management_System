@@ -25,6 +25,9 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests( (auth)-> auth       //3.1.x 버전부터는 이런 형식으로 작성해야함.
+                        //임시
+                        .requestMatchers("/**").permitAll()
+                        //
                         .requestMatchers("/","/login","/join","/joinProc","/board/**").permitAll()  //main페이지와 로그인 페이지는 모두가 접근 가능하게
                         .requestMatchers("/admin").hasRole("ADMIN")     //어드민페이지는 어드민인 사용자만 접근 가능하게
                         .requestMatchers("/board/**").hasAnyRole("ADMIN","USER")

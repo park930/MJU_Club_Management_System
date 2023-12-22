@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>favorite list</title>
+</head>
+<body>
+<h1>즐겨찾기 목록</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Board ID</th>
+        <th>Board Title</th>
+        <th>Board Writer</th>
+        <th>Favorite Created Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Thymeleaf 반복문을 사용하여 favoriteBoardDTOList의 각 항목을 출력 -->
+    <tr th:each="favoriteBoardDTO : ${favoriteBoardDTOList}">
+        <td th:text="${favoriteBoardDTO.id}"></td>
+        <td th:text="${favoriteBoardDTO.userId}"></td>
+        <td th:text="${favoriteBoardDTO.boardId}"></td>
+        <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}" th:text="${favoriteBoardDTO.boardTitle}"></a></td>
+        <td th:text="${favoriteBoardDTO.boardWriter}"></td>
+        <td th:text="${favoriteBoardDTO.favoriteCreatedTime}"></td>
+
+
+
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

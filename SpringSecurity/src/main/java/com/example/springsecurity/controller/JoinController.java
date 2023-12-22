@@ -23,6 +23,8 @@ public class JoinController {
     public String joinProcess(JoinDTO joinDTO){
         System.out.println("joinDTO = " + joinDTO.getUsername());
         joinService.joinProcess(joinDTO);
-        return "redircet:/login";
+        return "redirect:/login";
     }
+
+
 }
