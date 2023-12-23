@@ -34,9 +34,14 @@
     </tr>
 </table>
 <button onclick="listReq()">목록</button>
-<button onclick="FavortieReq()">즐겨찾기 추가</button>
+<button th:if="${userId != 'anonymousUser'}" onclick="FavortieReq()">즐겨찾기 추가</button>
+<button th:if="${userId != 'anonymousUser'}" onclick="HeartReq()">좋아요</button>
 <button th:if="${board.boardWriter eq userId}" onclick="updateReq()">수정</button>
 <button th:if="${board.boardWriter eq userId}" onclick="deleteReq()">삭제</button>
+
+<div id="heart-count">
+    <h3 th:text="'좋아요 '+${heartCount}+'개'"></h3>
+</div>
 
 <hr>
 
@@ -129,6 +134,38 @@
                 console.log("요청성공", res);
                 alert(res);
             },
+            error: function (err) {
+                console.log("요청실패", err);
+            }
+        });
+
+    }
+
+
+    const HeartReq = () => {
+        const boardId = [[${board.id}]];
+        const userId = [[${userId}]];
+
+        $.ajax({
+            // 요청방식: post, 요청주소: /comment/save, 요청데이터: 작성자, 작성내용, 게시글번호
+            type: "post",
+            url: "/heart/save",
+            data: {
+                "userId": userId,
+                "boardId": boardId
+            },
+            success: function (res) {
+                console.log("요청성공", res);
+                alert(res.saveResult);
+                let output = "<h3>";
+                output += "좋아요 ";
+                output += res.heartCount;
+                output += "개";
+                output += "</h3>";
+                document.getElementById('heart-count').innerHTML = output;
+            },
+
+
             error: function (err) {
                 console.log("요청실패", err);
             }

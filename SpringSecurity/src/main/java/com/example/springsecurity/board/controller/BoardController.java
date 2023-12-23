@@ -6,6 +6,7 @@ import com.example.springsecurity.board.dto.FavoriteBoardDTO;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
 import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.CommentService;
+import com.example.springsecurity.board.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
-
+    private final HeartService heartService;
 
 
 
@@ -60,12 +61,14 @@ public class BoardController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         boardService.updateHits(id);
         BoardDTO boardDTO =  boardService.findById(id);
+        Long heartCount = heartService.heartCount(id);
         //댓글 목록 가져오기
         List<CommentDTO> commentDTOList = commentService.findAll(id);
         model.addAttribute("commentList",commentDTOList);
         model.addAttribute("board",boardDTO);
         model.addAttribute("userId",userId);
         model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("heartCount",heartCount);
         return "boardDetail";
     }
 

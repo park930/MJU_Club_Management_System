@@ -22,18 +22,30 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     public String favoriteSave(FavoriteBoardDTO favoriteBoardDTO) {
+        //게시판 Id를 통해, 추출한 BoardEntity
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(favoriteBoardDTO.getBoardId());
+        //UserId를 통해, 추출한 UserEntity
         UserEntity userEntity = userRepository.findByUsername(favoriteBoardDTO.getUserId());
 
+        //게시글이 존재하고, 유저 또한 null이 아니면
         if (optionalBoardEntity.isPresent() && userEntity!=null){
             BoardEntity boardEntity = optionalBoardEntity.get();
-            FavoriteBoardEntity favoriteBoardEntity = FavoriteBoardEntity.toFavoriteEntity(favoriteBoardDTO,boardEntity,userEntity);
-            favoriteRepository.save(favoriteBoardEntity);
-            return "등록";
+            FavoriteBoardEntity newFavoriteEntity = FavoriteBoardEntity.toFavoriteEntity(favoriteBoardDTO,boardEntity,userEntity);
+
+            FavoriteBoardEntity findFavorite = favoriteRepository.findByBoardEntityAndUserEntity(boardEntity,userEntity);
+
+            //만약 해당 즐겨찾기가 이미 존재하면 삭제, 아니면 저장
+            if ( findFavorite!= null){
+                favoriteRepository.delete(findFavorite);
+                return "해제";
+            }
+            else {
+                favoriteRepository.save(newFavoriteEntity);
+                return "등록";
+            }
         } else {
             return "등록 실패";
         }
-
     }
 
     public List<FavoriteBoardDTO> findAll(UserEntity userEntity, String userName) {
