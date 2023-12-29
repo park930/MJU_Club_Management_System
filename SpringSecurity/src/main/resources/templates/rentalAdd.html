@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+
+<form action="/rental/add" method="post" enctype="multipart/form-data">
+    카테고리: <input type="text" name="type"> <br>
+    물품명: <input type="text" name="name"> <br>
+    수량: <input type="text" name="totalCount"> <br>
+    위치: <input type="text" name="location"> <br>
+    <input type="submit" value="추가하기">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rentalOffer</title>
+</head>
+<body>
+
+카테고리: <h4 th:text="${rentalDTO.type}"></h4>
+물품명: <h4 th:text="${rentalDTO.name}"></h4>
+잔여 수량: <h4 th:text="${rentalDTO.remain}"></h4>
+대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
+
+<form th:action="@{'/rental/offer/' + ${rentalDTO.id}}" method="post" enctype="multipart/form-data">
+    학번 : <input type="text" name="studentNumber"> <br>
+    학과 : <input type="text" name="department"> <br>
+    대여자 명: <input type="text" name="name"> <br>
+    전화 번호 : <input type="text" name="phone"> <br>
+    대여 기간 : <input type="date" name="duration"> <br>
+    <input type="submit" value="신청하기">
+</form>
+
+
+</body>
+</html>

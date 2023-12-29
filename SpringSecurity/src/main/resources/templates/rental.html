@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+</head>
+<body>
+<h2>대여시스템</h2>
+<hr>
+
+<!--th:if="${id != 'anonymousUser'}"-->
+<button onclick="rentalAddReq()">대여물품 추가</button>
+
+
+
+<table>
+    <tr>
+        <th>순번</th>
+        <th>카테고리</th>
+        <th>물품명</th>
+        <th>총 수량</th>
+        <th>위치</th>
+        <th>잔여 수량</th>
+        <th>현황표</th>
+    </tr>
+    <tr th:each="rental: ${rentalList}">
+        <td th:text="${rental.id}"></td>
+        <td th:text="${rental.type}"></td>
+        <td th:text="${rental.name}"></td>
+        <td th:text="${rental.totalCount}"></td>
+        <td th:text="${rental.location}"></td>
+        <td th:text="${rental.remain}"></td>
+        <td><a th:href="@{|/rental/${rental.id}|}">대여 현황</a></td>
+        <td><a th:href="@{|/rental/offer/${rental.id}|}">신청</a></td>
+    </tr>
+</table>
+
+</body>
+
+<script>
+
+    const rentalAddReq = () => {
+        location.href="/rental/add";
+    }
+
+
+</script>
+</html>
