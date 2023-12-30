@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>list</title>
+</head>
+<body>
+
+<button onclick="clubAddReq()">동아리 추가</button>
+
+
+<hr>
+<table>
+  <tr>
+    <th>id</th>
+    <th>분과</th>
+    <th>동아리명</th>
+    <th>동아리 호실</th>
+    <th>동아리 비밀번호</th>
+  </tr>
+  <tr th:each="club: ${clubList}">
+    <td th:text="${club.id}"></td>
+    <td th:text="${club.category}"></td>
+    <td th:text="${club.clubName}"></td>
+    <td th:text="${club.clubRoom}"></td>
+    <td th:text="${club.roomPassword}"></td>
+    <td><a th:href="@{|/club/${club.id}|}">관리 </a></td>
+    <td><a th:href="@{|/club/update/${club.id}|}">수정</a></td>
+    <td><a th:href="@{|/club/delete/${club.id}|}">삭제</a></td>
+  </tr>
+</table>
+
+
+</body>
+
+<script>
+
+  const clubAddReq = () => {
+    location.href="/club/add";
+  }
+
+
+</script>
+</html>

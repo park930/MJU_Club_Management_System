@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+
+<form action="/todo/admin/add" method="post" enctype="multipart/form-data">
+    해당 동아리:
+    <div th:each="club : ${clubList}">
+        <input type="checkbox" th:id="${'checkbox-' + club.id}" th:name="checkedList" th:value="${club.id}"/>
+        <label th:for="${'checkbox-' + club.id}" th:text="${club.clubName}"></label>
+        <br>
+    </div>
+    제목: <input type="text" name="title"> <br>
+    내용: <textarea name="content" cols="30" rows="10"></textarea> <br>
+    기간: <input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"><br>
+    <input type="submit" value="일정 추가">
+</form>
+
+</body>
+</html>

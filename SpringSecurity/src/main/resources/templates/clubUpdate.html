@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/club/update" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${club.id}">
+    분과: <input type="text" name="category" th:value="${club.category}" readonly> <br>
+    동아리명: <input type="text" name="clubName" th:value="${club.clubName}" readonly> <br>
+    동아리 호실: <input type="text" name="clubRoom" id="boardPass" th:value="${club.clubRoom}"> <br>
+    동아리 비밀번호: <input type="text" name="roomPassword" th:value="${club.roomPassword}"> <br>
+    <input type="submit" value="수정하기">
+</form>
+
+</body>
+</html>
