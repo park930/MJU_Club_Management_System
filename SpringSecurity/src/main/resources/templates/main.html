@@ -1,31 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+
+    <title>메인화면</title>
 </head>
 <body>
-main page
-<hr>
-<h1>Welcome, <span th:text="${id}"></span>!</h1>
-<p>Your role is: <span th:text="${role}"></span></p>
-<hr>
-<button onclick="login()">login</button>
-<form action="/logut"  method="get">
-    <input type="submit" value="logout">
-</form>
+<div id="login-items">
+    <button onclick="login()" id="loginBtn">로그인</button>
+    <form action="/logout" method="get">
+        <input type="submit" id="logout" value="로그아웃">
+    </form>
+</div>
+<h1 id="logo">동아리 관리 시스템</h1>
+<nav id="main-nav">
+    <div id="menu-items">
+        <button onclick="boardSaveReq()" id="boardSaveBtn">글 작성</button>
+        <button onclick="boardListReq()" id="boardListBtn">글 목록</button>
+        <button onclick="boardPagingReq()" id="boardPagingBtn">글 페이지</button>
+        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
+        <button onclick="todoReq()" id="todoBtn">일정 관리</button>
+        <button onclick="clubReq()" id="clubBtn">동아리 현황</button>
+        <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
+    </div>
+</nav>
 
-<button onclick="boardSaveReq()"> 글 작성</button>
-<button onclick="boardListReq()"> 글 목록</button>
-<button onclick="boardPagingReq()"> 글 페이지</button>
-<button onclick="rentReq()"> 대여 시스템</button>
-<button onclick="todoReq()"> 일정 등록</button>
-<button onclick="clubReq()"> 동아리 현황</button>
-<button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()">즐겨찾기 조회</button>
-
+<div id="main-content">
+    <h1>환영합니다, <span id="userId" th:text="${id}"></span>님!</h1>
+    <p>당신의 역할은: <span id="userRole" th:text="${role}"></span></p>
+    <hr>
+</div>
 </body>
 
 <script>

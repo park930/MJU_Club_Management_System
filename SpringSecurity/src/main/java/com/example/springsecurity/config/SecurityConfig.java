@@ -28,6 +28,7 @@ public class SecurityConfig {
                         //임시
                         .requestMatchers("/**").permitAll()
                         //
+                        .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/","/login","/join","/joinProc","/board/**").permitAll()  //main페이지와 로그인 페이지는 모두가 접근 가능하게
                         .requestMatchers("/admin").hasRole("ADMIN")     //어드민페이지는 어드민인 사용자만 접근 가능하게
                         .requestMatchers("/board/**").hasAnyRole("ADMIN","USER")

@@ -13,6 +13,7 @@
         <label th:for="${'checkbox-' + club.id}" th:text="${club.clubName}"></label>
         <br>
     </div>
+    작성자: <input type="text" name="writer"> <br>
     제목: <input type="text" name="title"> <br>
     내용: <textarea name="content" cols="30" rows="10"></textarea> <br>
     기간: <input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"><br>
