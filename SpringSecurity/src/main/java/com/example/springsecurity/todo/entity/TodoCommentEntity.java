@@ -1,7 +1,10 @@
 package com.example.springsecurity.todo.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
+import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.todo.dto.TodoCommentDTO;
+import com.example.springsecurity.todo.dto.TodoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +37,16 @@ public class TodoCommentEntity extends BaseEntity {
 
     @Column
     private String content;
+
+
+    public static TodoCommentEntity toTodoCommentEntity(TodoCommentDTO todoCommentDTO, TodoEntity todoEntity, ClubEntity clubEntity) {
+        TodoCommentEntity todoCommentEntity = new TodoCommentEntity();
+        todoCommentEntity.setClubEntity(clubEntity);
+        todoCommentEntity.setTodoEntity(todoEntity);
+        todoCommentEntity.setType(todoCommentDTO.getType());
+        todoCommentEntity.setContent(todoCommentDTO.getContent());
+        System.out.println("결과물 제출? = " + todoCommentDTO.getResultSubmit());
+        todoCommentEntity.setIsSubmit(todoCommentDTO.getResultSubmit());
+        return todoCommentEntity;
+    }
 }

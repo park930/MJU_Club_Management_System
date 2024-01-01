@@ -52,6 +52,22 @@ public class TodoEntity extends BaseEntity {
         return todoEntity;
     }
 
+    public static TodoEntity toUpdateTodoEntity(TodoDTO todoDTO) {
+        TodoEntity todoEntity = new TodoEntity();
+        todoEntity.setId(todoDTO.getId());
+        todoEntity.setWriter(todoDTO.getWriter());
+        todoEntity.setTitle(todoDTO.getTitle());
+        todoEntity.setContent(todoDTO.getContent());
+        todoEntity.setStartTime(todoDTO.getStartTime());
+        todoEntity.setEndTime(todoDTO.getEndTime());
+        if (todoDTO.isCheck()){
+            todoEntity.setTodoCheck(1) ; //0은 false취급
+        } else {
+            todoEntity.setTodoCheck(0);
+        }
+        return todoEntity;
+    }
+
     public static TodoEntity toFlipChecked(TodoDTO todoDTO) {
         TodoEntity todoEntity = new TodoEntity();
         todoEntity.setId(todoDTO.getId());

@@ -3,8 +3,11 @@ package com.example.springsecurity.todo.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import com.example.springsecurity.todo.entity.TodoEntity;
+import com.example.springsecurity.todo.service.TodoCommentService;
 import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,7 @@ public class TodoController
 {
     private final ClubService clubService;
     private final TodoService todoService;
+    private final TodoCommentService todoCommentService;
 
     @GetMapping("/")
     public String todoMain(Model model){
@@ -84,6 +88,9 @@ public class TodoController
         System.out.println("전달받은 id = " + id);
         TodoDTO todoDTO = todoService.findById(id);
         System.out.println("전달할 todoDTO = " + todoDTO);
+        List<TodoCommentDTO> commentList = todoCommentService.findAll(todoService.findById(id), clubService.findById(clubId));
+
+        model.addAttribute("commentList",commentList);
         model.addAttribute("clubId",clubId);
         model.addAttribute("todo",todoDTO);
         return "receivedTodoDetail";

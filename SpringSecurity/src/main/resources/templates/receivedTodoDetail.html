@@ -34,27 +34,27 @@
 
 <div id="comment-write">
     <input type="text" id="clubId" th:value="${clubId}" hidden>
-    <input type="radio" name="type" id="resultRadio" checked> 결과물
-    <input type="radio" name="type" id="questionRadio"> 질문<br>
+    <input type="radio" name="type" id="resultRadio"> 결과물
+    <input type="radio" name="type" id="questionRadio" checked> 질문<br>
     <textarea id="content" placeholder="내용"></textarea>
     <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
 </div>
-<hr>
+<br>
 <!-- 댓글 출력 부분 -->
 <div id="comment-list">
     <table>
         <tr>
-            <th>댓글번호</th>
+            <th>id</th>
             <th>유형</th>
             <th>내용</th>
             <th>작성시간</th>
         </tr>
-<!--        <tr th:each="comment: ${commentList}">-->
-<!--            <td th:text="${comment.id}"></td>-->
-<!--            <td th:text="${comment.commentWriter}"></td>-->
-<!--            <td th:text="${comment.commentContents}"></td>-->
-<!--            <td th:text="${comment.commentCreatedTime}"></td>-->
-<!--        </tr>-->
+        <tr th:each="comment: ${commentList}">
+            <td th:text="${comment.id}"></td>
+            <td th:text="${comment.type}"></td>
+            <td th:text="${comment.content}"></td>
+            <td th:text="${comment.createdTime}"></td>
+        </tr>
     </table>
 </div>
 
@@ -65,18 +65,57 @@
     const commentWrite = () => {
         const writer = document.getElementById("clubId").value;
         const resultRadio = document.getElementById("resultRadio");
-        const contents = document.getElementById("content").value;
+        const content = document.getElementById("content").value;
+        const todoId = [[${todo.id}]];
 
-        let type=null;
+        let isSubmit;
+        let type;
 
-        if (resultRadio.checked) {
-            type = "결과물";
+        if (resultRadio && resultRadio.checked) {
+            type = "result";
+            isSubmit = 1;
         } else {
-            type = "질문";
+            type = "question";
+            isSubmit = 0;
         }
-        console.log("작성자: ", writer);
-        console.log("내용: ", contents);
-        console.log("유형: ", type);
+
+        console.log("제출 여부",isSubmit)
+
+
+        $.ajax({
+            // 요청방식: post, 요청주소: /comment/save, 요청데이터: 작성자, 작성내용, 게시글번호
+            type: "post",
+            url: "/receivedTodoComment/save",
+            data: {
+                "clubId": writer,
+                "todoId": todoId,
+                "type": type,
+                "content" : content,
+                "resultSubmit" : isSubmit
+            },
+            success: function (res) {
+                console.log("요청성공", res);
+                let output = "<table>";
+                output += "<tr><th>id</th>";
+                output += "<th>유형</th>";
+                output += "<th>내용</th>";
+                output += "<th>작성시간</th></tr>";
+                for (let i in res) {
+                    output += "<tr>";
+                    output += "<td>" + res[i].id + "</td>";
+                    output += "<td>" + res[i].type + "</td>";
+                    output += "<td>" + res[i].content + "</td>";
+                    output += "<td>" + res[i].createdTime + "</td>";
+                    output += "</tr>";
+                }
+                output += "</table>";
+                document.getElementById('comment-list').innerHTML = output;
+                document.getElementById('content').value = '';
+            },
+            error: function (err) {
+                console.log("요청실패", err);
+            }
+        });
 
     }
 
