@@ -1,5 +1,6 @@
 package com.example.springsecurity.dto;
 
+import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +10,14 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public CustomUserDetails(UserEntity userEntity){
         this.userEntity = userEntity;
+    }
+
+    public ClubEntity getClubEntity() {
+        return userEntity.getClubEntity();
     }
 
     @Override

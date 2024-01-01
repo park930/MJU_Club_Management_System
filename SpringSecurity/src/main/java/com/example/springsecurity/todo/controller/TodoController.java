@@ -43,19 +43,6 @@ public class TodoController
         return "adminTodoAdd";
     }
 
-//    @PostMapping("/checkChange")
-//    public ResponseEntity changeChecked(
-//            @RequestParam("todoId") Long todoId
-//    ){
-//        Long result = todoService.flipChecked(todoService.findById(todoId));
-//        if (result != null) {
-//            List<TodoDTO> todoDTOList = todoService.findAll();
-//            return new ResponseEntity<>(todoDTOList, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("해당 일정이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @PostMapping("/checkChange")
     public String changeChecked(
             @RequestParam("todoId") Long todoId
@@ -85,6 +72,21 @@ public class TodoController
         model.addAttribute("todoDTO",todoDTO);
         model.addAttribute("clubDTOList",clubDTOList);
         return "todoAdminDetail";
+    }
+
+
+    @GetMapping("/receivcedTodo/{clubId}/{id}")
+    public String receivcedTodoDetail(
+            @PathVariable Long clubId,
+            @PathVariable Long id,
+            Model model){
+        System.out.println("전달받은 clubId = " + clubId);
+        System.out.println("전달받은 id = " + id);
+        TodoDTO todoDTO = todoService.findById(id);
+        System.out.println("전달할 todoDTO = " + todoDTO);
+        model.addAttribute("clubId",clubId);
+        model.addAttribute("todo",todoDTO);
+        return "receivedTodoDetail";
     }
 
 }

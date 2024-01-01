@@ -17,14 +17,13 @@ public class TodoClubEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
     private TodoEntity todoEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private ClubEntity clubEntity;
-
 
     public static TodoClubEntity newTodoClub(ClubEntity clubEntity, TodoEntity savedTodo) {
         TodoClubEntity todoClubEntity = new TodoClubEntity();

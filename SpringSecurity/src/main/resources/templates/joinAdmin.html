@@ -11,10 +11,7 @@
 <h1>가입페이지</h1>
 <hr>
 <form action="/joinProc" method="post" name="joinForm">
-
-    <select name="clubName">
-        <option th:each="club : ${clubList}" th:value="${club.clubName}" th:text="${club.clubName}"></option>
-    </select>
+    <h3>관리자는 이름을 "admin"으로 시작해야함</h3>
     <input type="text" name="username" placeholder="Username"/>
     <input type="password" name="password" placeholder="Password"/>
     <input type="submit" value="Join"/>

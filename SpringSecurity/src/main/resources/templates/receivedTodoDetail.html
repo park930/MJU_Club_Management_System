@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>id</th>
+        <td th:text="${todo.id}"></td>
+    </tr>
+    <tr>
+        <th>title</th>
+        <td th:text="${todo.title}"></td>
+    </tr>
+    <tr>
+        <th>writer</th>
+        <td th:text="${todo.content}"></td>
+    </tr>
+    <tr>
+        <th>시작일</th>
+        <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+    </tr>
+    <tr>
+        <th>마감일</th>
+        <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+    </tr>
+</table>
+
+<hr>
+
+<div id="comment-write">
+    <input type="text" id="clubId" th:value="${clubId}" hidden>
+    <input type="radio" name="type" id="resultRadio" checked> 결과물
+    <input type="radio" name="type" id="questionRadio"> 질문<br>
+    <textarea id="content" placeholder="내용"></textarea>
+    <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+</div>
+<hr>
+<!-- 댓글 출력 부분 -->
+<div id="comment-list">
+    <table>
+        <tr>
+            <th>댓글번호</th>
+            <th>유형</th>
+            <th>내용</th>
+            <th>작성시간</th>
+        </tr>
+<!--        <tr th:each="comment: ${commentList}">-->
+<!--            <td th:text="${comment.id}"></td>-->
+<!--            <td th:text="${comment.commentWriter}"></td>-->
+<!--            <td th:text="${comment.commentContents}"></td>-->
+<!--            <td th:text="${comment.commentCreatedTime}"></td>-->
+<!--        </tr>-->
+    </table>
+</div>
+
+</body>
+
+<script th:inline="javascript">
+
+    const commentWrite = () => {
+        const writer = document.getElementById("clubId").value;
+        const resultRadio = document.getElementById("resultRadio");
+        const contents = document.getElementById("content").value;
+
+        let type=null;
+
+        if (resultRadio.checked) {
+            type = "결과물";
+        } else {
+            type = "질문";
+        }
+        console.log("작성자: ", writer);
+        console.log("내용: ", contents);
+        console.log("유형: ", type);
+
+    }
+
+
+</script>
+
+</html>

@@ -11,6 +11,7 @@
 </head>
 <body>
 <div id="login-items">
+    <button onclick="join()" id="joinBtn">회원가입</button>
     <button onclick="login()" id="loginBtn">로그인</button>
     <form action="/logout" method="get">
         <input type="submit" id="logout" value="로그아웃">
@@ -34,9 +35,45 @@
     <p>당신의 역할은: <span id="userRole" th:text="${role}"></span></p>
     <hr>
 </div>
+
+<div id="receive-todo-list" >
+    <h3>동연회로부터의 요청</h3>
+    <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+        <table th:if="${receiveTodoList != null}">
+        <tr th:each="todo: ${receiveTodoList}">
+            <td th:text="${todo.id}"></td>
+            <td><a th:href="@{|/todo/receivcedTodo/${clubId}/${todo.id}|}" th:text="${todo.title}"></a></td>
+            <td th:text="${todo.content}"></td>
+            <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+        </tr>
+        </table>
+    </div>
+</div>
+
+<div id="my-todo-list" >
+    <h3>나의 일정 목록</h3>
+    <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+        <!--        <table>-->
+        <!--        <tr th:each="board: ${boardList}">-->
+        <!--            <td th:text="${board.id}"></td>-->
+        <!--            <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>-->
+        <!--            <td><a th:href="@{/board/${board.id}}" th:text="${board.boardTitle}"></a></td>-->
+        <!--            <td th:text="${board.boardWriter}"></td>-->
+        <!--            <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+        <!--            <td th:text="${board.boardHits}"></td>-->
+        <!--        </tr>-->
+        <!--        </table>-->
+    </div>
+</div>
+
 </body>
 
 <script>
+
+    const join = () => {
+        location.href="/join";
+    }
 
     const login = () => {
         location.href="/login";

@@ -77,4 +77,25 @@ public class TodoService {
             return null;
         }
     }
+
+    public List<TodoDTO> findAllByWriter(String userId) {
+        List<TodoEntity> todoEntityList = todoRepository.findAllByWriterOrderByEndTimeDesc(userId);
+        List<TodoDTO> todoDTOList = new ArrayList<>();
+        for(TodoEntity todoEntity : todoEntityList){
+            TodoDTO todoDTO = TodoDTO.toTodoDTO(todoEntity);
+            todoDTOList.add(todoDTO);
+        }
+        return todoDTOList;
+    }
+
+    public List<TodoDTO> findAllByClubEntity(ClubEntity clubEntity) {
+        List<TodoClubEntity> todoClubList = todoClubRepository.findAllByClubEntity(clubEntity);
+        List<TodoDTO> todoDTOList = new ArrayList<>();
+
+        for(TodoClubEntity todoClubEntity : todoClubList){
+            TodoEntity todoEntity = todoClubEntity.getTodoEntity();
+            todoDTOList.add(TodoDTO.toTodoDTO(todoEntity));
+        }
+        return todoDTOList;
+    }
 }
