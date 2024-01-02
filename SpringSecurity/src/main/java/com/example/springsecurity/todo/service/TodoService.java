@@ -5,6 +5,7 @@ import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.repository.ClubRepository;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.entity.TodoClubEntity;
 import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import com.example.springsecurity.todo.entity.TodoEntity;
@@ -76,15 +77,32 @@ public class TodoService {
         return todoDTOList;
     }
 
-    public List<TodoDTO> findAllByClubEntity(ClubEntity clubEntity) {
+    public TodoPersonalDTO getFilteredTodoList(ClubEntity clubEntity,String userName) {
+        TodoPersonalDTO todoPersonalDTO = new TodoPersonalDTO();
         List<TodoClubEntity> todoClubList = todoClubRepository.findAllByClubEntity(clubEntity);
-        List<TodoDTO> todoDTOList = new ArrayList<>();
+        List<TodoDTO> totalTodoDTOList = new ArrayList<>();
+        List<TodoDTO> completeTodoList = new ArrayList<>();
+        List<TodoDTO> incompleteTodoList = new ArrayList<>();
+        List<TodoDTO> myTodoList = new ArrayList<>();
 
         for(TodoClubEntity todoClubEntity : todoClubList){
-            TodoEntity todoEntity = todoClubEntity.getTodoEntity();
-            todoDTOList.add(TodoDTO.toTodoDTO(todoEntity));
+            System.out.println("전체에 대한 result여부는 = " + todoClubEntity.getResultSubmit());
+            TodoDTO todoDTO = TodoDTO.toTodoDTO(todoClubEntity.getTodoEntity());
+            totalTodoDTOList.add(todoDTO);
+            if (todoClubEntity.getResultSubmit()==1){
+                completeTodoList.add(todoDTO);
+            } else if (todoDTO.getWriter().equals(userName)) {
+                myTodoList.add(todoDTO);
+            } else {
+                incompleteTodoList.add(todoDTO);
+            }
         }
-        return todoDTOList;
+        todoPersonalDTO.setTotalTodoDTOList(totalTodoDTOList);
+        todoPersonalDTO.setReceviedCompleteList(completeTodoList);
+        System.out.println("completeTodoList = " + completeTodoList);
+        todoPersonalDTO.setReceviedIncompleteList(incompleteTodoList);
+        todoPersonalDTO.setMyTodoDTOList(myTodoList);
+        return todoPersonalDTO;
     }
 
     public List<TodoCommentDTO> filterCompleteClub(TodoDTO todoDTO) {

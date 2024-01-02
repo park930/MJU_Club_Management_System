@@ -11,6 +11,8 @@ public interface TodoClubRepository extends JpaRepository<TodoClubEntity,Long> {
 
     List<TodoClubEntity> findAllByTodoEntity (TodoEntity todoEntity);
 
+    TodoClubEntity findByClubEntityAndTodoEntity (ClubEntity clubEntity, TodoEntity todoEntity);
+
     List<TodoClubEntity> findAllByClubEntity(ClubEntity clubEntity);
 
 }

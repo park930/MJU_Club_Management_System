@@ -1,9 +1,12 @@
 package com.example.springsecurity.todo.controller;
 
 import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.entity.TodoEntity;
+import com.example.springsecurity.todo.service.TodoClubService;
 import com.example.springsecurity.todo.service.TodoCommentService;
 import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +29,16 @@ public class TodoCommentController {
     private final TodoService todoService;
     private final TodoCommentService todoCommentService;
     private final ClubService clubService;
+    private final TodoClubService todoClubService;
 
     @PostMapping("/save")
     public ResponseEntity saveTodoComment(@ModelAttribute TodoCommentDTO todoCommentDTO, Model model){
-        System.out.println("초기 결과물 제출 여부는? = " + todoCommentDTO.getResultSubmit());
         TodoDTO todoDTO = todoService.findById(todoCommentDTO.getTodoId());
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
+        if (todoCommentDTO.getResultSubmit()==1){
+            todoClubService.updateTodoClub(TodoEntity.toUpdateTodoEntity(todoDTO),ClubEntity.toUpdateClub(clubDTO));
+        }
+
         Long result = todoCommentService.save(todoCommentDTO,todoDTO,clubDTO);
         if (result != null){
             List<TodoCommentDTO> CommentDTOList = todoCommentService.findAll(todoDTO,clubDTO);

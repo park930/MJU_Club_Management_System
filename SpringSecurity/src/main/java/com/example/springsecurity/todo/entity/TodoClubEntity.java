@@ -25,10 +25,14 @@ public class TodoClubEntity {
     @JoinColumn(name = "club_id")
     private ClubEntity clubEntity;
 
+    @Column
+    private int resultSubmit;
+
     public static TodoClubEntity newTodoClub(ClubEntity clubEntity, TodoEntity savedTodo) {
         TodoClubEntity todoClubEntity = new TodoClubEntity();
         todoClubEntity.setClubEntity(clubEntity);
         todoClubEntity.setTodoEntity(savedTodo);
+        todoClubEntity.setResultSubmit(0);
         return todoClubEntity;
     }
 }

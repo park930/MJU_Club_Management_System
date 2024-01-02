@@ -6,6 +6,7 @@ import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.dto.CustomUserDetails;
 import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -29,12 +30,9 @@ public class MainController {
     public String mainP(Model model){
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("사용자의 이름 = " + id);
                 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<TodoDTO> myTodoDTOList = null;
-        List<TodoDTO> totalTodoList;
-        List<TodoDTO> receiveTodoList = null;
+        TodoPersonalDTO todoPersonalDTO;
 
         Long clubId = 0L;
 
@@ -43,9 +41,11 @@ public class MainController {
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
             ClubEntity clubEntity = customUserDetails.getClubEntity();
             clubId = clubEntity.getId();
-            totalTodoList = todoService.findAllByClubEntity(clubEntity);
-            receiveTodoList = todoService.filterReceivedTodo(totalTodoList);
-            myTodoDTOList = todoService.filterMyTodo(totalTodoList);
+            todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,id);
+            model.addAttribute("clubId",clubId);
+            model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
+            model.addAttribute("receiveTodoList",todoPersonalDTO.getReceviedIncompleteList());
+
         }
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -53,16 +53,8 @@ public class MainController {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
-        System.out.println("receiveTodoList = " + receiveTodoList);
-        System.out.println("myTodoDTOList = " + myTodoDTOList);
-
-
         model.addAttribute("id",id);
         model.addAttribute("role",role);
-        model.addAttribute("clubId",clubId);
-        model.addAttribute("myTodoList",myTodoDTOList);
-        model.addAttribute("receiveTodoList",receiveTodoList);
-
         return "main";
     }
 }

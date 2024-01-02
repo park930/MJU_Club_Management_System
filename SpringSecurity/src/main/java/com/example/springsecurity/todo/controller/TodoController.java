@@ -7,6 +7,7 @@ import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.entity.TodoEntity;
 import com.example.springsecurity.todo.service.TodoCommentService;
 import com.example.springsecurity.todo.service.TodoService;
@@ -43,12 +44,11 @@ public class TodoController
     public String todoUserMain(Model model){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         ClubEntity clubEntity = customUserDetailsService.findByUserName(userName).getClubEntity();
-        List<TodoDTO> totalTodoDTOList = todoService.findAllByClubEntity(clubEntity);
-        List<TodoDTO> receiveTodoList = todoService.filterReceivedTodo(totalTodoDTOList);
-        List<TodoDTO> myTodoDTOList = todoService.filterMyTodo(totalTodoDTOList);
-
-        model.addAttribute("todoList",receiveTodoList);
-        model.addAttribute("myTodoList",myTodoDTOList);
+        TodoPersonalDTO todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,userName);
+        model.addAttribute("incompleteList",todoPersonalDTO.getReceviedIncompleteList());
+        model.addAttribute("completeList",todoPersonalDTO.getReceviedCompleteList());
+        System.out.println("화면에 넘길 값 = " + todoPersonalDTO.getReceviedCompleteList());
+        model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
         return "userTodoMain";
     }
 
