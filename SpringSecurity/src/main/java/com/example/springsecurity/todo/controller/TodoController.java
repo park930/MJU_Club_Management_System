@@ -3,16 +3,14 @@ package com.example.springsecurity.todo.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
-import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import com.example.springsecurity.todo.entity.TodoEntity;
 import com.example.springsecurity.todo.service.TodoCommentService;
 import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,19 +28,28 @@ public class TodoController
     private final TodoCommentService todoCommentService;
     private final CustomUserDetailsService customUserDetailsService;
 
-    @GetMapping("/")
+    @GetMapping("/admin")
     public String todoMain(Model model){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         List<TodoDTO> todoDTOList = todoService.findAll();
         model.addAttribute("todoList",todoDTOList);
         
         //admin todo페이지로 넘어갈때, user todo페이지로 넘어갈때 분리해야함
         //model에 넘기는게 각자 다름
-        if (userName.startsWith("admin")){
-            return "adminTodoMain";
-        } else {
-            return "todoMain";
-        }
+        return "adminTodoMain";
+
+    }
+
+    @GetMapping("/user")
+    public String todoUserMain(Model model){
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        ClubEntity clubEntity = customUserDetailsService.findByUserName(userName).getClubEntity();
+        List<TodoDTO> totalTodoDTOList = todoService.findAllByClubEntity(clubEntity);
+        List<TodoDTO> receiveTodoList = todoService.filterReceivedTodo(totalTodoDTOList);
+        List<TodoDTO> myTodoDTOList = todoService.filterMyTodo(totalTodoDTOList);
+
+        model.addAttribute("todoList",receiveTodoList);
+        model.addAttribute("myTodoList",myTodoDTOList);
+        return "userTodoMain";
     }
 
     @GetMapping("/admin/add")
@@ -61,10 +68,15 @@ public class TodoController
 
     @PostMapping("/checkChange")
     public String changeChecked(
-            @RequestParam("todoId") Long todoId
+            @RequestParam("todoId") Long todoId,
+            @RequestParam("role") String role
     ){
         Long result = todoService.flipChecked(todoService.findById(todoId));
-        return "redirect:/todo/";
+        if (role.equals("user")) {
+            return "redirect:/todo/user";
+        } else {
+            return "redirect:/todo/admin";
+        }
     }
 
 
@@ -78,15 +90,15 @@ public class TodoController
                 todoService.saveTodoClub(ClubEntity.toUpdateClub(clubDTO),savedTodo);
             }
         }
-        return "redirect:/todo/";
+        return "redirect:/todo/admin";
     }
 
     @PostMapping("/user/add")
     public String addPersonalTodo(@ModelAttribute TodoDTO todoDTO){
-        ClubEntity clubEntity = customUserDetailsService.findByUserName(todoDTO.getWriter());
+        ClubEntity clubEntity = customUserDetailsService.findByUserName(todoDTO.getWriter()).getClubEntity();
         TodoEntity savedTodo = todoService.saveTodo(todoDTO);
         todoService.saveTodoClub(clubEntity,savedTodo);
-        return "redirect:/todo/";
+        return "redirect:/todo/user";
     }
 
     @GetMapping("/admin/{id}")
@@ -98,6 +110,17 @@ public class TodoController
         model.addAttribute("clubDTOList",clubDTOList);
         model.addAttribute("completeCommentList",completeCommentList);
         return "todoAdminDetail";
+    }
+
+    @GetMapping("/user/{id}")
+    public String detailUserTodo(@PathVariable Long id,Model model){
+        TodoDTO todoDTO = todoService.findById(id);
+//        List<TodoCommentDTO> completeCommentList = todoService.filterCompleteClub(todoDTO);
+//        List<ClubDTO> clubDTOList = todoService.getImcompleteClubList(todoDTO,completeCommentList);
+        model.addAttribute("todoDTO",todoDTO);
+//        model.addAttribute("clubDTOList",clubDTOList);
+//        model.addAttribute("completeCommentList",completeCommentList);
+        return "todoUserDetail";
     }
 
 

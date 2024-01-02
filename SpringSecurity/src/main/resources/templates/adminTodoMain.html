@@ -111,7 +111,8 @@
             type: "post",
             url: "/todo/checkChange",
             data: {
-                "todoId": todoId
+                "todoId": todoId,
+                "role": "admin"
             },
             success: function (res) {
                 console.log("요청성공", res);

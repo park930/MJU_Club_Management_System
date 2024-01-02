@@ -12,6 +12,7 @@ import com.example.springsecurity.todo.repository.TodoClubRepository;
 import com.example.springsecurity.todo.repository.TodoCommentRepository;
 import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,7 @@ public class TodoService {
     }
 
 
-    public List<TodoDTO> findAllByWriter(String userId) {
+    public List<TodoDTO> findAllByUserWriter(String userId) {
         List<TodoEntity> todoEntityList = todoRepository.findAllByWriterOrderByEndTimeDesc(userId);
         List<TodoDTO> todoDTOList = new ArrayList<>();
         for(TodoEntity todoEntity : todoEntityList){
@@ -128,4 +129,33 @@ public class TodoService {
         }
     }
 
+    public List<TodoDTO> findAllByAdminWriter() {
+        List<TodoEntity> todoEntityList = todoRepository.findAllByWriterStartingWithOrderByEndTimeDesc("admin");
+        List<TodoDTO> todoDTOList = new ArrayList<>();
+        for( TodoEntity todoEntity : todoEntityList){
+            todoDTOList.add(TodoDTO.toTodoDTO(todoEntity));
+        }
+        return todoDTOList;
+    }
+
+    public List<TodoDTO> filterReceivedTodo(List<TodoDTO> totalTodoList) {
+        List<TodoDTO> recivedTodoList = new ArrayList<>();
+        for(TodoDTO todoDTO : totalTodoList){
+            if (todoDTO.getWriter().startsWith("admin")){
+                recivedTodoList.add(todoDTO);
+            }
+        }
+        return recivedTodoList;
+    }
+
+    public List<TodoDTO> filterMyTodo(List<TodoDTO> totalTodoList) {
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<TodoDTO> myTodoList = new ArrayList<>();
+        for(TodoDTO todoDTO : totalTodoList){
+            if (todoDTO.getWriter().equals(id)){
+                myTodoList.add(todoDTO);
+            }
+        }
+        return myTodoList;
+    }
 }

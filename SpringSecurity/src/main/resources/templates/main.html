@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/styles.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>메인화면</title>
 </head>
 <body>
@@ -54,22 +54,24 @@
 <div id="my-todo-list" >
     <h3>나의 일정 목록</h3>
     <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-        <!--        <table>-->
-        <!--        <tr th:each="board: ${boardList}">-->
-        <!--            <td th:text="${board.id}"></td>-->
-        <!--            <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>-->
-        <!--            <td><a th:href="@{/board/${board.id}}" th:text="${board.boardTitle}"></a></td>-->
-        <!--            <td th:text="${board.boardWriter}"></td>-->
-        <!--            <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
-        <!--            <td th:text="${board.boardHits}"></td>-->
-        <!--        </tr>-->
-        <!--        </table>-->
+        <table th:if="${myTodoList != null}">
+            <tr th:each="todo: ${myTodoList}">
+                <td th:text="${todo.id}"></td>
+                <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}" th:text="${todo.title}"></a></td>
+                <td th:text="${todo.content}"></td>
+                <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+            </tr>
+        </table>
     </div>
 </div>
 
 </body>
 
-<script>
+<script th:inline="javascript">
+
+    const id = [[${id}]];
+    const receiveTodoList = [[${receiveTodoList}]];
 
     const join = () => {
         location.href="/join";
@@ -102,7 +104,11 @@
     }
 
     const todoReq = () => {
-        location.href="/todo/"
+        if (id.startsWith('admin')) {
+            location.href="/todo/admin";
+        } else {
+            location.href="/todo/user";
+        }
     }
 
 </script>

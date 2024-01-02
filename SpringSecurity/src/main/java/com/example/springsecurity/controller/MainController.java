@@ -33,21 +33,20 @@ public class MainController {
                 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<TodoDTO> myTodoDTOList = null;
+        List<TodoDTO> totalTodoList;
         List<TodoDTO> receiveTodoList = null;
 
         Long clubId = 0L;
 
         if (!id.equals("anonymousUser")){
-            myTodoDTOList = todoService.findAllByWriter(id);
-            
             //받은 일정 리스트를 가져와야함
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
             ClubEntity clubEntity = customUserDetails.getClubEntity();
             clubId = clubEntity.getId();
-            receiveTodoList = todoService.findAllByClubEntity(clubEntity);
+            totalTodoList = todoService.findAllByClubEntity(clubEntity);
+            receiveTodoList = todoService.filterReceivedTodo(totalTodoList);
+            myTodoDTOList = todoService.filterMyTodo(totalTodoList);
         }
-        
-
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();

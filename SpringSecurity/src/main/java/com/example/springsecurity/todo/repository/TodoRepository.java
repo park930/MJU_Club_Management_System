@@ -9,4 +9,6 @@ public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
 
     List<TodoEntity> findAllByWriterOrderByEndTimeDesc (String writer);
 
+    List<TodoEntity> findAllByWriterStartingWithOrderByEndTimeDesc(String writer);
+
 }

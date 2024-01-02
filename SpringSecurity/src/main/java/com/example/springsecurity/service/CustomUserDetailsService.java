@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
@@ -31,8 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return null;
     }
 
-    public ClubEntity findByUserName(String writer) {
-        UserEntity userEntity = userRepository.findByUsername(writer);
-        return userEntity.getClubEntity();
+    public UserEntity findByUserName(String writer) {
+        return userRepository.findByUsername(writer);
     }
 }

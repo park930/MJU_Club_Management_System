@@ -31,7 +31,7 @@
                     <th>등록일</th>
                     <th>달성 여부</th>
                 </tr>
-                <tr th:each="todo: ${todoList}" th:if="${not #strings.equals(todo.check, true)}">
+                <tr th:each="todo: ${myTodoList}" th:if="${not #strings.equals(todo.check, true)}">
                     <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>
                     </td>
                     <td th:text="${todo.id}"></td>
@@ -42,7 +42,7 @@
                     <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="${todo.check}"></td>
-                    <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                    <td><a th:href="@{|/todo/user/${todo.id}|}">상세</a></td>
                 </tr>
             </table>
         </div>
@@ -63,7 +63,7 @@
                     <th>등록일</th>
                     <th>달성 여부</th>
                 </tr>
-                <tr th:each="todo: ${todoList}">
+                <tr th:each="todo: ${myTodoList}">
                     <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
                     <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}"
                                                      th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>
@@ -96,10 +96,10 @@
                     <th>시작일</th>
                     <th>종료일</th>
                     <th>등록일</th>
-                    <th>달성 여부</th>
+                    <th>제출 여부</th>
                 </tr>
                 <tr th:each="todo: ${todoList}" th:if="${not #strings.equals(todo.check, true)}">
-                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>
+<!--                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>-->
                     </td>
                     <td th:text="${todo.id}"></td>
                     <td th:text="${todo.writer}"></td>
@@ -132,8 +132,7 @@
                 </tr>
                 <tr th:each="todo: ${todoList}">
                     <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
-                    <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}"
-                                                     th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>
+<!--                    <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>-->
                     <td th:if="${todo.check}" th:text="${todo.id}"></td>
                     <td th:if="${todo.check}" th:text="${todo.writer}"></td>
                     <td th:if="${todo.check}" th:text="${todo.title}"></td>
@@ -191,7 +190,8 @@
             type: "post",
             url: "/todo/checkChange",
             data: {
-                "todoId": todoId
+                "todoId": todoId,
+                "role" : "user"
             },
             success: function (res) {
                 console.log("요청성공", res);
