@@ -3,10 +3,13 @@ package com.example.springsecurity.todo.service;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.repository.ClubRepository;
+import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import com.example.springsecurity.todo.entity.TodoClubEntity;
+import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import com.example.springsecurity.todo.entity.TodoEntity;
 import com.example.springsecurity.todo.repository.TodoClubRepository;
+import com.example.springsecurity.todo.repository.TodoCommentRepository;
 import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
@@ -22,6 +25,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final TodoClubRepository todoClubRepository;
     private final ClubRepository clubRepository;
+    private final TodoCommentRepository todoCommentRepository;
 
     public List<TodoDTO> findAll() {
         List<TodoEntity> todoEntityList = todoRepository.findAll();
@@ -60,23 +64,6 @@ public class TodoService {
         return todoRepository.save(todoEntity).getId();
     }
 
-    public List<ClubDTO> getClubList(Long id) {
-        Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(id);
-        if (optionalTodoEntity.isPresent()){
-            List<TodoClubEntity> todoEntityList = todoClubRepository.findAllByTodoEntity(optionalTodoEntity.get());
-            List<ClubDTO> clubDTOList = new ArrayList<>();
-
-            for (TodoClubEntity todoClubEntity : todoEntityList) {
-                Optional<ClubEntity> optionalClubEntity = clubRepository.findById(todoClubEntity.getClubEntity().getId());
-                if (optionalClubEntity.isPresent()){
-                    clubDTOList.add(ClubDTO.toClubDTO(optionalClubEntity.get()));
-                }
-            }
-            return clubDTOList;
-        } else {
-            return null;
-        }
-    }
 
     public List<TodoDTO> findAllByWriter(String userId) {
         List<TodoEntity> todoEntityList = todoRepository.findAllByWriterOrderByEndTimeDesc(userId);
@@ -98,4 +85,47 @@ public class TodoService {
         }
         return todoDTOList;
     }
+
+    public List<TodoCommentDTO> filterCompleteClub(TodoDTO todoDTO) {
+        if (todoDTO != null){
+            List<TodoCommentEntity> todoCommentEntityList = todoCommentRepository.findAllByTodoEntityAndTypeOrderByCreatedTimeDesc(TodoEntity.toUpdateTodoEntity(todoDTO), "result");
+            List<TodoCommentDTO> todoCommentDTOList = new ArrayList<>();
+            for(TodoCommentEntity todoCommentEntity : todoCommentEntityList){
+                TodoCommentDTO todoCommentDTO = TodoCommentDTO.toTodoCommentDTO(todoCommentEntity);
+                Optional<ClubEntity> optionalClubEntity = clubRepository.findById(todoCommentDTO.getClubId());
+                if (optionalClubEntity.isPresent()) {
+                    todoCommentDTO.setClubName(optionalClubEntity.get().getClubName());
+                }
+                todoCommentDTOList.add(todoCommentDTO);
+            }
+            return todoCommentDTOList;
+        } else {
+            return null;
+        }
+    }
+
+    public List<ClubDTO> getImcompleteClubList(TodoDTO todoDTO,List<TodoCommentDTO> completeCommentList) {
+        if (todoDTO != null){
+            List<TodoClubEntity> todoEntityList = todoClubRepository.findAllByTodoEntity(TodoEntity.toUpdateTodoEntity(todoDTO));
+            List<ClubDTO> clubDTOList = new ArrayList<>();
+            List<Long> completeId = new ArrayList<>();
+            for(TodoCommentDTO todoCommentDTO : completeCommentList){
+                completeId.add(todoCommentDTO.getClubId());
+            }
+
+            for (TodoClubEntity todoClubEntity : todoEntityList) {
+                Optional<ClubEntity> optionalClubEntity = clubRepository.findById(todoClubEntity.getClubEntity().getId());
+                if (optionalClubEntity.isPresent()){
+                    ClubEntity clubEntity = optionalClubEntity.get();
+                    if (!completeId.contains(clubEntity.getId())) {
+                        clubDTOList.add(ClubDTO.toClubDTO(clubEntity));
+                    }
+                }
+            }
+            return clubDTOList;
+        } else {
+            return null;
+        }
+    }
+
 }

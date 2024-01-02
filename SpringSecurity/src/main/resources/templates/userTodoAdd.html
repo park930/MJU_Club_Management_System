@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+
+<form action="/todo/user/add" method="post" enctype="multipart/form-data">
+    작성자: <input type="text" name="writer" th:value="${writer}" readonly> <br>
+    제목: <input type="text" name="title"> <br>
+    내용: <textarea name="content" cols="30" rows="10"></textarea> <br>
+    기간: <input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"><br>
+    <input type="submit" value="일정 추가">
+</form>
+
+</body>
+</html>

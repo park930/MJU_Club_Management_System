@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/styles2.css">
     <title>detail</title>
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -9,66 +13,142 @@
 <body>
 <button onclick="todoAdd()"> 일정 추가</button>
 <hr>
-<div id="notAchieved">
-    <h3>미달성 일정 목록</h3>
-    <table>
-        <tr>
-            <th> </th>
-            <th>id</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>시작일</th>
-            <th>종료일</th>
-            <th>등록일</th>
-            <th>달성 여부</th>
-        </tr>
-        <tr th:each="todo: ${todoList}" th:if="${not #strings.equals(todo.check, true)}">
-            <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'" /></td>
-            <td th:text="${todo.id}"></td>
-            <td th:text="${todo.writer}"></td>
-            <td th:text="${todo.title}"></td>
-            <td th:text="${todo.content}"></td>
-            <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:text="${todo.check}"></td>
-            <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
-        </tr>
-    </table>
+
+<div id="container">
+    <div id="my-todo">
+        <h2>나의 일정 목록</h2>
+        <div id="my-NotAchieved">
+            <h3>미달성 일정 목록</h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>등록일</th>
+                    <th>달성 여부</th>
+                </tr>
+                <tr th:each="todo: ${todoList}" th:if="${not #strings.equals(todo.check, true)}">
+                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>
+                    </td>
+                    <td th:text="${todo.id}"></td>
+                    <td th:text="${todo.writer}"></td>
+                    <td th:text="${todo.title}"></td>
+                    <td th:text="${todo.content}"></td>
+                    <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="${todo.check}"></td>
+                    <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <hr>
+
+        <div id="my-achieved">
+            <h3>달성완료 일정 목록</h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>등록일</th>
+                    <th>달성 여부</th>
+                </tr>
+                <tr th:each="todo: ${todoList}">
+                    <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
+                    <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}"
+                                                     th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>
+                    <td th:if="${todo.check}" th:text="${todo.id}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.writer}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.title}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.content}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.check}"></td>
+                    <td th:if="${todo.check}"><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="request-todo">
+        <h2>요청 받은 일정 목록</h2>
+        <div id="request-notAchieved">
+            <h3>미달성 일정 목록</h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>등록일</th>
+                    <th>달성 여부</th>
+                </tr>
+                <tr th:each="todo: ${todoList}" th:if="${not #strings.equals(todo.check, true)}">
+                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>
+                    </td>
+                    <td th:text="${todo.id}"></td>
+                    <td th:text="${todo.writer}"></td>
+                    <td th:text="${todo.title}"></td>
+                    <td th:text="${todo.content}"></td>
+                    <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:text="${todo.check}"></td>
+                    <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <hr>
+
+        <div id="request-achieved">
+            <h3>달성완료 일정 목록</h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>등록일</th>
+                    <th>달성 여부</th>
+                </tr>
+                <tr th:each="todo: ${todoList}">
+                    <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
+                    <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}"
+                                                     th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>
+                    <td th:if="${todo.check}" th:text="${todo.id}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.writer}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.title}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.content}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
+                    <td th:if="${todo.check}" th:text="${todo.check}"></td>
+                    <td th:if="${todo.check}"><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
-<hr>
-
-<div id="achieved">
-    <h3>달성완료 일정 목록</h3>
-    <table>
-        <tr>
-            <th> </th>
-            <th>id</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>시작일</th>
-            <th>종료일</th>
-            <th>등록일</th>
-            <th>달성 여부</th>
-        </tr>
-        <tr th:each="todo: ${todoList}">
-            <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
-            <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'" /></td>
-            <td th:if="${todo.check}" th:text="${todo.id}"></td>
-            <td th:if="${todo.check}" th:text="${todo.writer}"></td>
-            <td th:if="${todo.check}" th:text="${todo.title}"></td>
-            <td th:if="${todo.check}" th:text="${todo.content}"></td>
-            <td th:if="${todo.check}" th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:if="${todo.check}" th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:if="${todo.check}" th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
-            <td th:if="${todo.check}" th:text="${todo.check}"></td>
-            <td th:if="${todo.check}"><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
-        </tr>
-    </table>
-</div>
 
 </body>
 
@@ -102,7 +182,7 @@
 
 
     const todoAdd = () => {
-        location.href="/todo/admin/add";
+        location.href="/todo/user/add";
     }
 
     const todoCheck = (todoId) => {

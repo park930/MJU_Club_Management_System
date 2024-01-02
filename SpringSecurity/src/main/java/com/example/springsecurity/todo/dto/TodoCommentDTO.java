@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class TodoCommentDTO {
     private Long id;
     private Long clubId;
+    private String clubName;
     private Long todoId;
     private String type;
     private String content;

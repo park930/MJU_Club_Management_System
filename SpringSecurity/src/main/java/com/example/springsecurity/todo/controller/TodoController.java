@@ -3,6 +3,7 @@ package com.example.springsecurity.todo.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import com.example.springsecurity.todo.entity.TodoCommentEntity;
@@ -27,13 +28,17 @@ public class TodoController
     private final ClubService clubService;
     private final TodoService todoService;
     private final TodoCommentService todoCommentService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/")
     public String todoMain(Model model){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         List<TodoDTO> todoDTOList = todoService.findAll();
         model.addAttribute("todoList",todoDTOList);
-        if (userName.equals("admin")){
+        
+        //admin todo페이지로 넘어갈때, user todo페이지로 넘어갈때 분리해야함
+        //model에 넘기는게 각자 다름
+        if (userName.startsWith("admin")){
             return "adminTodoMain";
         } else {
             return "todoMain";
@@ -41,10 +46,17 @@ public class TodoController
     }
 
     @GetMapping("/admin/add")
-    public String saveForm(Model model){
+    public String saveAdminForm(Model model){
         List<ClubDTO> clubDTOList = clubService.findAll();
         model.addAttribute("clubList",clubDTOList);
         return "adminTodoAdd";
+    }
+
+    @GetMapping("/user/add")
+    public String saveUserForm(Model model){
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("writer",userName);
+        return "userTodoAdd";
     }
 
     @PostMapping("/checkChange")
@@ -56,7 +68,7 @@ public class TodoController
     }
 
 
-    @PostMapping("admin/add")
+    @PostMapping("/admin/add")
     public String addClub(@ModelAttribute TodoDTO todoDTO, @RequestParam(value = "checkedList") List<Long> checkedList){
         if (checkedList != null){
             TodoEntity savedTodo = todoService.saveTodo(todoDTO);
@@ -69,12 +81,22 @@ public class TodoController
         return "redirect:/todo/";
     }
 
+    @PostMapping("/user/add")
+    public String addPersonalTodo(@ModelAttribute TodoDTO todoDTO){
+        ClubEntity clubEntity = customUserDetailsService.findByUserName(todoDTO.getWriter());
+        TodoEntity savedTodo = todoService.saveTodo(todoDTO);
+        todoService.saveTodoClub(clubEntity,savedTodo);
+        return "redirect:/todo/";
+    }
+
     @GetMapping("/admin/{id}")
     public String detailAdminTodo(@PathVariable Long id,Model model){
         TodoDTO todoDTO = todoService.findById(id);
-        List<ClubDTO> clubDTOList = todoService.getClubList(id);
+        List<TodoCommentDTO> completeCommentList = todoService.filterCompleteClub(todoDTO);
+        List<ClubDTO> clubDTOList = todoService.getImcompleteClubList(todoDTO,completeCommentList);
         model.addAttribute("todoDTO",todoDTO);
         model.addAttribute("clubDTOList",clubDTOList);
+        model.addAttribute("completeCommentList",completeCommentList);
         return "todoAdminDetail";
     }
 

@@ -39,15 +39,28 @@
 </table>
 <hr>
 
-<div id="clubList">
-    <h3>해당 동아리 목록</h3>
-    <table>
-        <tr th:each="club: ${clubDTOList}">
-            <td th:text="${club.id}"></td>
-            <td th:text="${club.clubName}"></td>
-        </tr>
-    </table>
+<div id="totalClubList">
+    <div id="complete-list">
+        <h5>제출한 동아리 목록</h5>
+        <table>
+            <tr th:each="comment: ${completeCommentList}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.clubName}"></td>
+                <td th:text="*{#temporals.format(comment.createdTime, 'yy.MM.dd   HH:mm')}"></td>
+            </tr>
+        </table>
 
+    </div>
+
+    <div id="incomplete-list">
+        <h5>미제출 동아리 목록</h5>
+        <table>
+            <tr th:each="club: ${clubDTOList}">
+                <td th:text="${club.id}"></td>
+                <td th:text="${club.clubName}"></td>
+            </tr>
+    </table>
+    </div>
 
 </div>
 </body>
