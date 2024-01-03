@@ -28,4 +28,5 @@ public class ClubDTO {
         clubDTO.setRoomPassword(clubEntity.getRoomPassword());
         return clubDTO;
     }
+
 }

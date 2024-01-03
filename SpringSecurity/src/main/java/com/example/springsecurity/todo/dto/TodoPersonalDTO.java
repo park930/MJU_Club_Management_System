@@ -1,5 +1,6 @@
 package com.example.springsecurity.todo.dto;
 
+import com.example.springsecurity.club.dto.ClubDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,5 @@ public class TodoPersonalDTO {
     private List<TodoDTO> myTodoDTOList;
     private List<String> remainTimeList;
     private List<LocalDateTime> submitDateList;
+    private ClubDTO clubDTO;
 }

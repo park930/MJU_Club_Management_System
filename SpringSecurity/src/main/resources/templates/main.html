@@ -25,68 +25,83 @@
         <button onclick="boardPagingReq()" id="boardPagingBtn">글 페이지</button>
         <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
         <button onclick="todoReq()" id="todoBtn">일정 관리</button>
+        <button onclick="clubReq()" id="scoreBtn">동아리 평가</button>
         <button onclick="clubReq()" id="clubBtn">동아리 현황</button>
         <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
     </div>
 </nav>
 
 <!-------------------------------------------------------------------------------------------------------------------->
-<div id="main-content">
-    <h1>환영합니다, </h1>
-    <p>당신의 역할은: <span id="userRole" th:text="${role}"></span></p>
-    <hr>
-</div>
-
 <div id="main-container" th:if="${not #strings.equals(id, 'anonymousUser')}">
-<!--    <div id="login-container">-->
-<!--        <h2>회원 정보</h2>-->
-<!--        <div id="login-box">-->
-<!--            소속 동아리명 : <span id="clubName" th:text="${clubDTO.clubName}"></span>-->
-<!--            이름 : <span id="userId" th:text="${id}"></span>-->
-<!--            동아리 호실 : <span id="clubRoom" th:text="${clubDTO.clubRoom}"></span>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div id="login-container">
+        <div id="login-container1">
+            <h2>회원 정보</h2>
+            <div class="login-box">
+                <table id="user-table">
+                    <tr>
+                        <th>소속 동아리명</th>
+                        <td><span id="clubName" th:text="${clubDTO.clubName}"></span></td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td><span id="userId" th:text="${id}"></span></td>
+                    </tr>
+                    <tr>
+                        <th>동아리 호실</th>
+                        <td><span id="clubRoom" th:text="${clubDTO.clubRoom}"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 
 
     <div id="todo-container">
-        <div class="todo-box" id="receive-todo-list">
-            <h3>동연회 요청</h3>
-            <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                <table th:if="${receiveTodoList != null}">
-                    <tr>
-                        <th>제목</th>
-                        <th>마감일</th>
-                        <th>남은 일수</th>
-                    </tr>
-                    <tr th:each="todo: ${receiveTodoList}">
-                        <td><a th:href="@{|/todo/receivcedTodo/${clubId}/${todo.id}|}" th:text="${todo.title}"></a></td>
-                        <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                        <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                    </tr>
-                </table>
-            </div>
+        <div id="todo-container1">
+            <h2>동연회 요청</h2>
+            <div class="todo-box" id="receive-todo-list">
+                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                    <table th:if="${receiveTodoList != null}" class="todo-table">
+                        <tr>
+                            <th>제목</th>
+                            <th>마감일</th>
+                            <th>남은 일수</th>
+                        </tr>
+                        <tr th:each="todo: ${receiveTodoList}">
+                            <td><a th:href="@{|/todo/receivcedTodo/${clubId}/${todo.id}|}" th:text="${todo.title}"></a>
+                            </td>
+                            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                        </tr>
+                    </table>
+                </div>
 
+            </div>
+        </div>
+
+        <div id="todo-container2">
+            <h2>나의 일정 목록</h2>
+            <div class="todo-box" id="my-todo-list">
+                <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                    <table th:if="${myTodoList != null}" class="todo-table">
+                        <tr>
+                            <th>제목</th>
+                            <th>시작일</th>
+                            <th>종료일</th>
+                        </tr>
+                        <tr th:each="todo: ${myTodoList}">
+                            <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}" th:text="${todo.title}"></a>
+                            </td>
+                            <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+                            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
 
-        <div class="todo-box" id="my-todo-list">
-            <h3>나의 일정 목록</h3>
-            <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                <table th:if="${myTodoList != null}">
-                    <tr>
-                        <th>제목</th>
-                        <th>시작일</th>
-                        <th>종료일</th>
-                    </tr>
-                    <tr th:each="todo: ${myTodoList}">
-                        <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}" th:text="${todo.title}"></a></td>
-                        <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
-                        <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 </body>
@@ -95,6 +110,7 @@
 
     const id = [[${id}]];
     const receiveTodoList = [[${receiveTodoList}]];
+
 
     const join = () => {
         location.href="/join";
@@ -132,6 +148,11 @@
         } else {
             location.href="/todo/user";
         }
+    }
+
+
+    const scoreBtn = () => {
+        location.href="/score/";
     }
 
 </script>

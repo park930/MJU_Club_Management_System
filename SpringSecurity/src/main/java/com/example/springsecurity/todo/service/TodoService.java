@@ -115,10 +115,8 @@ public class TodoService {
         todoPersonalDTO.setReceviedCompleteList(completeTodoList);
         todoPersonalDTO.setReceviedIncompleteList(incompleteTodoList);
         todoPersonalDTO.setSubmitDateList(submitDateList);
-        System.out.println("incompleteTodoList크기 = " + incompleteTodoList.size());
         todoPersonalDTO.setMyTodoDTOList(myTodoList);
         todoPersonalDTO.setRemainTimeList(remainTimeList);
-        System.out.println("remainTimeList크기 = " + remainTimeList.size());
         return todoPersonalDTO;
     }
 

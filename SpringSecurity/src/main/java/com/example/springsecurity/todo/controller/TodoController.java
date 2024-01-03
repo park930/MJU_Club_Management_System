@@ -4,6 +4,7 @@ import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
@@ -86,7 +87,16 @@ public class TodoController
 
 
     @PostMapping("/admin/add")
-    public String addClub(@ModelAttribute TodoDTO todoDTO, @RequestParam(value = "checkedList") List<Long> checkedList){
+    public String addClub(@RequestParam(value = "scoreCheckBox", defaultValue = "false") boolean scoreCheckBox,
+                          @ModelAttribute ScoreDTO scoreDTO,
+                          @ModelAttribute TodoDTO todoDTO,
+                          @RequestParam(value = "checkedList") List<Long> checkedList){
+        System.out.println("체크박스 여부" + scoreCheckBox);
+        if (scoreCheckBox){
+            System.out.println("scoreDTO = " + scoreDTO);
+        }
+
+
         if (checkedList != null){
             TodoEntity savedTodo = todoService.saveTodo(todoDTO);
 

@@ -3,6 +3,7 @@ package com.example.springsecurity.controller;
 
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.dto.CustomUserDetails;
 import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.todo.dto.TodoDTO;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MainController {
 
     private final TodoService todoService;
+    private final ClubService clubService;
 
     @GetMapping("/")
     public String mainP(Model model){
@@ -41,8 +43,10 @@ public class MainController {
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
             ClubEntity clubEntity = customUserDetails.getClubEntity();
             clubId = clubEntity.getId();
+            ClubDTO clubDTO = clubService.findById(clubId);
             todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,id);
             model.addAttribute("clubId",clubId);
+            model.addAttribute("clubDTO",clubDTO);
             model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
             model.addAttribute("receiveTodoList",todoPersonalDTO.getReceviedIncompleteList());
 
