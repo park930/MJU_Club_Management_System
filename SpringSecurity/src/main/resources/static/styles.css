@@ -1,9 +1,29 @@
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+#main-container {
+    background-color: #e7e7e7;
+    display: flex;
+    flex-direction: column;
+}
+
+#todo-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-box {
+    flex: 1;
+    padding: 10px;  /* 여백 추가 (옵션) */
+    border-radius: 10px;
+    background-color: white;
+    margin: 30px;
+}
 
 #logo {
     padding: 10px;
@@ -48,6 +68,27 @@ button, #logout {
 
 
 button:hover {
-    background-color: #45a049;
+    background-color: #4e77be;
 }
 
+.todoTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px; /* 테이블 위 여백 설정 */
+    text-align: center;
+}
+
+th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #585858;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* 짝수 행 배경색 */
+}

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class TodoController
     private final TodoService todoService;
     private final TodoCommentService todoCommentService;
     private final CustomUserDetailsService customUserDetailsService;
+
+    private TodoPersonalDTO todoPersonalDTO;
 
     @GetMapping("/admin")
     public String todoMain(Model model){
@@ -44,11 +47,13 @@ public class TodoController
     public String todoUserMain(Model model){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         ClubEntity clubEntity = customUserDetailsService.findByUserName(userName).getClubEntity();
-        TodoPersonalDTO todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,userName);
+        todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,userName);
         model.addAttribute("incompleteList",todoPersonalDTO.getReceviedIncompleteList());
         model.addAttribute("completeList",todoPersonalDTO.getReceviedCompleteList());
-        System.out.println("화면에 넘길 값 = " + todoPersonalDTO.getReceviedCompleteList());
         model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
+        model.addAttribute("remainTimeList",todoPersonalDTO.getRemainTimeList());
+        model.addAttribute("submitDateList",todoPersonalDTO.getSubmitDateList());
+        model.addAttribute("clubId",clubEntity.getId());
         return "userTodoMain";
     }
 
@@ -129,10 +134,7 @@ public class TodoController
             @PathVariable Long clubId,
             @PathVariable Long id,
             Model model){
-        System.out.println("전달받은 clubId = " + clubId);
-        System.out.println("전달받은 id = " + id);
         TodoDTO todoDTO = todoService.findById(id);
-        System.out.println("전달할 todoDTO = " + todoDTO);
         List<TodoCommentDTO> commentList = todoCommentService.findAll(todoService.findById(id), clubService.findById(clubId));
 
         model.addAttribute("commentList",commentList);
@@ -140,5 +142,12 @@ public class TodoController
         model.addAttribute("todo",todoDTO);
         return "receivedTodoDetail";
     }
+
+
+    @GetMapping("/user/event") //ajax 데이터 전송 URL
+    public @ResponseBody List<Map<String, Object>> getEvent(){
+        return todoService.getEventList(todoPersonalDTO);
+    }
+
 
 }

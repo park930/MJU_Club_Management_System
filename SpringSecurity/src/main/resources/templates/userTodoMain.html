@@ -2,26 +2,38 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/styles2.css">
+
     <title>detail</title>
+
+    <link href='/fullcalendar-5.11.5/lib/main.css' rel='stylesheet' />
+    <script src='/fullcalendar-5.11.5/lib/main.js'></script>
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+
 </head>
 <body>
 <button onclick="todoAdd()"> 일정 추가</button>
 <hr>
 
-<div id="container">
+<!--///////////////////////////////////////////////-->
+<div id="calendar"></div>
+
+<!--///////////////////////////////////////////////-->
+
+
+<div id="container" class="section">
     <div id="my-todo">
         <h2>나의 일정 목록</h2>
+        <br>
         <div id="my-NotAchieved">
             <h3>미달성 일정 목록</h3>
-            <table>
+            <table class="todoTable">
                 <tr>
-                    <th>id</th>
+                    <th>완료</th>
                     <th>작성자</th>
                     <th>제목</th>
                     <th>내용</th>
@@ -29,11 +41,11 @@
                     <th>종료일</th>
                     <th>등록일</th>
                     <th>달성 여부</th>
+                    <th>비고</th>
                 </tr>
                 <tr th:each="todo: ${myTodoList}" th:if="${not #strings.equals(todo.check, true)}">
                     <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>
                     </td>
-                    <td th:text="${todo.id}"></td>
                     <td th:text="${todo.writer}"></td>
                     <td th:text="${todo.title}"></td>
                     <td th:text="${todo.content}"></td>
@@ -46,13 +58,13 @@
             </table>
         </div>
 
-        <hr>
+        <br>
 
         <div id="my-achieved">
             <h3>달성완료 일정 목록</h3>
-            <table>
+            <table class="todoTable">
                 <tr>
-                    <th>id</th>
+                    <th>완료</th>
                     <th>작성자</th>
                     <th>제목</th>
                     <th>내용</th>
@@ -60,12 +72,12 @@
                     <th>종료일</th>
                     <th>등록일</th>
                     <th>달성 여부</th>
+                    <th>비고</th>
                 </tr>
                 <tr th:each="todo: ${myTodoList}">
                     <!-- 추가: 초기 로딩 시 달성 완료인 경우에만 표시 -->
                     <td th:if="${todo.check}"><input type="checkbox" th:checked="${todo.check}"
                                                      th:onclick="'todoCheck(' + ${todo.id} + ')'"/></td>
-                    <td th:if="${todo.check}" th:text="${todo.id}"></td>
                     <td th:if="${todo.check}" th:text="${todo.writer}"></td>
                     <td th:if="${todo.check}" th:text="${todo.title}"></td>
                     <td th:if="${todo.check}" th:text="${todo.content}"></td>
@@ -79,64 +91,54 @@
         </div>
     </div>
 
+    <div class="blank"></div>
 
     <div id="request-todo">
         <h2>요청 받은 일정 목록</h2>
+        <br>
         <div id="request-notAchieved">
             <h3>미제출 일정 목록</h3>
-            <table>
+            <table class="todoTable">
                 <tr>
-                    <th>id</th>
                     <th>작성자</th>
                     <th>제목</th>
-                    <th>내용</th>
                     <th>시작일</th>
                     <th>종료일</th>
-                    <th>등록일</th>
-                    <th>제출 여부</th>
+                    <th>남은 기한</th>
+                    <th>비고</th>
                 </tr>
-                <tr th:each="todo: ${incompleteList}" th:if="${not #strings.equals(todo.check, true)}">
-<!--                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>-->
-                    </td>
-                    <td th:text="${todo.id}"></td>
-                    <td th:text="${todo.writer}"></td>
+                <tr th:each="todo : ${incompleteList}" th:if="${not #strings.equals(todo.check, true)}">
+                    <td>동연회</td>
                     <td th:text="${todo.title}"></td>
-                    <td th:text="${todo.content}"></td>
                     <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
-                    <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
-                    <td>미제출</td>
-                    <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                    <td th:text="${remainTimeList[todoStat.index]}" class="remainTime"></td>
+                    <td><a th:href="@{|/todo/receivcedTodo/${clubId}/${todo.id}|}">제출하기</a></td>
                 </tr>
             </table>
         </div>
 
-        <hr>
+        <br>
 
         <div id="request-achieved">
             <h3>제출완료 일정 목록</h3>
-            <table>
+            <table class="todoTable">
                 <tr>
-                    <th>id</th>
                     <th>작성자</th>
                     <th>제목</th>
-                    <th>내용</th>
                     <th>시작일</th>
                     <th>종료일</th>
-                    <th>등록일</th>
-                    <th>제출 여부</th>
+                    <th>제출일</th>
+                    <th>비고</th>
                 </tr>
                 <tr th:each="todo: ${completeList}" th:if="${not #strings.equals(todo.check, true)}">
                     <!--                    <td><input type="checkbox" th:checked="${todo.check}" th:onclick="'todoCheck(' + ${todo.id} + ')'"/>-->
-                    </td>
-                    <td th:text="${todo.id}"></td>
-                    <td th:text="${todo.writer}"></td>
+
+                    <td>동연회</td>
                     <td th:text="${todo.title}"></td>
-                    <td th:text="${todo.content}"></td>
                     <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
-                    <td th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
-                    <td>제출완료</td>
+                    <td th:text="*{#temporals.format(submitDateList[todoStat.index], 'yy.MM.dd HH:mm')}"></td>
                     <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
                 </tr>
             </table>
@@ -147,10 +149,26 @@
 
 </body>
 
+<script th:inline="javascript">
+
+    const calendarEl = document.getElementById('calendar');
+
+    const request = $.ajax({
+        url: "/todo/user/event",
+        method: "GET"
+    });
+    request.done(function(data){
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            aspectRatio:1.8,
+            initialView: 'dayGridMonth',
+            events: data
+        });
+        calendar.render();
+    });
 
 
 
-<script>
+
 
     document.addEventListener("DOMContentLoaded", function() {
         // 페이지 로드 시 체크 여부에 따라 체크박스 설정
@@ -161,6 +179,7 @@
                 moveTodoToAchieved(checkbox.closest("tr"));
             }
         });
+
     });
 
     const moveTodoToAchieved = (row) => {
@@ -198,6 +217,8 @@
             }
         });
     }
+
+
 
 </script>
 

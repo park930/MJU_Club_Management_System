@@ -14,12 +14,13 @@ import com.example.springsecurity.todo.repository.TodoCommentRepository;
 import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import java.time.LocalDateTime;
+import java.time.Duration;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,6 @@ public class TodoService {
     public TodoEntity saveTodo(TodoDTO todoDTO) {
         TodoEntity todoEntity = TodoEntity.toTodoEntity(todoDTO);
         TodoEntity saved = todoRepository.save(todoEntity);
-        System.out.println(" 저장한 entity = " + saved);
         return saved;
     }
 
@@ -84,24 +84,41 @@ public class TodoService {
         List<TodoDTO> completeTodoList = new ArrayList<>();
         List<TodoDTO> incompleteTodoList = new ArrayList<>();
         List<TodoDTO> myTodoList = new ArrayList<>();
+        List<String> remainTimeList = new ArrayList<>();
+        List<LocalDateTime> submitDateList = new ArrayList<>();
 
         for(TodoClubEntity todoClubEntity : todoClubList){
-            System.out.println("전체에 대한 result여부는 = " + todoClubEntity.getResultSubmit());
-            TodoDTO todoDTO = TodoDTO.toTodoDTO(todoClubEntity.getTodoEntity());
+            TodoEntity todoEntity = todoClubEntity.getTodoEntity();
+            TodoDTO todoDTO = TodoDTO.toTodoDTO(todoEntity);
             totalTodoDTOList.add(todoDTO);
             if (todoClubEntity.getResultSubmit()==1){
+                TodoCommentEntity todoCommentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndType(todoEntity, clubEntity,"result");
+                submitDateList.add(todoCommentEntity.getCreatedTime());
                 completeTodoList.add(todoDTO);
             } else if (todoDTO.getWriter().equals(userName)) {
                 myTodoList.add(todoDTO);
             } else {
+
+                LocalDateTime endTime = todoDTO.getEndTime();
+                LocalDateTime currentTime = LocalDateTime.now();
+                Duration duration = Duration.between(currentTime, endTime);
+
+                // 남은 시간을 일(day)과 시간으로 변환하여 문자열로 저장
+                long days = duration.toDays();
+                long hours = duration.toHours() % 24;
+                String remainTime = days + "일 " + hours + "시간";
+                remainTimeList.add(remainTime);
                 incompleteTodoList.add(todoDTO);
             }
         }
         todoPersonalDTO.setTotalTodoDTOList(totalTodoDTOList);
         todoPersonalDTO.setReceviedCompleteList(completeTodoList);
-        System.out.println("completeTodoList = " + completeTodoList);
         todoPersonalDTO.setReceviedIncompleteList(incompleteTodoList);
+        todoPersonalDTO.setSubmitDateList(submitDateList);
+        System.out.println("incompleteTodoList크기 = " + incompleteTodoList.size());
         todoPersonalDTO.setMyTodoDTOList(myTodoList);
+        todoPersonalDTO.setRemainTimeList(remainTimeList);
+        System.out.println("remainTimeList크기 = " + remainTimeList.size());
         return todoPersonalDTO;
     }
 
@@ -175,5 +192,30 @@ public class TodoService {
             }
         }
         return myTodoList;
+    }
+
+    public List<Map<String, Object>> getEventList(TodoPersonalDTO todoPersonalDTO) {
+        List<Map<String, Object>> eventList = new ArrayList<Map<String, Object>>();
+        Map<String, Object> event = null;
+        for ( TodoDTO todoDTO : todoPersonalDTO.getReceviedIncompleteList()){
+            event = new HashMap<String, Object>();
+            event.put("start", todoDTO.getStartTime());
+            event.put("title", todoDTO.getTitle());
+            event.put("end", todoDTO.getEndTime());
+            event.put("color","#FF0000");
+            eventList.add(event);
+        }
+
+        for ( TodoDTO todoDTO : todoPersonalDTO.getMyTodoDTOList()){
+            event = new HashMap<String, Object>();
+            event.put("start", todoDTO.getStartTime());
+            event.put("title", todoDTO.getTitle());
+            event.put("end", todoDTO.getEndTime());
+            event.put("color","#58ACFA");
+            eventList.add(event);
+        }
+
+        System.out.println("eventList = " + eventList);
+        return eventList;
     }
 }
