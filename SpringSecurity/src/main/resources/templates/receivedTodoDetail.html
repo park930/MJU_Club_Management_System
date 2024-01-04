@@ -96,6 +96,9 @@
             <td th:text="${comment.type}"></td>
             <td th:text="${comment.content}"></td>
             <td th:text="${comment.createdTime}"></td>
+            <td th:if="${comment.type == 'result'}">
+                <a th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}">수정</a>
+            </td>
         </tr>
     </table>
 </div>
@@ -133,7 +136,7 @@
                 "todoId": todoId,
                 "type": type,
                 "content" : content,
-                "resultSubmit" : isSubmit
+                "resultSubmit" : isSubmit,
             },
             success: function (res) {
                 console.log("요청성공", res);

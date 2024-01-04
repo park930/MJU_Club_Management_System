@@ -19,6 +19,7 @@ public class TodoCommentDTO {
     private String content;
     private int resultSubmit;
     private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
 
     public static TodoCommentDTO toTodoCommentDTO(TodoCommentEntity todoCommentEntity) {
         TodoCommentDTO todoCommentDTO = new TodoCommentDTO();
@@ -29,6 +30,7 @@ public class TodoCommentDTO {
         todoCommentDTO.setContent(todoCommentEntity.getContent());
         todoCommentDTO.setResultSubmit(todoCommentEntity.getIsSubmit());
         todoCommentDTO.setCreatedTime(todoCommentEntity.getCreatedTime());
+        todoCommentDTO.setUpdatedTime(todoCommentEntity.getUpdatedTime());
         return todoCommentDTO;
     }
 }

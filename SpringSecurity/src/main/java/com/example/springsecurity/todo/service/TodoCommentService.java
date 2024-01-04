@@ -19,9 +19,10 @@ public class TodoCommentService {
     private final TodoCommentRepository todoCommentRepository;
 
 
-    public Long save(TodoCommentDTO todoCommentDTO, TodoDTO todoDTO, ClubDTO clubDTO) {
+    public TodoCommentDTO save(TodoCommentDTO todoCommentDTO, TodoDTO todoDTO, ClubDTO clubDTO) {
         TodoCommentEntity todoCommentEntity = TodoCommentEntity.toTodoCommentEntity(todoCommentDTO,TodoEntity.toUpdateTodoEntity(todoDTO), ClubEntity.toUpdateClub(clubDTO));
-        return todoCommentRepository.save(todoCommentEntity).getId();
+        TodoCommentEntity saved = todoCommentRepository.save(todoCommentEntity);
+        return TodoCommentDTO.toTodoCommentDTO(saved);
     }
 
     public List<TodoCommentDTO> findAll(TodoDTO todoDTO, ClubDTO clubDTO) {

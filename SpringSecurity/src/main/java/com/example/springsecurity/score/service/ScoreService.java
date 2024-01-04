@@ -16,8 +16,8 @@ import java.util.Optional;
 public class ScoreService {
     private final ScoreRepository scoreRepository;
 
-    public ScoreDTO saveScoreTable(ScoreDTO scoreDTO, Long todoId) {
-        ScoreEntity scoreEntity = ScoreEntity.toNewScoreEntity(scoreDTO,todoId);
+    public ScoreDTO saveScoreTable(ScoreDTO scoreDTO) {
+        ScoreEntity scoreEntity = ScoreEntity.toNewScoreEntity(scoreDTO);
         ScoreEntity savedScoreEntity = scoreRepository.save(scoreEntity);
         return ScoreDTO.toScoreDTO(savedScoreEntity);
     }

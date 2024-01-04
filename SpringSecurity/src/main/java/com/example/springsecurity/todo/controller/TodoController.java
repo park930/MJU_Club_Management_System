@@ -101,7 +101,8 @@ public class TodoController
         ScoreDTO savedScoreDTO = null;
 
         if (scoreCheckBox){
-            savedScoreDTO = scoreService.saveScoreTable(scoreDTO,savedTodo.getId());
+            scoreDTO.setTodoId(savedTodo.getId());
+            savedScoreDTO = scoreService.saveScoreTable(scoreDTO);
         }
 
         if (checkedList != null){
