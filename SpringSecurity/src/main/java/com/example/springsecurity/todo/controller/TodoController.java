@@ -5,6 +5,8 @@ import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.score.dto.ScoreDTO;
+import com.example.springsecurity.score.service.ScoreClubService;
+import com.example.springsecurity.score.service.ScoreService;
 import com.example.springsecurity.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
@@ -29,7 +31,9 @@ public class TodoController
     private final ClubService clubService;
     private final TodoService todoService;
     private final TodoCommentService todoCommentService;
+    private final ScoreClubService scoreClubService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final ScoreService scoreService;
 
     private TodoPersonalDTO todoPersonalDTO;
 
@@ -91,18 +95,22 @@ public class TodoController
                           @ModelAttribute ScoreDTO scoreDTO,
                           @ModelAttribute TodoDTO todoDTO,
                           @RequestParam(value = "checkedList") List<Long> checkedList){
-        System.out.println("체크박스 여부" + scoreCheckBox);
+
+        TodoEntity savedTodo = todoService.saveTodo(todoDTO);
+
+        ScoreDTO savedScoreDTO = null;
+
         if (scoreCheckBox){
-            System.out.println("scoreDTO = " + scoreDTO);
+            savedScoreDTO = scoreService.saveScoreTable(scoreDTO,savedTodo.getId());
         }
 
-
         if (checkedList != null){
-            TodoEntity savedTodo = todoService.saveTodo(todoDTO);
-
             for(Long clubId : checkedList) {
                 ClubDTO clubDTO = clubService.findById(clubId);
                 todoService.saveTodoClub(ClubEntity.toUpdateClub(clubDTO),savedTodo);
+                if (scoreCheckBox){
+                    scoreClubService.save(savedScoreDTO,clubDTO);
+                }
             }
         }
         return "redirect:/todo/admin";
@@ -145,11 +153,13 @@ public class TodoController
             @PathVariable Long id,
             Model model){
         TodoDTO todoDTO = todoService.findById(id);
+        ScoreDTO scoreDTO = scoreService.findByTodoId(todoDTO.getId());
         List<TodoCommentDTO> commentList = todoCommentService.findAll(todoService.findById(id), clubService.findById(clubId));
 
         model.addAttribute("commentList",commentList);
         model.addAttribute("clubId",clubId);
         model.addAttribute("todo",todoDTO);
+        model.addAttribute("scoreDTO",scoreDTO);
         return "receivedTodoDetail";
     }
 

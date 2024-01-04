@@ -48,4 +48,9 @@ public class ClubService {
             return null;
         }
     }
+
+    public ClubDTO findByCategory(String category) {
+        ClubEntity findClubEntity = clubRepository.findByCategory(category);
+        return ClubDTO.toClubDTO(findClubEntity);
+    }
 }

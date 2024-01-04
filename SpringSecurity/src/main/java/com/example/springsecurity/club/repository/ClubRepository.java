@@ -8,4 +8,6 @@ public interface ClubRepository extends JpaRepository<ClubEntity, Long> {
 
     ClubEntity findByClubName (String clubName);
 
+    ClubEntity findByCategory (String category);
+
 }

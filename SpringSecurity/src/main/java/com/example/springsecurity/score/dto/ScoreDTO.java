@@ -19,4 +19,16 @@ public class ScoreDTO {
     private int plusRank3;
     private String title;
 
+    public static ScoreDTO toScoreDTO(ScoreEntity savedScoreEntity) {
+        ScoreDTO scoreDTO = new ScoreDTO();
+        scoreDTO.setId(savedScoreEntity.getId());
+        scoreDTO.setTitle(savedScoreEntity.getTitle());
+        scoreDTO.setNormalSubmit(savedScoreEntity.getNormalSubmit());
+        scoreDTO.setLateSubmit(savedScoreEntity.getLateSubmit());
+        scoreDTO.setNoSubmit(savedScoreEntity.getNoSubmit());
+        scoreDTO.setPlusRank1(savedScoreEntity.getPlusRank1());
+        scoreDTO.setPlusRank2(savedScoreEntity.getPlusRank2());
+        scoreDTO.setPlusRank3(savedScoreEntity.getPlusRank3());
+        return scoreDTO;
+    }
 }

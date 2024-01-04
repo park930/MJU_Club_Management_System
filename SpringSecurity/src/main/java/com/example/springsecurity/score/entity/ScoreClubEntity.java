@@ -1,6 +1,8 @@
 package com.example.springsecurity.score.entity;
 
+import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.todo.entity.TodoEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -31,4 +33,13 @@ public class ScoreClubEntity {
 
     @Column
     private String plusScoreType;
+
+    public static ScoreClubEntity toNewScoreClubEntity(ScoreDTO savedScoreDTO, ClubDTO clubDTO) {
+        ScoreClubEntity scoreClubEntity = new ScoreClubEntity();
+        scoreClubEntity.setScoreEntity(ScoreEntity.toUpdateScoreEntity(savedScoreDTO));
+        scoreClubEntity.setClubEntity(ClubEntity.toUpdateClub(clubDTO));
+        scoreClubEntity.setSubmitType("no");
+        scoreClubEntity.setPlusScoreType("no");
+        return scoreClubEntity;
+    }
 }
