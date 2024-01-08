@@ -4,6 +4,9 @@ import com.example.springsecurity.score.entity.ScoreEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -23,6 +26,8 @@ public class ScoreDTO {
     private LocalDateTime lateTime;
     private LocalDateTime endTime;
     private Long todoId;
+    private List<Integer> totalScoreList;
+    private List<Integer> totalPlusScoreList;
 
     public static ScoreDTO toScoreDTO(ScoreEntity savedScoreEntity) {
         ScoreDTO scoreDTO = new ScoreDTO();
@@ -39,4 +44,5 @@ public class ScoreDTO {
         scoreDTO.setTodoId(savedScoreEntity.getTodoId());
         return scoreDTO;
     }
+
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/styles2.css">
+    <title>list</title>
+</head>
+<body>
+<h1>updated....</h1>
+
+<button onclick="scoreAddReq()">평가항목 추가</button>
+
+
+<hr>
+<div id="tables">
+    <table class="part-table">
+        <tr>
+            <th>평가 항목</th>
+        </tr>
+        <tr>
+            <th>평가 배점</th>
+        </tr>
+        <tr th:each="club : ${clubList}">
+            <td th:text="${club.clubName}"></td>
+        </tr>
+    </table>
+    <table class="part-table">
+        <tr>
+            <th colspan="2" th:each="scoreDTO : ${scoreList}" th:text="${scoreDTO.title}"></th>
+        </tr>
+        <tr>
+            <th th:each="head : ${headText}" th:text="${head}"></th>
+        </tr>
+
+        <tr>
+        <span th:each="scoreDTO : ${scoreList}">
+            <!-- 열1의 내용    -->
+            <td class="include-table-td">
+                <table class="inner-table">
+                    <tr th:each="score : ${scoreDTO.totalScoreList}">
+                        <td th:text="${score}"></td>
+                    </tr>
+                </table>
+            </td>
+
+            <!-- 열2의 내용    -->
+            <td class="include-table-td">
+                <table class="inner-table">
+                    <tr th:each="score : ${scoreDTO.totalPlusScoreList}">
+                        <td th:text="${score}"></td>
+                    </tr>
+                </table>
+            </td>
+        </span>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+
+<script>
+
+    const scoreAddReq = () => {
+        location.href="/todo/admin/add";
+    }
+
+
+</script>
+</html>

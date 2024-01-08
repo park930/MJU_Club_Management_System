@@ -2,6 +2,7 @@ package com.example.springsecurity.score.service;
 
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.entity.ScoreClubEntity;
 import com.example.springsecurity.score.entity.ScoreEntity;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,20 +31,25 @@ public class ScoreClubService {
         ScoreDTO scoreDTO = ScoreDTO.toScoreDTO(scoreRepository.findByTodoId(todoId));
         ScoreClubEntity scoreEntity = scoreClubRepository.findByClubEntityAndScoreEntity(ClubEntity.toUpdateClub(clubDTO), ScoreEntity.toUpdateScoreEntity(scoreDTO));
 
-        System.out.println("scoreDTO = " + scoreDTO);
-
         LocalDateTime lateTime = scoreDTO.getLateTime();
-        String type = null;
         if (submitTime.isBefore(scoreDTO.getEndTime()) ) {
-            type = "normal";
+            scoreEntity.setSubmitType(scoreDTO.getNormalSubmit());
         } else if ( lateTime != null && submitTime.isBefore(lateTime) ) {
-            type = "late";
+            scoreEntity.setSubmitType(scoreDTO.getLateSubmit());
         } else {
-            type = "no";
+            scoreEntity.setSubmitType(0);
         }
-
-        scoreEntity.setSubmitType(type);
         scoreClubRepository.save(scoreEntity);
 
+    }
+
+    public List<ScoreClubDTO> findAll() {
+        List<ScoreClubEntity> scoreClubEntityList = scoreClubRepository.findAll();
+        List<ScoreClubDTO> scoreClubDTOList = new ArrayList<>();
+        for(ScoreClubEntity scoreClubEntity : scoreClubEntityList){
+            ScoreClubDTO scoreClubDTO = ScoreClubDTO.toScoreClubDTO(scoreClubEntity);
+            scoreClubDTOList.add(scoreClubDTO);
+        }
+        return scoreClubDTOList;
     }
 }

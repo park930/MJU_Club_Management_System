@@ -29,17 +29,17 @@ public class ScoreClubEntity {
     private ClubEntity clubEntity;
 
     @Column
-    private String submitType;
+    private int submitType;
 
     @Column
-    private String plusScoreType;
+    private int plusScoreType;
 
     public static ScoreClubEntity toNewScoreClubEntity(ScoreDTO savedScoreDTO, ClubDTO clubDTO) {
         ScoreClubEntity scoreClubEntity = new ScoreClubEntity();
         scoreClubEntity.setScoreEntity(ScoreEntity.toUpdateScoreEntity(savedScoreDTO));
         scoreClubEntity.setClubEntity(ClubEntity.toUpdateClub(clubDTO));
-        scoreClubEntity.setSubmitType("no");
-        scoreClubEntity.setPlusScoreType("no");
+        scoreClubEntity.setSubmitType(0);
+        scoreClubEntity.setPlusScoreType(0);
         return scoreClubEntity;
     }
 }
