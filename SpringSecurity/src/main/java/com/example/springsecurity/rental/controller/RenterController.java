@@ -2,6 +2,7 @@ package com.example.springsecurity.rental.controller;
 
 import com.example.springsecurity.rental.dto.RentalDTO;
 import com.example.springsecurity.rental.dto.RenterDTO;
+import com.example.springsecurity.rental.service.RentalRenterService;
 import com.example.springsecurity.rental.service.RentalService;
 import com.example.springsecurity.rental.service.RenterService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class RenterController {
 
     private final RentalService rentalService;
     private final RenterService renterService;
+    private final RentalRenterService rentalRenterService;
 
     @GetMapping("/offer/{id}")
     public String offerForm(@PathVariable Long id, Model model){
@@ -27,6 +29,7 @@ public class RenterController {
     @PostMapping("/offer/{id}")
     public String saveOffer(@PathVariable Long id, @ModelAttribute RenterDTO renterDTO, Model model){
         RentalDTO updatedRentalDTO = renterService.saveOffer(renterDTO,id);
+        rentalRenterService.save(updatedRentalDTO,renterDTO);
         model.addAttribute("rentalDTO",updatedRentalDTO);
         return "redirect:/rental/";
     }

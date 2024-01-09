@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+<h1>가산점 부여</h1>
+<hr>
+
+<form id="plusScoreForm" action="/score/plusScoreAdd/proc" method="post">
+    <select id="scoreTitle" name="scoreTitle" onchange="getScoreDetails()">
+        <option th:each="score : ${scoreList}" th:value="${score.id}" th:text="${score.title}"></option>
+    </select>
+    <!-- 비동기로 업데이트될 select -->
+    <select id="clubSelect" name="clubId">
+        <option th:each="club : ${clubDTOList}" th:value="${club.id}" th:text="${club.clubName}"></option>
+    </select>
+
+    <select id="plusScoreSelect" name="plusScoreId">
+        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank1}" th:text="${score.plusRank1}"></option>
+        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank2}" th:text="${score.plusRank2}"></option>
+        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank3}" th:text="${score.plusRank3}"></option>
+    </select>
+    <input type="submit" value="가산점 부여">
+</form>
+
+<div id="scoreInfo">
+
+</div>
+
+
+<script>
+    function getScoreDetails() {
+        var selectedId = $("#scoreTitle").val();
+
+        updatePlusScoreSelect(selectedId);
+
+        $.ajax({
+            type: "POST",
+            url: "/score/plusScoreDetails",  // 서버에서 처리를 담당할 URL을 지정
+            data: { scoreId: selectedId },  // 선택한 score.id를 서버로 전송
+            success: function (data) {
+                // 서버에서 받은 데이터를 처리하고 결과를 표시
+                updateClubSelect(data);
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    }
+
+    function updateClubSelect(clubDTOList) {
+        var clubSelect = $("#clubSelect");
+        clubSelect.empty();  // 이전 결과를 지우고 새로운 결과로 업데이트
+
+        // Thymeleaf 반복문을 사용하여 select를 다시 생성
+        $.each(clubDTOList, function(index, clubDTO) {
+            var option = "<option value=\"" + clubDTO.id + "\">" + clubDTO.clubName + "</option>";
+            clubSelect.append(option);
+        });
+    }
+
+    function updatePlusScoreSelect(scoreId) {
+        var plusScoreSelect = $("#plusScoreSelect");
+
+        // class 값과 scoreId가 다른 option 제거
+        plusScoreSelect.find('option').each(function() {
+            if ($(this).attr('class') !== scoreId) {
+                $(this).css('display', 'none');
+            } else {
+                $(this).css('display', ''); // 기존의 스타일을 유지
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,10 +13,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RenterDTO {
 
+    private Long id;
     private Long studentNumber;
     private String department;
     private String name;
     private String phone;
-    private LocalDate duration;
-    private LocalDate offerDate;
+    private LocalDateTime duration;
+    private LocalDateTime offerDate;
 }

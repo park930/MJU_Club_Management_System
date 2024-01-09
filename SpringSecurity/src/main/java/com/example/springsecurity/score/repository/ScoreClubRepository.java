@@ -10,5 +10,6 @@ import java.util.List;
 public interface ScoreClubRepository extends JpaRepository<ScoreClubEntity,Long> {
     ScoreClubEntity findByClubEntityAndScoreEntity (ClubEntity clubEntity, ScoreEntity scoreEntity);
 
+    List<ScoreClubEntity> findAllByScoreEntity (ScoreEntity scoreEntity);
 
 }

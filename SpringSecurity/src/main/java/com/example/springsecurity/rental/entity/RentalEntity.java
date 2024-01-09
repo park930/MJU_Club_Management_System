@@ -41,4 +41,15 @@ public class RentalEntity {
         rentalEntity.setRemain(rentalDTO.getRemain());
         return rentalEntity;
     }
+
+    public static RentalEntity toUpdateRentalEntity(RentalDTO rentalDTO) {
+        RentalEntity rentalEntity = new RentalEntity();
+        rentalEntity.setId(rentalDTO.getId());
+        rentalEntity.setType(rentalDTO.getType());
+        rentalEntity.setName(rentalDTO.getName());
+        rentalEntity.setTotalCount(rentalDTO.getTotalCount());
+        rentalEntity.setLocation(rentalDTO.getLocation());
+        rentalEntity.setRemain(rentalDTO.getRemain());
+        return rentalEntity;
+    }
 }

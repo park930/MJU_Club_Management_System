@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,10 +34,23 @@ public class RenterEntity extends BaseEntity {
     private String phone;
 
     @Column
-    private LocalDate duration;
+    private LocalDateTime duration;
+
 
     public static RenterEntity toRenterEntity(RenterDTO renterDTO) {
         RenterEntity renterEntity = new RenterEntity();
+        renterEntity.setStudentNumber(renterDTO.getStudentNumber());
+        renterEntity.setDepartment(renterDTO.getDepartment());
+        renterEntity.setName(renterDTO.getName());
+        renterEntity.setPhone(renterDTO.getPhone());
+        renterEntity.setDuration(renterDTO.getDuration());
+
+        return renterEntity;
+    }
+
+    public static RenterEntity toUpdateRenterEntity(RenterDTO renterDTO) {
+        RenterEntity renterEntity = new RenterEntity();
+        renterEntity.setId(renterDTO.getId());
         renterEntity.setStudentNumber(renterDTO.getStudentNumber());
         renterEntity.setDepartment(renterDTO.getDepartment());
         renterEntity.setName(renterDTO.getName());

@@ -171,4 +171,14 @@ public class ScoreService {
         System.out.println("clubRatingDTO = " + clubRatingDTO);
         return clubRatingDTO;
     }
+
+    public ScoreDTO findById(Long scoreId) {
+        Optional<ScoreEntity> optionalScoreEntity = scoreRepository.findById(scoreId);
+        if (optionalScoreEntity.isPresent()){
+            ScoreEntity scoreEntity = optionalScoreEntity.get();
+            return ScoreDTO.toScoreDTO(scoreEntity);
+        } else {
+            return null;
+        }
+    }
 }
