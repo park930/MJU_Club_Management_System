@@ -2,6 +2,7 @@ package com.example.springsecurity.score.controller;
 
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.score.dto.ClubRatingDTO;
 import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
@@ -26,15 +27,16 @@ public class ScoreController
 
     @GetMapping("/")
     public String scoreForm(Model model){
-        List<ClubDTO> clubDTOList = clubService.findAll();
         List<ScoreClubDTO> scoreClubDTOList = scoreClubService.findAll();
         List<ScoreDTO> scoreDTOList = scoreService.findAll();
+
+        List<ClubDTO> clubDTOList = clubService.findAll();
         List<ScoreDTO> updateScoreList = scoreService.getScoreInfo(scoreClubDTOList,scoreDTOList,clubDTOList);
+        List<Integer> totalScoreList = scoreService.getTotalScore(updateScoreList);
         List<String> headText = scoreService.setHeadText(updateScoreList);
-        System.out.println("updateScoreList = " + updateScoreList);
-        model.addAttribute("clubList",clubDTOList);
-        model.addAttribute("scoreList",updateScoreList);
-        model.addAttribute("headText",headText);
+
+        ClubRatingDTO clubRatingDTO = scoreService.sortScore(headText,totalScoreList,updateScoreList,clubDTOList);
+        model.addAttribute("clubRatingDTO",clubRatingDTO);
 
         return "scoreMain";
     }

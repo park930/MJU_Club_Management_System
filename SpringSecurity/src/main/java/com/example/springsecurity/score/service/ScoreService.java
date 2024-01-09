@@ -1,6 +1,7 @@
 package com.example.springsecurity.score.service;
 
 import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.score.dto.ClubRatingDTO;
 import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.entity.ScoreClubEntity;
@@ -110,5 +111,64 @@ public class ScoreService {
             headList.add("가산점");
         }
         return headList;
+    }
+
+    public List<Integer> getTotalScore(List<ScoreDTO> updateScoreList) {
+        List<Integer> totalScoreList = new ArrayList<>();
+        for(int i=0;i<updateScoreList.get(0).getTotalScoreList().size();i++){
+            totalScoreList.add(0);
+        }
+
+        for(ScoreDTO scoreDTO : updateScoreList){
+            int index=0;
+            for(int score : scoreDTO.getTotalScoreList()){
+                int num = totalScoreList.get(index);
+                totalScoreList.set(index,num+score);
+                index++;
+            }
+            index=0;
+            for(int plusScore : scoreDTO.getTotalPlusScoreList()){
+                int num = totalScoreList.get(index);
+                totalScoreList.set(index,num+plusScore);
+                index++;
+            }
+        }
+        return totalScoreList;
+    }
+
+
+    public ClubRatingDTO sortScore(List<String> headText, List<Integer> totalScoreList, List<ScoreDTO> updateScoreList, List<ClubDTO> clubDTOList) {
+        List<Integer> order = new ArrayList<>();
+        for (int i = 0; i < totalScoreList.size(); i++) {
+            order.add(i);
+        }
+        
+        //총합 재정렬
+        Collections.sort(order, Comparator.comparingInt(totalScoreList::get).reversed());
+        Collections.sort(totalScoreList, Comparator.reverseOrder());
+
+        //동아리 재정렬
+        List<ClubDTO> sortedClubList = new ArrayList<>(Collections.nCopies(clubDTOList.size(), null));
+        for (int i = 0; i < order.size(); i++) {
+            sortedClubList.set(i, clubDTOList.get(order.get(i)));
+        }
+
+        //세부 점수들 재정렬
+        for(ScoreDTO scoreDTO : updateScoreList){
+            List<Integer> scoreList = scoreDTO.getTotalScoreList();
+            List<Integer> plusScoreList = scoreDTO.getTotalPlusScoreList();
+            List<Integer> sortedScoreList = new ArrayList<>(Collections.nCopies(scoreList.size(),0));
+            List<Integer> sortedPlusScoreList = new ArrayList<>(Collections.nCopies(plusScoreList.size(),0));
+            for (int i = 0; i < order.size(); i++) {
+                sortedScoreList.set(i, scoreList.get(order.get(i)));
+                sortedPlusScoreList.set(i, plusScoreList.get(order.get(i)));
+            }
+            scoreDTO.setTotalScoreList(sortedScoreList);
+            scoreDTO.setTotalPlusScoreList(sortedPlusScoreList);
+        }
+
+        ClubRatingDTO clubRatingDTO = new ClubRatingDTO(headText,totalScoreList,updateScoreList,sortedClubList);
+        System.out.println("clubRatingDTO = " + clubRatingDTO);
+        return clubRatingDTO;
     }
 }

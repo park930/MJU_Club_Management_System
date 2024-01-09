@@ -78,3 +78,8 @@ tr:nth-child(even) {
     display: inline-block;
     vertical-align: top;
 }
+
+.total-score{
+    text-decoration: underline;
+    font-weight: bold;
+}

@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles2.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>list</title>
 </head>
 <body>
 <h1>updated....</h1>
 
 <button onclick="scoreAddReq()">평가항목 추가</button>
+<button onclick="plusScoreAddReq()">가산점 부여</button>
 
 
 <hr>
@@ -20,20 +22,20 @@
         <tr>
             <th>평가 배점</th>
         </tr>
-        <tr th:each="club : ${clubList}">
+        <tr th:each="club : ${clubRatingDTO.clubDTOList}">
             <td th:text="${club.clubName}"></td>
         </tr>
     </table>
     <table class="part-table">
         <tr>
-            <th colspan="2" th:each="scoreDTO : ${scoreList}" th:text="${scoreDTO.title}"></th>
+            <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}" th:text="${scoreDTO.title}"></th>
         </tr>
         <tr>
-            <th th:each="head : ${headText}" th:text="${head}"></th>
+            <th th:each="head : ${clubRatingDTO.headText}" th:text="${head}"></th>
         </tr>
 
         <tr>
-        <span th:each="scoreDTO : ${scoreList}">
+        <span th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
             <!-- 열1의 내용    -->
             <td class="include-table-td">
                 <table class="inner-table">
@@ -55,6 +57,19 @@
         </tr>
 
     </table>
+    <table class="part-table">
+        <tr>
+            <th colspan="3">총점</th>
+        </tr>
+        <tr>
+            <th colspan="3">동아리 지원금 : 80점</th>
+        </tr>
+        <tr th:each="score: ${clubRatingDTO.totalScoreList}">
+            <td class="total-score" th:text="${score}" colspan="3"></td>
+        </tr>
+
+    </table>
+
 </div>
 
 </body>
@@ -65,6 +80,9 @@
         location.href="/todo/admin/add";
     }
 
+    const plusScoreAddReq = () => {
+        location.href="/score/plusScoreAdd";
+    }
 
 </script>
 </html>
