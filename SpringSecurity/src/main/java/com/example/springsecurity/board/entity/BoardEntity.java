@@ -26,6 +26,7 @@ public class BoardEntity extends BaseEntity{
     private String boardPass;
     @Column
     private String boardTitle;
+
     @Column
     private String boardContents;
     @Column
@@ -33,6 +34,15 @@ public class BoardEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CommentEntity> commentEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FavoriteBoardEntity> favoriteBoardEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<HeartEntity> heartEntityList = new ArrayList<>();
+
+
+
 
 
     public static BoardEntity toBoardEntity(BoardDTO boardDTO){ //초기 DB에 게시글 저장할 때, DTO를 Entity로 변환

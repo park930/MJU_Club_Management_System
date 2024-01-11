@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,9 @@ public class RenterEntity extends BaseEntity {
 
     @Column
     private LocalDateTime duration;
+
+    @OneToMany(mappedBy = "renterEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<RentalRenterEntity> rentalRenterEntityList = new ArrayList<>();
 
 
     public static RenterEntity toRenterEntity(RenterDTO renterDTO) {

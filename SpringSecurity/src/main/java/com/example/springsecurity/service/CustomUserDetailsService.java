@@ -3,6 +3,7 @@ package com.example.springsecurity.service;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.dto.CustomUserDetails;
+import com.example.springsecurity.dto.UserDTO;
 import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +26,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
-        if (userEntity != null){
-            return new CustomUserDetails(userEntity);
+        UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+        if (userDTO != null){
+            return new CustomUserDetails(userDTO);
         }
 
         return null;
     }
 
-    public UserEntity findByUserName(String writer) {
-        return userRepository.findByUsername(writer);
+    public UserDTO findByUserName(String writer) {
+        UserEntity userEntity = userRepository.findByUsername(writer);
+        return UserDTO.toUserDTO(userEntity);
     }
 }

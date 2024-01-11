@@ -53,6 +53,15 @@
                 </table>
             </div>
         </div>
+
+        <div id="login-container2">
+            <h2>동아리 지원금 기준 달성도</h2>
+            <div class="login-box">
+                <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>
+                <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
+            </div>
+        </div>
+
     </div>
 
 
@@ -154,6 +163,27 @@
     const scoreReq = () => {
         location.href="/score/";
     }
+
+    const chart1 = document.querySelector('.chart1');
+    const clubScore = [[${clubScore}]];
+
+    const makeChart = (percent,classname,color) => {
+        let i=1;
+        let chartFn = setInterval(function () {
+            if (i <= percent) {
+                colorFn(i,classname,color);
+                i++;
+            } else {
+                clearInterval(chartFn);
+            }
+        },10);
+    }
+
+    const colorFn = (i, classname, color) => {
+        classname.style.background = "conic-gradient(" + color + " 0% " + i + "%, transparent " + i + "% 10%, #dedede 50% 100%)";
+    }
+
+    makeChart(clubScore, chart1, '#374864');
 
 </script>
 </html>

@@ -3,6 +3,7 @@ package com.example.springsecurity.todo.service;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.repository.ClubRepository;
+import com.example.springsecurity.score.repository.ScoreRepository;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
@@ -77,9 +78,9 @@ public class TodoService {
         return todoDTOList;
     }
 
-    public TodoPersonalDTO getFilteredTodoList(ClubEntity clubEntity,String userName) {
+    public TodoPersonalDTO getFilteredTodoList(ClubDTO clubDTO,String userName) {
         TodoPersonalDTO todoPersonalDTO = new TodoPersonalDTO();
-        List<TodoClubEntity> todoClubList = todoClubRepository.findAllByClubEntity(clubEntity);
+        List<TodoClubEntity> todoClubList = todoClubRepository.findAllByClubEntity(ClubEntity.toUpdateClub(clubDTO));
         List<TodoDTO> totalTodoDTOList = new ArrayList<>();
         List<TodoDTO> completeTodoList = new ArrayList<>();
         List<TodoDTO> incompleteTodoList = new ArrayList<>();
@@ -92,7 +93,7 @@ public class TodoService {
             TodoDTO todoDTO = TodoDTO.toTodoDTO(todoEntity);
             totalTodoDTOList.add(todoDTO);
             if (todoClubEntity.getResultSubmit()==1){
-                TodoCommentEntity todoCommentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndType(todoEntity, clubEntity,"result");
+                TodoCommentEntity todoCommentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndType(todoEntity, ClubEntity.toUpdateClub(clubDTO),"result");
                 submitDateList.add(todoCommentEntity.getCreatedTime());
                 completeTodoList.add(todoDTO);
             } else if (todoDTO.getWriter().equals(userName)) {
@@ -215,5 +216,9 @@ public class TodoService {
 
         System.out.println("eventList = " + eventList);
         return eventList;
+    }
+
+    public void deleteById(Long id) {
+        todoRepository.deleteById(id);
     }
 }

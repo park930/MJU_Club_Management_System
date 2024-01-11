@@ -3,6 +3,7 @@ package com.example.springsecurity.todo.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.dto.UserDTO;
 import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
@@ -51,14 +52,14 @@ public class TodoController
     @GetMapping("/user")
     public String todoUserMain(Model model){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        ClubEntity clubEntity = customUserDetailsService.findByUserName(userName).getClubEntity();
-        todoPersonalDTO = todoService.getFilteredTodoList(clubEntity,userName);
+        ClubDTO clubDTO = clubService.findById(customUserDetailsService.findByUserName(userName).getClubId());
+        todoPersonalDTO = todoService.getFilteredTodoList(clubDTO,userName);
         model.addAttribute("incompleteList",todoPersonalDTO.getReceviedIncompleteList());
         model.addAttribute("completeList",todoPersonalDTO.getReceviedCompleteList());
         model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
         model.addAttribute("remainTimeList",todoPersonalDTO.getRemainTimeList());
         model.addAttribute("submitDateList",todoPersonalDTO.getSubmitDateList());
-        model.addAttribute("clubId",clubEntity.getId());
+        model.addAttribute("clubId",clubDTO.getId());
         return "userTodoMain";
     }
 
@@ -119,20 +120,22 @@ public class TodoController
 
     @PostMapping("/user/add")
     public String addPersonalTodo(@ModelAttribute TodoDTO todoDTO){
-        ClubEntity clubEntity = customUserDetailsService.findByUserName(todoDTO.getWriter()).getClubEntity();
+        ClubDTO clubDTO = clubService.findById(customUserDetailsService.findByUserName(todoDTO.getWriter()).getClubId());
         TodoEntity savedTodo = todoService.saveTodo(todoDTO);
-        todoService.saveTodoClub(clubEntity,savedTodo);
+        todoService.saveTodoClub(ClubEntity.toUpdateClub(clubDTO),savedTodo);
         return "redirect:/todo/user";
     }
 
     @GetMapping("/admin/{id}")
     public String detailAdminTodo(@PathVariable Long id,Model model){
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         TodoDTO todoDTO = todoService.findById(id);
         List<TodoCommentDTO> completeCommentList = todoService.filterCompleteClub(todoDTO);
         List<ClubDTO> clubDTOList = todoService.getImcompleteClubList(todoDTO,completeCommentList);
         model.addAttribute("todoDTO",todoDTO);
         model.addAttribute("clubDTOList",clubDTOList);
         model.addAttribute("completeCommentList",completeCommentList);
+        model.addAttribute("userId",userId);
         return "todoAdminDetail";
     }
 
@@ -168,6 +171,25 @@ public class TodoController
     @GetMapping("/user/event") //ajax 데이터 전송 URL
     public @ResponseBody List<Map<String, Object>> getEvent(){
         return todoService.getEventList(todoPersonalDTO);
+    }
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteTodo(@PathVariable Long id){
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        todoService.deleteById(id);
+
+        ScoreDTO scoreDTO = scoreService.findByTodoId(id);
+        if (scoreDTO != null){
+            scoreService.delete(scoreDTO);
+        }
+
+
+        if (userId.startsWith("admin")){
+            return "redirect:/todo/admin";
+        } else {
+            return "redirect:/todo/user";
+        }
     }
 
 

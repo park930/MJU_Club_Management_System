@@ -143,7 +143,7 @@ public class ScoreService {
             order.add(i);
         }
         
-        //총합 재정렬
+        //총합 내림차순 기준으로 재정렬
         Collections.sort(order, Comparator.comparingInt(totalScoreList::get).reversed());
         Collections.sort(totalScoreList, Comparator.reverseOrder());
 
@@ -180,5 +180,21 @@ public class ScoreService {
         } else {
             return null;
         }
+    }
+
+
+    public void delete(ScoreDTO scoreDTO) {
+        scoreRepository.delete(ScoreEntity.toUpdateScoreEntity(scoreDTO));
+    }
+
+    public int getMyClubScore(ClubRatingDTO clubRatingDTO, ClubDTO myClubDTO) {
+        int index=0;
+        for(ClubDTO clubDTO : clubRatingDTO.getClubDTOList()){
+            if (clubDTO.getId().equals(myClubDTO.getId())){
+                break;
+            }
+            index++;
+        }
+        return clubRatingDTO.getTotalScoreList().get(index);
     }
 }

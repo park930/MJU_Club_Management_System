@@ -3,6 +3,7 @@ package com.example.springsecurity.todo.entity;
 import com.example.springsecurity.board.entity.BaseEntity;
 import com.example.springsecurity.board.entity.BoardEntity;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.rental.entity.RentalRenterEntity;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +43,13 @@ public class TodoEntity extends BaseEntity {
 
     @Column
     private int todoCheck;
+
+    @OneToMany(mappedBy = "todoEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<TodoCommentEntity> todoCommentEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "todoEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<TodoClubEntity> todoClubEntityList = new ArrayList<>();
+
 
     public static TodoEntity toTodoEntity(TodoDTO todoDTO) {
         TodoEntity todoEntity = new TodoEntity();

@@ -2,6 +2,10 @@ package com.example.springsecurity.dto;
 
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.entity.UserEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,14 +14,17 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final UserEntity userEntity;
+    private final UserDTO userDTO;
 
-    public CustomUserDetails(UserEntity userEntity){
-        this.userEntity = userEntity;
+
+
+
+    public CustomUserDetails(UserDTO userDTO){
+        this.userDTO = userDTO;
     }
 
-    public ClubEntity getClubEntity() {
-        return userEntity.getClubEntity();
+    public Long getClubId() {
+        return userDTO.getClubId();
     }
 
     @Override
@@ -30,7 +37,7 @@ public class CustomUserDetails implements UserDetails {
             @Override
             public String getAuthority() {
 
-                return userEntity.getRole();
+                return userDTO.getRole();
             }
         });
 
@@ -39,12 +46,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userEntity.getPassword();
+        return userDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userEntity.getUsername();
+        return userDTO.getUsername();
     }
 
 

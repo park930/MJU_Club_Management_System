@@ -1,6 +1,7 @@
 package com.example.springsecurity.score.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
+import com.example.springsecurity.rental.entity.RentalRenterEntity;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -50,6 +53,8 @@ public class ScoreEntity extends BaseEntity {
     @Column
     private LocalDateTime endTime;
 
+    @OneToMany(mappedBy = "scoreEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ScoreClubEntity> scoreClubEntityList = new ArrayList<>();
 
     public static ScoreEntity toNewScoreEntity(ScoreDTO scoreDTO) {
         ScoreEntity scoreEntity = new ScoreEntity();
