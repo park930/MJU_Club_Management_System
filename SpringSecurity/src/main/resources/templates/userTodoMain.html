@@ -113,7 +113,7 @@
                     <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="${remainTimeList[todoStat.index]}" class="remainTime"></td>
-                    <td><a th:href="@{|/todo/receivcedTodo/${clubId}/${todo.id}|}">제출하기</a></td>
+                    <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}">제출하기</a></td>
                 </tr>
             </table>
         </div>
@@ -139,7 +139,7 @@
                     <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:text="*{#temporals.format(submitDateList[todoStat.index], 'yy.MM.dd HH:mm')}"></td>
-                    <td><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                    <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}">상세</a></td>
                 </tr>
             </table>
         </div>

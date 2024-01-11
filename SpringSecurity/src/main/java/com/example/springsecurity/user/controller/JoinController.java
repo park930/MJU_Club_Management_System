@@ -1,11 +1,10 @@
-package com.example.springsecurity.controller;
+package com.example.springsecurity.user.controller;
 
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.service.ClubService;
-import com.example.springsecurity.dto.JoinDTO;
-import com.example.springsecurity.service.JoinService;
+import com.example.springsecurity.user.dto.JoinDTO;
+import com.example.springsecurity.user.service.JoinService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

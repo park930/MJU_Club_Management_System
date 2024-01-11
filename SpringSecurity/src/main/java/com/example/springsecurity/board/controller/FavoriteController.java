@@ -2,10 +2,9 @@ package com.example.springsecurity.board.controller;
 
 import java.util.List;
 import com.example.springsecurity.board.dto.FavoriteBoardDTO;
-import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.FavoriteService;
-import com.example.springsecurity.entity.UserEntity;
-import com.example.springsecurity.repository.UserRepository;
+import com.example.springsecurity.user.entity.UserEntity;
+import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.example.springsecurity.board.entity;
 
 import com.example.springsecurity.board.dto.HeartDTO;
-import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>detail</title>
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
+<form action="/receivedTodoComment/update" method="post" name="updateForm">
+    <input type="hidden" name="todoId" th:value="${todoId}">
+    <input type="hidden" name="id" th:value="${commentId}">
+    <input type="hidden" name="clubId" th:value="${clubId}">
+    타입: <input type="text" name="type" th:value="${todoCommentDTO.type}" readonly> <br>
+    contents: <textarea name="content" cols="30" rows="10" th:text="${todoCommentDTO.content}"></textarea> <br>
+    <input type="submit" value="답글수정">
+</form>
 
 </body>
 </html>

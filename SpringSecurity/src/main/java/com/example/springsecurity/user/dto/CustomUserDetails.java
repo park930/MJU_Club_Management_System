@@ -1,11 +1,5 @@
-package com.example.springsecurity.dto;
+package com.example.springsecurity.user.dto;
 
-import com.example.springsecurity.club.entity.ClubEntity;
-import com.example.springsecurity.entity.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

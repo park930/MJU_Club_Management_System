@@ -1,17 +1,14 @@
-package com.example.springsecurity.controller;
+package com.example.springsecurity.user.controller;
 
 
 import com.example.springsecurity.club.dto.ClubDTO;
-import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
-import com.example.springsecurity.dto.CustomUserDetails;
-import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
 import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
-import com.example.springsecurity.todo.dto.TodoDTO;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;

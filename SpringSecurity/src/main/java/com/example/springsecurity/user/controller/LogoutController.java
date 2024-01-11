@@ -1,4 +1,4 @@
-package com.example.springsecurity.controller;
+package com.example.springsecurity.user.controller;
 
 import com.example.springsecurity.config.SecurityConfig;
 import jakarta.servlet.http.HttpServletRequest;

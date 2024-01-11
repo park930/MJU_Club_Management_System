@@ -1,11 +1,11 @@
-package com.example.springsecurity.service;
+package com.example.springsecurity.user.service;
 
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.repository.ClubRepository;
-import com.example.springsecurity.dto.JoinDTO;
-import com.example.springsecurity.entity.UserEntity;
-import com.example.springsecurity.repository.UserRepository;
+import com.example.springsecurity.user.dto.JoinDTO;
+import com.example.springsecurity.user.entity.UserEntity;
+import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

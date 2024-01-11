@@ -1,6 +1,6 @@
-package com.example.springsecurity.dto;
+package com.example.springsecurity.user.dto;
 
-import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.user.entity.UserEntity;
 import lombok.*;
 
 @Getter

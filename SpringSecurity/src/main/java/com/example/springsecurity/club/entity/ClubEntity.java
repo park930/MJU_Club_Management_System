@@ -1,9 +1,8 @@
 package com.example.springsecurity.club.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
-import com.example.springsecurity.board.entity.HeartEntity;
 import com.example.springsecurity.club.dto.ClubDTO;
-import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.user.entity.UserEntity;
 import com.example.springsecurity.score.entity.ScoreClubEntity;
 import com.example.springsecurity.todo.entity.TodoClubEntity;
 import com.example.springsecurity.todo.entity.TodoCommentEntity;

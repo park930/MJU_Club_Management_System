@@ -13,6 +13,7 @@ import com.example.springsecurity.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,12 +53,31 @@ public class TodoCommentController {
 
     }
 
-    @GetMapping("receivedTodoComment/update/{clubId}/{todoId}/{commentId}")
-    public String updateComment(@PathVariable Long clubId,
+    @GetMapping("/update/{clubId}/{todoId}/{commentId}")
+    public String updateCommentP(@PathVariable Long clubId,
                                 @PathVariable Long todoId,
                                 @PathVariable Long commentId, Model model){
-        
-
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        TodoCommentDTO todoCommentDTO = todoCommentService.findById(commentId);
+        model.addAttribute("todoCommentDTO",todoCommentDTO);
+        model.addAttribute("clubId",clubId);
+        model.addAttribute("todoId",todoId);
+        model.addAttribute("commentId",commentId);
         return "updateTodoComment";
+    }
+
+    @PostMapping("/update")
+    public String updateComment(@ModelAttribute TodoCommentDTO todoCommentDTO){
+        System.out.println("todoCommentDTO = " + todoCommentDTO);
+        TodoCommentDTO commentDTO = todoCommentService.findById(todoCommentDTO.getId());
+        System.out.println("commentDTO = " + commentDTO);
+        
+        //바뀐 내용 적용
+        commentDTO.setContent(todoCommentDTO.getContent());
+
+        TodoCommentDTO updatedComment = todoCommentService.update(commentDTO);
+        ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
+        scoreClubService.saveSubmitType(commentDTO.getTodoId(), clubDTO,updatedComment.getUpdatedTime());
+        return "redirect:/todo/receivedTodo/"+todoCommentDTO.getClubId()+"/"+todoCommentDTO.getTodoId();
     }
 }

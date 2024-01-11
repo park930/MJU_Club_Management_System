@@ -1,6 +1,5 @@
 package com.example.springsecurity.rental.entity;
 
-import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.rental.dto.RentalDTO;
 import jakarta.persistence.*;
 import lombok.Getter;

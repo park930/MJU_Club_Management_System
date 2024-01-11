@@ -2,19 +2,17 @@ package com.example.springsecurity.board.service;
 
 import com.example.springsecurity.board.dto.BoardDTO;
 import com.example.springsecurity.board.dto.FavoriteBoardDTO;
-import com.example.springsecurity.board.entity.BaseEntity;
 import com.example.springsecurity.board.entity.BoardEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
 import com.example.springsecurity.board.repository.BoardRepository;
 import com.example.springsecurity.board.repository.FavoriteRepository;
-import com.example.springsecurity.entity.UserEntity;
-import com.example.springsecurity.repository.UserRepository;
+import com.example.springsecurity.user.entity.UserEntity;
+import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

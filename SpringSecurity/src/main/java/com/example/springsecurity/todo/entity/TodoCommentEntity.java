@@ -49,4 +49,15 @@ public class TodoCommentEntity extends BaseEntity {
         todoCommentEntity.setIsSubmit(todoCommentDTO.getResultSubmit());
         return todoCommentEntity;
     }
+
+    public static TodoCommentEntity toUpdateTodoCommentEntity(TodoCommentDTO commentDTO, TodoEntity todoEntity, ClubEntity clubEntity) {
+        TodoCommentEntity todoCommentEntity = new TodoCommentEntity();
+        todoCommentEntity.setId(commentDTO.getId());
+        todoCommentEntity.setContent(commentDTO.getContent());
+        todoCommentEntity.setType(commentDTO.getType());
+        todoCommentEntity.setIsSubmit(commentDTO.getResultSubmit());
+        todoCommentEntity.setClubEntity(clubEntity);
+        todoCommentEntity.setTodoEntity(todoEntity);
+        return todoCommentEntity;
+    }
 }

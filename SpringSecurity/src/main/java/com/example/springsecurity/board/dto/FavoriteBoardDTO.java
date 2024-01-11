@@ -2,7 +2,6 @@ package com.example.springsecurity.board.dto;
 
 import com.example.springsecurity.board.entity.BoardEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
-import com.example.springsecurity.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -3,12 +3,10 @@ package com.example.springsecurity.todo.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
-import com.example.springsecurity.dto.UserDTO;
-import com.example.springsecurity.entity.UserEntity;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
-import com.example.springsecurity.service.CustomUserDetailsService;
+import com.example.springsecurity.user.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
@@ -151,7 +149,7 @@ public class TodoController
     }
 
 
-    @GetMapping("/receivcedTodo/{clubId}/{id}")
+    @GetMapping("/receivedTodo/{clubId}/{id}")
     public String receivcedTodoDetail(
             @PathVariable Long clubId,
             @PathVariable Long id,

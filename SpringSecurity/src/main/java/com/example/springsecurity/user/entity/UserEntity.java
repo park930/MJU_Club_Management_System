@@ -1,4 +1,4 @@
-package com.example.springsecurity.entity;
+package com.example.springsecurity.user.entity;
 
 import com.example.springsecurity.board.entity.CommentEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;

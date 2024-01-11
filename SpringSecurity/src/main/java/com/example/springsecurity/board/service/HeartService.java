@@ -5,8 +5,8 @@ import com.example.springsecurity.board.entity.BoardEntity;
 import com.example.springsecurity.board.entity.HeartEntity;
 import com.example.springsecurity.board.repository.BoardRepository;
 import com.example.springsecurity.board.repository.HeartRepository;
-import com.example.springsecurity.entity.UserEntity;
-import com.example.springsecurity.repository.UserRepository;
+import com.example.springsecurity.user.entity.UserEntity;
+import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

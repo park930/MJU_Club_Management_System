@@ -1,7 +1,7 @@
-package com.example.springsecurity.repository;
+package com.example.springsecurity.user.repository;
 
 import com.example.springsecurity.club.entity.ClubEntity;
-import com.example.springsecurity.entity.UserEntity;
+import com.example.springsecurity.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
