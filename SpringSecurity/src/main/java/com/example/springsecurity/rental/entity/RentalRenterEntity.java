@@ -26,6 +26,9 @@ public class RentalRenterEntity {
     @JoinColumn(name = "renter_id")
     private RenterEntity renterEntity;
 
+    @Column
+    private int isRent;
+
 
     public static RentalRenterEntity toNewRentalRenterEntity(RentalDTO rentalDTO, RenterDTO renterDTO) {
         RentalRenterEntity rentalRenterEntity = new RentalRenterEntity();

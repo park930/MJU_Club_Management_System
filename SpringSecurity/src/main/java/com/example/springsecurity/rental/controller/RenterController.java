@@ -28,9 +28,10 @@ public class RenterController {
 
     @PostMapping("/offer/{id}")
     public String saveOffer(@PathVariable Long id, @ModelAttribute RenterDTO renterDTO, Model model){
-        RentalDTO updatedRentalDTO = renterService.saveOffer(renterDTO,id);
-        rentalRenterService.save(updatedRentalDTO,renterDTO);
-        model.addAttribute("rentalDTO",updatedRentalDTO);
+        RenterDTO savedRenterDTO = renterService.saveOffer(renterDTO,id);
+        RentalDTO rentalDTO = rentalService.findById(id);
+        rentalRenterService.save(rentalDTO,savedRenterDTO);
+        model.addAttribute("rentalDTO",rentalDTO);
         return "redirect:/rental/";
     }
 
