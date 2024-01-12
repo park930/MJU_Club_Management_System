@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/rentalStyles.css">
     <title>list</title>
 </head>
 <body>
@@ -21,35 +22,49 @@
 
 
 
-<h2>대여시스템</h2>
+<h3>대여시스템</h3>
+<button onclick="rentalAddReq()">대여물품 추가</button>
 <hr>
 
 <!--th:if="${id != 'anonymousUser'}"-->
-<button onclick="rentalAddReq()">대여물품 추가</button>
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>순번</th>-->
+<!--        <th>카테고리</th>-->
+<!--        <th>물품명</th>-->
+<!--        <th>총 수량</th>-->
+<!--        <th>위치</th>-->
+<!--        <th>잔여 수량</th>-->
+<!--        <th>현황표</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="rental: ${rentalList}">-->
+<!--        <td th:text="${rental.id}"></td>-->
+<!--        <td th:text="${rental.type}"></td>-->
+<!--        <td th:text="${rental.name}"></td>-->
+<!--        <td th:text="${rental.totalCount}"></td>-->
+<!--        <td th:text="${rental.location}"></td>-->
+<!--        <td th:text="${rental.remain}"></td>-->
+<!--        <td><a th:href="@{|/rental/${rental.id}|}">대여 현황</a></td>-->
+<!--        <td><a th:href="@{|/rental/offer/${rental.id}|}">신청</a></td>-->
+<!--    </tr>-->
+<!--</table>-->
 
 
 
-<table>
-    <tr>
-        <th>순번</th>
-        <th>카테고리</th>
-        <th>물품명</th>
-        <th>총 수량</th>
-        <th>위치</th>
-        <th>잔여 수량</th>
-        <th>현황표</th>
-    </tr>
-    <tr th:each="rental: ${rentalList}">
-        <td th:text="${rental.id}"></td>
-        <td th:text="${rental.type}"></td>
-        <td th:text="${rental.name}"></td>
-        <td th:text="${rental.totalCount}"></td>
-        <td th:text="${rental.location}"></td>
-        <td th:text="${rental.remain}"></td>
-        <td><a th:href="@{|/rental/${rental.id}|}">대여 현황</a></td>
-        <td><a th:href="@{|/rental/offer/${rental.id}|}">신청</a></td>
-    </tr>
-</table>
+<div id="rental-items">
+    <div th:each="rental: ${rentalList}">
+        <div class="rental-item">
+            <a th:href="@{|/rental/offer/${rental.id}|}"><img src="/noFile.png" alt="Rental Item Image"></a>
+            <p th:text="'물품명 : '+${rental.name}"></p>
+            <p th:text="'위치 : '+${rental.location}"></p>
+            <p th:text="'잔여수량 : '+${rental.remain}"></p>
+            <a th:href="@{|/rental/${rental.id}|}">대여 현황</a>
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 

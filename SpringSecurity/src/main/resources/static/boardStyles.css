@@ -1,0 +1,94 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+}
+
+#logo {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#main-nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#menu-items button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#boardPagingBtn {
+    background-color: #15265d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#boardPagingBtn:hover {
+    background-color: #4974d2;
+}
+
+/* Add similar styling for other buttons if needed */
+
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+}
+
+button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2d3c4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #8dacbb;
+    color: white;
+}
+
+
+a:hover {
+    text-decoration: underline;
+}
+
+#page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Add margin-top if needed */
+}
+
+#page-link a {
+    margin: 0 5px; /* Add margin between the links if needed */
+    text-decoration: none;
+    color: rgba(26, 30, 42, 0.7);
+    font-weight: bold;
+    font-size: 16px;
+}
