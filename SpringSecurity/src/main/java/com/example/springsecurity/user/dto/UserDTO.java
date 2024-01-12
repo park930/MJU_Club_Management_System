@@ -34,4 +34,17 @@ public class UserDTO {
         userDTO.setDetailPosition(userEntity.getDetailPosition());
         return userDTO;
     }
+
+    public static UserDTO toUserDTO(TempUserDTO tempUserDTO) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setClubId(tempUserDTO.getClubId());
+        userDTO.setPassword(tempUserDTO.getPassword());
+        userDTO.setUsername(tempUserDTO.getUsername());
+        userDTO.setRealName(tempUserDTO.getRealName());
+        userDTO.setPosition(tempUserDTO.getPosition());
+        userDTO.setPhoneNumber(tempUserDTO.getPhoneNumber());
+        userDTO.setRole(tempUserDTO.getRole());
+        userDTO.setDetailPosition(tempUserDTO.getDetailPosition());
+        return userDTO;
+    }
 }

@@ -19,6 +19,24 @@
   </div>
 </nav>
 
+
+<h1>동아리 부원 목록</h1>
+<table>
+  <tr>
+    <th>역할</th>
+    <th>성명</th>
+    <th>전화번호</th>
+  </tr>
+  <tr th:each="clubUser: ${clubUserList}">
+    <td th:text="${clubUser.position}"></td>
+    <td th:text="${clubUser.username}"></td>
+    <td th:text="${clubUser.realName}"></td>
+    <td th:text="${clubUser.phoneNumber}"></td>
+    <td><a th:href="@{|/tempUser/agree/${clubUser.id}|}">승인</a></td>
+    <td><a th:href="@{|/tempUser/disagree/${clubUser.id}|}">거절</a></td>
+  </tr>
+</table>
+
 <hr>
 <h1>동아리 가입 요청</h1>
 <table>
@@ -29,10 +47,11 @@
   </tr>
   <tr th:each="tempUser: ${tempUserList}">
     <td th:text="${tempUser.position}"></td>
+    <td th:text="${tempUser.username}"></td>
     <td th:text="${tempUser.realName}"></td>
     <td th:text="${tempUser.phoneNumber}"></td>
-    <td><a th:href="@{|/club/some|}">승인</a></td>
-    <td><a th:href="@{|/club/update/some|}">거절</a></td>
+    <td><a th:href="@{|/tempUser/agree/${tempUser.id}|}">승인</a></td>
+    <td><a th:href="@{|/tempUser/disagree/${tempUser.id}|}">거절</a></td>
   </tr>
 </table>
 

@@ -21,11 +21,11 @@ public class TempUserDTO {
     private String position;
     private String detailPosition;
 
-    public static TempUserDTO toTempUserDTO(TempUserEntity tempUserEntity, Long clubId) {
+    public static TempUserDTO toTempUserDTO(TempUserEntity tempUserEntity) {
         TempUserDTO tempUserDTO = new TempUserDTO();
         tempUserDTO.setId(tempUserEntity.getId());
         tempUserDTO.setUsername(tempUserEntity.getUsername());
-        tempUserDTO.setClubId(clubId);
+        tempUserDTO.setClubId(tempUserEntity.getClubEntity().getId());
         tempUserDTO.setRole(tempUserEntity.getRole());
         tempUserDTO.setPassword(tempUserEntity.getPassword());
         tempUserDTO.setRealName(tempUserEntity.getRealName());

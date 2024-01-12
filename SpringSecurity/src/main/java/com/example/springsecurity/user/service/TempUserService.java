@@ -33,9 +33,23 @@ public class TempUserService {
         if (optionalClubEntity.isPresent()){
             List<TempUserEntity> tempUserEntityList = tempUserRepository.findAllByClubEntity(optionalClubEntity.get());
             for(TempUserEntity tempUserEntity : tempUserEntityList){
-                tempUserDTOList.add(TempUserDTO.toTempUserDTO(tempUserEntity,clubId));
+                tempUserDTOList.add(TempUserDTO.toTempUserDTO(tempUserEntity));
             }
         }
         return tempUserDTOList;
+    }
+
+    public TempUserDTO findById(int id) {
+        Optional<TempUserEntity> optionalTempUserEntity = tempUserRepository.findById(id);
+        if (optionalTempUserEntity.isPresent()){
+            TempUserEntity tempUserEntity = optionalTempUserEntity.get();
+            return TempUserDTO.toTempUserDTO(tempUserEntity);
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteById(int id) {
+        tempUserRepository.deleteById(id);
     }
 }

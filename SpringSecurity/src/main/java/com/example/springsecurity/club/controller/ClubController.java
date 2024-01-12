@@ -4,6 +4,8 @@ import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.user.dto.TempUserDTO;
+import com.example.springsecurity.user.dto.UserDTO;
+import com.example.springsecurity.user.service.CustomUserDetailsService;
 import com.example.springsecurity.user.service.TempUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ public class ClubController
 {
     private final ClubService clubService;
     private final TempUserService tempUserService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/")
     public String clubForm(Model model){
@@ -68,11 +71,12 @@ public class ClubController
 
         List<TempUserDTO> tempUserDTOList = tempUserService.findAllByClubId(clubId);
         ClubDTO clubDTO = clubService.findById(clubId);
+        List<UserDTO> userDTOList = customUserDetailsService.findAllByClubDTO(clubDTO);
+
         model.addAttribute("clubDTO",clubDTO);
+        model.addAttribute("clubUserList",userDTOList);
         model.addAttribute("tempUserList",tempUserDTOList);
 
-        System.out.println("tempUserDTOList = " + tempUserDTOList);
-        System.out.println("clubDTO = " + clubDTO);
 
         return "clubMember";
     }
