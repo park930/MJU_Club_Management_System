@@ -7,7 +7,19 @@
     <title>list</title>
 </head>
 <body>
-<h1>updated....</h1>
+
+<h1 id="logo">동아리 관리 시스템</h1>
+<nav id="main-nav">
+    <div id="menu-items">
+        <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
+        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
+        <button onclick="todoReq()" id="todoBtn">일정 관리</button>
+        <button onclick="scoreReq()" id="scoreBtn">동아리 평가</button>
+        <button onclick="clubReq()" id="clubBtn">동아리 현황</button>
+        <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
+    </div>
+</nav>
+
 
 <button onclick="scoreAddReq()">평가항목 추가</button>
 <button onclick="plusScoreAddReq()">가산점 부여</button>
@@ -83,6 +95,37 @@
     const plusScoreAddReq = () => {
         location.href="/score/plusScoreAdd";
     }
+
+    const boardPagingReq = () => {
+        location.href="/board/paging";
+    }
+
+    const favoriteReq = () => {
+        location.href="/favorite/list"
+    }
+
+    const rentReq = () => {
+        location.href="/rental/"
+    }
+
+    const clubReq = () => {
+        location.href="/club/"
+    }
+
+    const todoReq = () => {
+        // if (id.startsWith('admin')) {
+        //     location.href="/todo/admin";
+        // } else {
+        //     location.href="/todo/user";
+        // }
+        location.href="/todo/user";
+    }
+
+
+    const scoreReq = () => {
+        location.href="/score/";
+    }
+
 
 </script>
 </html>

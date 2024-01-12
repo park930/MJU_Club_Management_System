@@ -29,15 +29,18 @@ body {
 
 h2 {
     margin : 9px;
+    border-bottom: 2px solid #ccc; /* 밑줄 스타일 추가 */
+    padding-bottom: 4px;
 }
 
-.todo-box , .login-box {
+.todo-box , .login-box, .board-box {
     flex: 1;
     padding: 10px;  /* 여백 추가 (옵션) */
     border-radius: 6px;
     background-color: white;
     margin: 10px 30px 30px;
     text-align: center;
+    border: 2px solid #d4d4d4;
 }
 
 #logo {
@@ -134,4 +137,27 @@ span.center{
     line-height: 100px;
     font-size:30px;
     transform: translate(-50%, -50%);
+}
+
+
+#my-photo {
+    width: 100%;
+    object-fit: cover;
+}
+
+#img-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    overflow: hidden;
+}
+
+#login-first {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#login-first > div {
+    flex: 1;
 }
