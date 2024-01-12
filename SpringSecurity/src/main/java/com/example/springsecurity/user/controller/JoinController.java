@@ -3,6 +3,7 @@ package com.example.springsecurity.user.controller;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.user.dto.JoinDTO;
+import com.example.springsecurity.user.dto.UserDTO;
 import com.example.springsecurity.user.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,12 @@ public class JoinController {
         model.addAttribute("clubList",clubList);
         return "join";
     }
+    @GetMapping("/tempUserjoin")
+    public String tempJoinP(Model model){
+        List<ClubDTO> clubDTOList = clubService.findAll();
+        model.addAttribute("clubList",clubDTOList);
+        return "tempJoin";
+    }
 
     @GetMapping("/adminJoin")
     public String joinAdminP(){
@@ -34,11 +41,17 @@ public class JoinController {
     }
 
     @PostMapping("/joinProc")
-    public String joinProcess(JoinDTO joinDTO){
-        System.out.println("joinDTO = " + joinDTO.getUsername());
-        joinService.joinProcess(joinDTO);
+    public String joinProcess(UserDTO userDTO){
+        System.out.println("userDTO = " + userDTO);
+        joinService.joinProcess(userDTO,"Executives");
         return "redirect:/login";
     }
 
+    @PostMapping("/tempJoinProc")
+    public String tempJoinProcess(UserDTO userDTO){
+        System.out.println("userDTO = " + userDTO);
+        joinService.joinProcess(userDTO,"normal");
+        return "redirect:/login";
+    }
 
 }

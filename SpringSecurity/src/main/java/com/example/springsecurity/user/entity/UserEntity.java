@@ -4,6 +4,7 @@ import com.example.springsecurity.board.entity.CommentEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
 import com.example.springsecurity.board.entity.HeartEntity;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,18 @@ public class UserEntity {
     private String username;
 
     @Column
+    private String realName;
+
+    @Column
+    private String phoneNumber;
+
+    @Column
+    private String position;
+
+    @Column
+    private String detailPosition;
+
+    @Column
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,4 +52,15 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<HeartEntity> heartEntityList = new ArrayList<>();
 
+    public static UserEntity toNewUserEntity(UserDTO userDTO, ClubEntity clubEntity) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setRealName(userDTO.getRealName());
+        userEntity.setPhoneNumber(userDTO.getPhoneNumber());
+        userEntity.setPosition(userDTO.getPosition());
+        userEntity.setDetailPosition(userDTO.getDetailPosition());
+        userEntity.setPassword(userDTO.getPassword());
+        userEntity.setClubEntity(clubEntity);
+        return userEntity;
+    }
 }

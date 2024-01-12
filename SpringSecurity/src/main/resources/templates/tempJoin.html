@@ -8,21 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-<h1>가입페이지</h1>
+<h1>동아리원 가입페이지</h1>
 <hr>
-<form action="/joinProc" method="post" name="joinForm">
+<form action="/tempJoinProc" method="post" name="joinForm">
 
     <select name="clubId">
         <option th:each="club : ${clubList}" th:value="${club.id}" th:text="${club.clubName}"></option>
     </select>
     학번(아이디) : <input type="text" name="username" placeholder="학번"/><br>
     비밀번호 : <input type="password" name="password" placeholder="Password"/>
-    성명 : <input type="text" name="realName" placeholder="이름"/><br>
-    전화번호 : <input type="text" name="phoneNumber" placeholder="전화번호"/><br>
-    <input type="text" name="position" value="임원" hidden/><br>
-
-
-    <input type="submit" value="가입"/>
+    성명 : <input type="text" name="realName" placeholder="학번"/><br>
+    전화번호 : <input type="text" name="phoneNumber" placeholder="학번"/><br>
+    <input type="text" name="position" value="부원" hidden/><br>
+    <input type="submit" value="Join"/>
 </form>
 </body>
 </html>

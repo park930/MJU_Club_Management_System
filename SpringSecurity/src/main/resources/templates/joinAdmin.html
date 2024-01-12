@@ -13,8 +13,13 @@
 <form action="/joinProc" method="post" name="joinForm">
     <h3>관리자는 이름을 "admin"으로 시작해야함</h3>
     <input type="text" value="admin" hidden>
-    <input type="text" name="username" placeholder="Username"/>
-    <input type="password" name="password" placeholder="Password"/>
+
+    학번(아이디) : <input type="text" name="username" placeholder="학번"/><br>
+    비밀번호 : <input type="password" name="password" placeholder="Password"/>
+    성명 : <input type="text" name="realName" placeholder="학번"/><br>
+    전화번호 : <input type="text" name="phoneNumber" placeholder="학번"/><br>
+    <input type="text" name="position" value="임원" hidden/><br>
+
     <input type="submit" value="Join"/>
 </form>
 </body>

@@ -1,6 +1,7 @@
 package com.example.springsecurity.user.dto;
 
 import com.example.springsecurity.user.entity.UserEntity;
+import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
@@ -15,6 +16,10 @@ public class UserDTO {
     private Long clubId;
     private String role;
     private String password;
+    private String realName;
+    private String phoneNumber;
+    private String position;
+    private String detailPosition;
 
     public static UserDTO toUserDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
@@ -22,7 +27,11 @@ public class UserDTO {
         userDTO.setClubId(userEntity.getClubEntity().getId());
         userDTO.setPassword(userEntity.getPassword());
         userDTO.setUsername(userEntity.getUsername());
+        userDTO.setRealName(userEntity.getRealName());
+        userDTO.setPosition(userEntity.getPosition());
+        userDTO.setPhoneNumber(userEntity.getPhoneNumber());
         userDTO.setRole(userEntity.getRole());
+        userDTO.setDetailPosition(userEntity.getDetailPosition());
         return userDTO;
     }
 }
