@@ -33,8 +33,7 @@
     <td th:text="${clubUser.username}"></td>
     <td th:text="${clubUser.realName}"></td>
     <td th:text="${clubUser.phoneNumber}"></td>
-    <td><a th:href="@{|/tempUser/agree/${clubUser.id}|}">승인</a></td>
-    <td><a th:href="@{|/tempUser/disagree/${clubUser.id}|}">거절</a></td>
+    <td th:if="${chairMan != null and chairMan.id == userId}"><a th:href="@{|/clubMember/manage/${clubDTO.id}/${clubUser.id}|}">관리</a></td>
   </tr>
 </table>
 

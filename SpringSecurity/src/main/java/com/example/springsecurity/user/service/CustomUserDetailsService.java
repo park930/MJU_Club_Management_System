@@ -61,4 +61,28 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return userDTOList;
     }
+
+    public UserDTO findChairMan(List<UserDTO> userDTOList) {
+
+        for(UserDTO userDTO : userDTOList){
+            String position = userDTO.getDetailPosition();
+            if (position == null){
+                continue;
+            } else {
+                if (position.equals("회장")) {
+                    return userDTO;
+                }
+            }
+        }
+        return null;
+    }
+
+    public UserDTO findByUserId(int userId) {
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
+        if (optionalUserEntity.isPresent()){
+            return UserDTO.toUserDTO(optionalUserEntity.get());
+        } else {
+            return null;
+        }
+    }
 }

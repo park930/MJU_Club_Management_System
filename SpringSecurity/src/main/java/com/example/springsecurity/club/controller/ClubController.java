@@ -62,23 +62,6 @@ public class ClubController
         return "redirect:/club/";
     }
 
-    @GetMapping("/member")
-    public String clubMemberP(Model model){
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        Long clubId = customUserDetails.getClubId();
 
-        List<TempUserDTO> tempUserDTOList = tempUserService.findAllByClubId(clubId);
-        ClubDTO clubDTO = clubService.findById(clubId);
-        List<UserDTO> userDTOList = customUserDetailsService.findAllByClubDTO(clubDTO);
-
-        model.addAttribute("clubDTO",clubDTO);
-        model.addAttribute("clubUserList",userDTOList);
-        model.addAttribute("tempUserList",tempUserDTOList);
-
-
-        return "clubMember";
-    }
 
 }

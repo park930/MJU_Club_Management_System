@@ -20,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
     public Long getClubId() {
         return userDTO.getClubId();
     }
+    public int getUserId() { return userDTO.getId();}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {    //role값을 리턴해주는 메서드

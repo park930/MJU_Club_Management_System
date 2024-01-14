@@ -22,12 +22,12 @@ public class TempUserController {
         UserDTO userDTO = UserDTO.toUserDTO(tempUserDTO);
         customUserDetailsService.save(userDTO);
         tempUserService.deleteById(id);
-        return "redirect:/club/member";
+        return "redirect:/clubMember/";
     }
 
     @GetMapping("/tempUser/disagree/{id}")
     public String tempUserDisagree(@PathVariable int id){
         tempUserService.deleteById(id);
-        return "redirect:/club/member";
+        return "redirect:/clubMember/";
     }
 }
