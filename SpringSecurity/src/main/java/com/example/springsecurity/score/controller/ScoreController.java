@@ -40,6 +40,7 @@ public class ScoreController
 
         ClubRatingDTO clubRatingDTO = scoreService.sortScore(headText,totalScoreList,updateScoreList,clubDTOList);
         model.addAttribute("clubRatingDTO",clubRatingDTO);
+        System.out.println("clubRatingDTO = " + clubRatingDTO);
 
         return "scoreMain";
     }

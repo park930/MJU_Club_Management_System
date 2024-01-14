@@ -41,6 +41,11 @@ public class ScoreService {
     }
 
     public List<ScoreDTO> getScoreInfo(List<ScoreClubDTO> scoreClubDTOList, List<ScoreDTO> scoreDTOList, List<ClubDTO> clubDTOList) {
+
+        if(scoreDTOList.isEmpty()){
+            return null;
+        }
+
         Long firstScoreId = scoreClubDTOList.get(0).getScoreId();
 
         int index = 0;
@@ -104,6 +109,10 @@ public class ScoreService {
     }
 
     public List<String> setHeadText(List<ScoreDTO> updateScoreList) {
+        if (updateScoreList == null){
+            return null;
+        }
+
         List<String> headList = new ArrayList<>();
         int num = updateScoreList.size();
         for(int i=0;i<num;i++){
@@ -114,6 +123,11 @@ public class ScoreService {
     }
 
     public List<Integer> getTotalScore(List<ScoreDTO> updateScoreList) {
+
+        if (updateScoreList == null){
+            return null;
+        }
+
         List<Integer> totalScoreList = new ArrayList<>();
         for(int i=0;i<updateScoreList.get(0).getTotalScoreList().size();i++){
             totalScoreList.add(0);
@@ -139,6 +153,10 @@ public class ScoreService {
 
     public ClubRatingDTO sortScore(List<String> headText, List<Integer> totalScoreList, List<ScoreDTO> updateScoreList, List<ClubDTO> clubDTOList) {
         List<Integer> order = new ArrayList<>();
+        if (totalScoreList == null){
+            return null;
+        }
+
         for (int i = 0; i < totalScoreList.size(); i++) {
             order.add(i);
         }
@@ -189,6 +207,11 @@ public class ScoreService {
 
     public int getMyClubScore(ClubRatingDTO clubRatingDTO, ClubDTO myClubDTO) {
         int index=0;
+
+        if (clubRatingDTO == null){
+            return 0;
+        }
+
         for(ClubDTO clubDTO : clubRatingDTO.getClubDTOList()){
             if (clubDTO.getId().equals(myClubDTO.getId())){
                 break;

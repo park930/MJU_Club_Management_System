@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles2.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>list</title>
 </head>
@@ -26,7 +27,13 @@
 
 
 <hr>
-<div id="tables">
+<div id="null-info" th:if="${clubRatingDTO == null}">
+    <h1>현재 등록된 평가항목이 없습니다.</h1>
+</div>
+
+
+
+<div id="tables" th:if="${clubRatingDTO != null}">
     <table class="part-table">
         <tr>
             <th>평가 항목</th>
