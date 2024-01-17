@@ -2,6 +2,7 @@ package com.example.springsecurity.club.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
 import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.club.dto.ClubFeeDTO;
 import com.example.springsecurity.score.entity.ScoreClubEntity;
 import com.example.springsecurity.todo.entity.TodoClubEntity;
 import com.example.springsecurity.todo.entity.TodoCommentEntity;
@@ -46,4 +47,26 @@ public class ClubFeeEntity extends BaseEntity {
     private ClubEntity clubEntity;
 
 
+    public static ClubFeeEntity toNewClubFeeEntity(ClubFeeDTO clubFeeDTO,ClubDTO clubDTO) {
+        ClubFeeEntity clubFeeEntity = new ClubFeeEntity();
+        clubFeeEntity.setType(clubFeeDTO.getType());
+        clubFeeEntity.setUserName(clubFeeDTO.getUserName());
+        clubFeeEntity.setAmount(clubFeeDTO.getAmount());
+        clubFeeEntity.setDate(clubFeeDTO.getDate());
+        clubFeeEntity.setPurpose(clubFeeDTO.getPurpose());
+        clubFeeEntity.setClubEntity(ClubEntity.toUpdateClub(clubDTO));
+        return clubFeeEntity;
+    }
+
+    public static ClubFeeEntity toUpdateClubFeeEntity(ClubFeeDTO clubFeeDTO,ClubEntity clubEntity) {
+        ClubFeeEntity clubFeeEntity = new ClubFeeEntity();
+        clubFeeEntity.setId(clubFeeDTO.getId());
+        clubFeeEntity.setType(clubFeeDTO.getType());
+        clubFeeEntity.setUserName(clubFeeDTO.getUserName());
+        clubFeeEntity.setAmount(clubFeeDTO.getAmount());
+        clubFeeEntity.setDate(clubFeeDTO.getDate());
+        clubFeeEntity.setPurpose(clubFeeDTO.getPurpose());
+        clubFeeEntity.setClubEntity(clubEntity);
+        return clubFeeEntity;
+    }
 }

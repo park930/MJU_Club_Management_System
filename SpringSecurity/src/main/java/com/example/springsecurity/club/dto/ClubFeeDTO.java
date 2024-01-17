@@ -29,6 +29,9 @@ public class ClubFeeDTO {
     private LocalDateTime date;
     private String purpose;
     private Long clubId;
+    private int balance;
+    private int totalPlusFee;
+    private int totalMinusFee;
 
     public static ClubFeeDTO toClubFeeDTO(ClubFeeEntity clubFeeEntity) {
         ClubFeeDTO clubFeeDTO = new ClubFeeDTO();

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>메인화면</title>
+</head>
+<body>
+<div id="login-items">
+    <button onclick="join()" id="joinBtn">회원가입</button>
+    <button onclick="login()" id="loginBtn">로그인</button>
+<!--    <form action="/logout" method="get">-->
+<!--        <input type="submit" id="logout" value="로그아웃">-->
+<!--    </form>-->
+</div>
+<h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
+<nav id="main-nav">
+    <div id="menu-items">
+        <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
+        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
+        <button onclick="clubReq()" id="clubBtn">동아리 목록</button>
+    </div>
+</nav>
+
+<!-------------------------------------------------------------------------------------------------------------------->
+
+</body>
+
+<script th:inline="javascript">
+
+    const id = [[${id}]];
+
+    const join = () => {
+        location.href="/join";
+    }
+
+    const login = () => {
+        location.href="/login";
+    }
+
+    const boardPagingReq = () => {
+        location.href="/board/paging";
+    }
+
+    const rentReq = () => {
+        location.href="/rental/"
+    }
+
+    const clubReq = () => {
+        location.href="/club/"
+    }
+
+
+
+</script>
+</html>

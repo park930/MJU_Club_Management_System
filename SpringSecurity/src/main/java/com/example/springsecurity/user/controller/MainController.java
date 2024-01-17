@@ -6,7 +6,9 @@ import com.example.springsecurity.board.dto.FavoriteBoardDTO;
 import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.FavoriteService;
 import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.club.dto.ClubFeeDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
+import com.example.springsecurity.club.service.ClubFeeService;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
@@ -40,11 +42,15 @@ public class MainController {
     private final ScoreService scoreService;
     private final FavoriteService favoriteService;
     private final BoardService boardService;
+    private final ClubFeeService clubFeeService;
 
     @GetMapping("/")
     public String mainP(Model model){
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (id.equals("anonymousUser")){
+            return "main_anonymous";
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TodoPersonalDTO todoPersonalDTO;
@@ -79,8 +85,24 @@ public class MainController {
             clubScore = scoreService.getMyClubScore(clubRatingDTO,clubDTO);
             percentScore = clubScore/80.0 * 100;
 
+            List<ClubFeeDTO> clubFeeList = clubFeeService.findAllByClubDTO(clubDTO);
+            if (clubFeeList.isEmpty()){
+                model.addAttribute("totalDepositAmount",0);
+                model.addAttribute("totalSpentAmount",0);
+                model.addAttribute("feePercent",0);
+            } else {
+                ClubFeeDTO lastClubFee = clubFeeList.get(0);
+                double feePercent =  (lastClubFee.getTotalMinusFee()) / (1.0*(lastClubFee.getTotalPlusFee())) * 100;
+                model.addAttribute("totalDepositAmount",lastClubFee.getTotalPlusFee());
+                model.addAttribute("totalSpentAmount",lastClubFee.getTotalMinusFee());
+                model.addAttribute("feePercent",feePercent);
+            }
+
+
             model.addAttribute("clubId",clubId);
             model.addAttribute("clubDTO",clubDTO);
+            model.addAttribute("chairManList",chairManList);
+
             model.addAttribute("chairManList",chairManList);
             model.addAttribute("favoriteBoardDTOList",favoriteBoardDTOList);
             model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
