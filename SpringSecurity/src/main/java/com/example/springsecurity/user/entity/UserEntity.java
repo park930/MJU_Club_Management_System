@@ -63,4 +63,17 @@ public class UserEntity {
         userEntity.setClubEntity(clubEntity);
         return userEntity;
     }
+
+    public static UserEntity toUpdateUserEntity(UserDTO userDTO, ClubEntity clubEntity) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userDTO.getId());
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setRealName(userDTO.getRealName());
+        userEntity.setPhoneNumber(userDTO.getPhoneNumber());
+        userEntity.setPosition(userDTO.getPosition());
+        userEntity.setDetailPosition(userDTO.getDetailPosition());
+        userEntity.setPassword(userDTO.getPassword());
+        userEntity.setClubEntity(clubEntity);
+        return userEntity;
+    }
 }

@@ -104,7 +104,6 @@ public class BoardController {
         Page<BoardDTO> boardList = null;
 
         if (searchKeyWord != null){
-            System.out.println("searchKeyWord = " + searchKeyWord);
             boardList = boardService.searchPaging(searchKeyWord,pageable);
         } else {
             boardList = boardService.paging(pageable);

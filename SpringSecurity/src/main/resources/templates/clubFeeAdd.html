@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+
+<h1>회비 이력 추가</h1>
+<form action="/clubFee/add" method="post" enctype="multipart/form-data">
+    <input type="text" name="clubId" th:value="${clubId}" hidden/><br>
+    유형 : <input type="text" name="type"> <br>
+    대상자: <input type="text" name="userName"> <br>
+    금액: <input type="number" name="amount"> <br>
+    일자: <input type="datetime-local" name="date"> <br>
+    목적: <input type="text" name="purpose"> <br>
+    <input type="submit" value="추가하기">
+</form>
+
+</body>
+</html>

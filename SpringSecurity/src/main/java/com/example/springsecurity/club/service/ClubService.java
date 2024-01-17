@@ -3,6 +3,9 @@ package com.example.springsecurity.club.service;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.repository.ClubRepository;
+import com.example.springsecurity.user.dto.UserDTO;
+import com.example.springsecurity.user.entity.UserEntity;
+import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClubService {
     private final ClubRepository clubRepository;
+    private final UserRepository userRepository;
 
     public List<ClubDTO> findAll() {
         List<ClubEntity> clubEntityList = clubRepository.findAll();
@@ -52,5 +56,14 @@ public class ClubService {
     public ClubDTO findByCategory(String category) {
         ClubEntity findClubEntity = clubRepository.findByCategory(category);
         return ClubDTO.toClubDTO(findClubEntity);
+    }
+
+    public List<UserDTO> findChairManList(ClubDTO clubDTO) {
+        List<UserEntity> userEntityList = userRepository.findAllByClubEntityAndPosition(ClubEntity.toUpdateClub(clubDTO), "임원");
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for(UserEntity userEntity : userEntityList){
+            userDTOList.add(UserDTO.toUserDTO(userEntity));
+        }
+        return userDTOList;
     }
 }

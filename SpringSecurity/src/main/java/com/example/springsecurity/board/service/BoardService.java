@@ -89,7 +89,7 @@ public class BoardService {
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"id")));
 
         //board는 entity객체임 --> foreach문과 비슷
-        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getType(),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
         return boardDTOS;
 
     }
@@ -99,7 +99,7 @@ public class BoardService {
         int pageLimit = 3;      //한페이지에 몇개씩 볼건지
         Page<BoardEntity> boardEntities = boardRepository.findByBoardTitleContaining(searchKeyWord,PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"id")));
         System.out.println("찾은 것들 = " + boardEntities);
-        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getType(),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
         return boardDTOS;
     }
 
@@ -116,5 +116,14 @@ public class BoardService {
             return "등록 실패";
         }
 
+    }
+
+    public List<BoardDTO> findNotice() {
+        List<BoardEntity> boardEntityList = boardRepository.findAllByTypeOrderByCreatedTimeDesc("notice");
+        List<BoardDTO> boardDTOList = new ArrayList<>();
+        for(BoardEntity boardEntity : boardEntityList){
+            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+        }
+        return boardDTOList;
     }
 }

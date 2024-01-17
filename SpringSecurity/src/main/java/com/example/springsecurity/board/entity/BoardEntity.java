@@ -26,7 +26,8 @@ public class BoardEntity extends BaseEntity{
     private String boardPass;
     @Column
     private String boardTitle;
-
+    @Column
+    private String type;
     @Column
     private String boardContents;
     @Column
@@ -51,6 +52,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardPass(boardDTO.getBoardPass());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setType(boardDTO.getType());
         boardEntity.setBoardHits(0);
         return boardEntity;
     }
@@ -61,6 +63,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
         boardEntity.setBoardPass(boardDTO.getBoardPass());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setType(boardDTO.getType());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(boardDTO.getBoardHits());
         return boardEntity;

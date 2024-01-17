@@ -1,7 +1,12 @@
 package com.example.springsecurity.user.controller;
 
 
+import com.example.springsecurity.board.dto.BoardDTO;
+import com.example.springsecurity.board.dto.FavoriteBoardDTO;
+import com.example.springsecurity.board.service.BoardService;
+import com.example.springsecurity.board.service.FavoriteService;
 import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
@@ -11,6 +16,8 @@ import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.service.TodoService;
+import com.example.springsecurity.user.dto.UserDTO;
+import com.example.springsecurity.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,12 +38,13 @@ public class MainController {
     private final ClubService clubService;
     private final ScoreClubService scoreClubService;
     private final ScoreService scoreService;
+    private final FavoriteService favoriteService;
+    private final BoardService boardService;
 
     @GetMapping("/")
     public String mainP(Model model){
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("id = " + id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TodoPersonalDTO todoPersonalDTO;
@@ -44,6 +52,7 @@ public class MainController {
 
         List<ScoreClubDTO> scoreClubDTOList = scoreClubService.findAll();
         List<ScoreDTO> scoreDTOList = scoreService.findAll();
+        List<BoardDTO> boardNoticeList = boardService.findNotice();
 
         List<ClubDTO> clubDTOList = clubService.findAll();
         List<ScoreDTO> updateScoreList = scoreService.getScoreInfo(scoreClubDTOList,scoreDTOList,clubDTOList);
@@ -52,8 +61,6 @@ public class MainController {
 
         ClubRatingDTO clubRatingDTO = scoreService.sortScore(headText,totalScoreList,updateScoreList,clubDTOList);
         System.out.println("clubRatingDTO = " + clubRatingDTO);
-
-
 
         Long clubId = 0L;
         int clubScore = 0;
@@ -64,13 +71,18 @@ public class MainController {
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
             clubId = customUserDetails.getClubId();
             ClubDTO clubDTO = clubService.findById(clubId);
+            List<UserDTO> chairManList = clubService.findChairManList(clubDTO);
             todoPersonalDTO = todoService.getFilteredTodoList(clubDTO,id);
+            UserDTO userDTO = customUserDetails.getUserDTO();
+            List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(UserEntity.toUpdateUserEntity(userDTO, ClubEntity.toUpdateClub(clubDTO)), userDTO.getUsername());
 
             clubScore = scoreService.getMyClubScore(clubRatingDTO,clubDTO);
             percentScore = clubScore/80.0 * 100;
 
             model.addAttribute("clubId",clubId);
             model.addAttribute("clubDTO",clubDTO);
+            model.addAttribute("chairManList",chairManList);
+            model.addAttribute("favoriteBoardDTOList",favoriteBoardDTOList);
             model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
             model.addAttribute("receiveTodoList",todoPersonalDTO.getReceviedIncompleteList());
             model.addAttribute("clubScore",clubScore);
@@ -85,6 +97,7 @@ public class MainController {
         model.addAttribute("role",role);
         model.addAttribute("clubScore",clubScore);
         model.addAttribute("percentScore",percentScore);
+        model.addAttribute("noticeList",boardNoticeList);
         return "main";
     }
 }

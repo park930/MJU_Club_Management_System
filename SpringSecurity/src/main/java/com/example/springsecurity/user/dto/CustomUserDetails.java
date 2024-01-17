@@ -10,6 +10,9 @@ public class CustomUserDetails implements UserDetails {
 
     private final UserDTO userDTO;
 
+    public UserDTO getUserDTO(){
+        return userDTO;
+    }
 
 
 

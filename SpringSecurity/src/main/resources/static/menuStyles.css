@@ -1,5 +1,8 @@
 
-
+a#home_like {
+    text-decoration: none; /* 밑줄 제거 */
+    color: black;          /* 글자색을 검은색으로 설정 */
+}
 
 
 #menu-items {

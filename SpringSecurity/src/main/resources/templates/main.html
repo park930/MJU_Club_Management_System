@@ -18,15 +18,16 @@
 <!--        <input type="submit" id="logout" value="로그아웃">-->
 <!--    </form>-->
 </div>
-<h1 id="logo">동아리 관리 시스템</h1>
+<h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
 <nav id="main-nav">
     <div id="menu-items">
         <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
         <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
         <button onclick="todoReq()" id="todoBtn">일정 관리</button>
         <button onclick="scoreReq()" id="scoreBtn">동아리 평가</button>
-        <button onclick="clubReq()" id="clubBtn">동아리 현황</button>
+        <button onclick="clubReq()" id="clubBtn">동아리 목록</button>
         <button onclick="clubMemberBtn()" id="clubMemberBtn">부원 관리</button>
+        <button onclick="clubFeeBtn()" id="clubFeeBtn">회비 내역</button>
         <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
     </div>
 </nav>
@@ -56,19 +57,13 @@
 
         <div class="favorite-box">
             <div class="favorite-item">
-                <h2>즐기찾기</h2>
+                <h2>즐겨찾기</h2>
                 <table>
-                    <tr>
-                        <th>가</th>
-                        <th>나</th>
-                        <th>다</th>
-                        <th>라</th>
-                    </tr>
-                    <tr>
-                        <td>o</td>
-                        <td>o</td>
-                        <td>o</td>
-                        <td>o</td>
+                    <tr th:each="favoriteBoardDTO : ${favoriteBoardDTOList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}"
+                               th:text="${favoriteBoardDTO.boardTitle}"></a></td>
+                        <td th:text="${favoriteBoardDTO.boardWriter}+'님'"></td>
                     </tr>
                 </table>
             </div>
@@ -76,78 +71,107 @@
     </div>
 
     <div id="right-container">
+        <div id="right-top-container">
+            <div id="todo-container">
 
-        <div id="todo-container">
+                <div class="todo-box">
+                    <div id="receive-todo-list">
+                        <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <h2>동연회 요청</h2>
+                            <table th:if="${receiveTodoList != null}" class="todo-table">
+                                <tr th:each="todo: ${receiveTodoList}">
+                                    <td>•</td>
+                                    <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
+                                           th:text="${todo.title}"></a></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                </tr>
+                            </table>
+                        </div>
 
-            <div class="todo-box">
-                <div id="receive-todo-list">
-                    <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>동연회 요청</h2>
-                        <table th:if="${receiveTodoList != null}" class="todo-table">
-                            <tr>
-                                <th>제목</th>
-                                <th>마감일</th>
-                                <th>남은 일수</th>
-                            </tr>
-                            <tr th:each="todo: ${receiveTodoList}">
-                                <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
-                                       th:text="${todo.title}"></a>
-                                </td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                            </tr>
-                        </table>
                     </div>
+                </div>
 
+                <div class="todo-box">
+                    <div id="my-todo-list">
+                        <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <h2>나의 일정</h2>
+                            <table th:if="${myTodoList != null}" class="todo-table">
+                                <tr>
+                                    <th>제목</th>
+                                    <th>시작일</th>
+                                    <th>종료일</th>
+                                </tr>
+                                <tr th:each="todo: ${myTodoList}">
+                                    <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"
+                                           th:text="${todo.title}"></a>
+                                    </td>
+                                    <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="todo-box">
-                <div id="my-todo-list">
-                    <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>나의 일정 목록</h2>
-                        <table th:if="${myTodoList != null}" class="todo-table">
-                            <tr>
-                                <th>제목</th>
-                                <th>시작일</th>
-                                <th>종료일</th>
-                            </tr>
-                            <tr th:each="todo: ${myTodoList}">
-                                <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}" th:text="${todo.title}"></a>
-                                </td>
-                                <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                            </tr>
-                        </table>
+            <div id="clubInfo-container">
+                <div class="clubInfo-box">
+                    <div id="clubMember-list">
+                        <div id="clubMember-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <h2>동아리 임원 목록</h2>
+                            <table th:if="${chairManList != null}" class="todo-table">
+                                <tr th:each="chairMan: ${chairManList}">
+                                    <td>•</td>
+                                    <td th:text="${chairMan.detailPosition}"></td>
+                                    <td th:text="${chairMan.realName}"></td>
+                                    <td th:text="${chairMan.phoneNumber}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="clubInfo-box">
+                    <div id="clubMoney-list">
+                        <div id="clubMoney-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <h2>동아리 회비 내역</h2>
+                            <table th:if="${receiveTodoList != null}" class="todo-table">
+                                <tr th:each="todo: ${receiveTodoList}">
+                                    <td>•</td>
+                                    <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
+                                           th:text="${todo.title}"></a></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div id="right-bottom-container">
+            <div id="extraInfo-container">
+                <div class="achievement-box">
+                    <h2>지원금 기준 달성도</h2>
+                    <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>
+                    <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
+                </div>
 
-        <div id="extraInfo-container">
-            <div class="achievement-box">
-                <h2>지원금 기준 달성도</h2>
-                <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>
-                <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
+                <div class="notice-box">
+                    <h2>공지사항</h2>
+                    <table th:if="${noticeList != null}" class="todo-table">
+                        <tr th:each="notice: ${noticeList}">
+                            <td>•</td>
+                            <td><a th:href="@{|/board/${notice.id}|}"
+                                   th:text="${notice.boardTitle}"></a></td>
+                            <td th:text="*{#temporals.format(notice.boardCreatedTime, 'yy.MM.dd')}"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
+            <div id="extraInfo-container2">
 
-            <div class="notice-box">
-                <h2>공지사항</h2>
-                <table>
-                    <tr>
-                        <th>가</th>
-                        <th>나</th>
-                        <th>다</th>
-                        <th>라</th>
-                    </tr>
-                    <tr>
-                        <td>o</td>
-                        <td>o</td>
-                        <td>o</td>
-                        <td>o</td>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>
@@ -164,6 +188,12 @@
 
     const login = () => {
         location.href="/login";
+    }
+
+
+    const clubId = [[${clubDTO.id}]];
+    const clubFeeBtn = () => {
+        location.href="/clubFee/"+clubId;
     }
 
     const boardPagingReq = () => {

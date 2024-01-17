@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
 
     //Entity기준의 쿼리
@@ -18,6 +20,8 @@ public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
 
 
     Page<BoardEntity> findByBoardTitleContaining(String searchKeyWord, Pageable pageable);
+
+    List<BoardEntity> findAllByTypeOrderByCreatedTimeDesc(String type);
 
 
 }

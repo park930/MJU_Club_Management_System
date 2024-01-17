@@ -41,8 +41,10 @@ public class ClubEntity extends BaseEntity {
     private List<UserEntity> userEntityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ScoreClubEntity> scoreClubEntityList = new ArrayList<>();
+    private List<ClubFeeEntity> clubFeeEntityList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "clubEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ScoreClubEntity> scoreClubEntityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<TodoCommentEntity> todoCommentEntityList = new ArrayList<>();

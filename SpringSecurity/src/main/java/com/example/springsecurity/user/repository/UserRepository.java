@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     List<UserEntity> findAllByClubEntity(ClubEntity clubEntity);
 
+    List<UserEntity> findAllByClubEntityAndPosition(ClubEntity clubEntity,String position);
+
     List<UserEntity> findAllByClubEntityOrderByUsernameAsc(ClubEntity clubEntity);
 
     @Query("SELECT u.clubEntity FROM UserEntity u")

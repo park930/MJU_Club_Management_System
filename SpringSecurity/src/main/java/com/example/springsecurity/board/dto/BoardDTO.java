@@ -17,10 +17,12 @@ public class BoardDTO {
     private String boardTitle;
     private String boardContents;
     private int boardHits;
+    private String type;
     private LocalDateTime boardCreatedTime;
     private LocalDateTime boardUpdatedTime;
 
-    public BoardDTO(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
+    public BoardDTO(String type,Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
+        this.type = type;
         this.id = id;
         this.boardWriter = boardWriter;
         this.boardTitle = boardTitle;
@@ -36,6 +38,7 @@ public class BoardDTO {
         boardDTO.setBoardTitle(boardEntity.getBoardTitle());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
+        boardDTO.setType(boardEntity.getType());
         boardDTO.setBoardCreatedTime(boardEntity.getCreatedTime());
         boardDTO.setBoardUpdatedTime(boardEntity.getUpdatedTime());
         return boardDTO;
