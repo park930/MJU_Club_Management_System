@@ -21,9 +21,7 @@ public class FavoriteBoardDTO {
 
     public static FavoriteBoardDTO toFavoriteDTO(FavoriteBoardEntity favoriteBoardEntity, String userName) {
         FavoriteBoardDTO favoriteBoardDTO = new FavoriteBoardDTO();
-        System.out.println("변환할 때의 favoriteBoardEntity = " + favoriteBoardEntity);
         BoardEntity boardEntity = favoriteBoardEntity.getBoardEntity();
-
         favoriteBoardDTO.setId(favoriteBoardEntity.getId());
         favoriteBoardDTO.setBoardTitle(favoriteBoardEntity.getBoardTitle());
         favoriteBoardDTO.setUserId(userName);

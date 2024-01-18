@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="my-info">
-                    <span>동아리 : </span><span th:text="${clubDTO.clubName}"></span><br>
+                    <span class="right-border">동아리 </span><span th:text="' '+${clubDTO.clubName}"></span><br>
                     <span th:text="${id}+'님'"></span><br>
                     <span th:text="${clubDTO.clubRoom}+'호'"></span>
                 </div>
@@ -64,6 +64,20 @@
                         <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}"
                                th:text="${favoriteBoardDTO.boardTitle}"></a></td>
                         <td th:text="${favoriteBoardDTO.boardWriter}+'님'"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="heart-box">
+            <div class="heart-item">
+                <h2>"좋아요" 목록</h2>
+                <table th:if="${heartBoardList != null}">
+                    <tr th:each="heartBoard : ${heartBoardList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/board/${heartBoard.id}|}" th:text="${heartBoard.boardTitle}"></a></td>
+                        <td th:text="${heartBoard.boardWriter}+'님'"></td>
+                        <td><a th:href="@{|/heart/${heartBoard.id}/${id}|}">❤️</a></td>
                     </tr>
                 </table>
             </div>

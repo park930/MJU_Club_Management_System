@@ -176,7 +176,7 @@ span.center{
 }
 
 .zt-skill-bar div {
-    background-color: #0c0e54;
+    background-color: #0e102f;
     position: relative;
     border-radius: 2px;
 }
@@ -210,4 +210,9 @@ span.center{
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.right-border {
+    border-right: 2px solid #ccc;
+    margin-right: 5px;
 }

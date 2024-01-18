@@ -5,6 +5,8 @@ import com.example.springsecurity.board.entity.BoardEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
 import com.example.springsecurity.board.repository.BoardRepository;
 import com.example.springsecurity.board.repository.FavoriteRepository;
+import com.example.springsecurity.club.dto.ClubDTO;
+import com.example.springsecurity.user.dto.UserDTO;
 import com.example.springsecurity.user.entity.UserEntity;
 import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,11 +50,11 @@ public class FavoriteService {
         }
     }
 
-    public List<FavoriteBoardDTO> findAll(UserEntity userEntity, String userName) {
-        List<FavoriteBoardEntity> favoriteList = favoriteRepository.findAllByUserEntityOrderByIdDesc(userEntity);
+    public List<FavoriteBoardDTO> findAll(UserDTO userDTO, ClubDTO clubDTO) {
+        List<FavoriteBoardEntity> favoriteList = favoriteRepository.findAllByUserEntityOrderByIdDesc(UserEntity.toUpdateUserEntity(userDTO,clubDTO));
         List<FavoriteBoardDTO> favoriteBoardDTOList = new ArrayList<>();
         for(FavoriteBoardEntity favoriteBoardEntity : favoriteList){
-            favoriteBoardDTOList.add(FavoriteBoardDTO.toFavoriteDTO(favoriteBoardEntity,userName));
+            favoriteBoardDTOList.add(FavoriteBoardDTO.toFavoriteDTO(favoriteBoardEntity,userDTO.getUsername()));
         }
         return favoriteBoardDTOList;
     }

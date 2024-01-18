@@ -3,6 +3,7 @@ package com.example.springsecurity.user.entity;
 import com.example.springsecurity.board.entity.CommentEntity;
 import com.example.springsecurity.board.entity.FavoriteBoardEntity;
 import com.example.springsecurity.board.entity.HeartEntity;
+import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.user.dto.UserDTO;
 import jakarta.persistence.*;
@@ -64,7 +65,7 @@ public class UserEntity {
         return userEntity;
     }
 
-    public static UserEntity toUpdateUserEntity(UserDTO userDTO, ClubEntity clubEntity) {
+    public static UserEntity toUpdateUserEntity(UserDTO userDTO, ClubDTO clubDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userDTO.getId());
         userEntity.setUsername(userDTO.getUsername());
@@ -73,7 +74,7 @@ public class UserEntity {
         userEntity.setPosition(userDTO.getPosition());
         userEntity.setDetailPosition(userDTO.getDetailPosition());
         userEntity.setPassword(userDTO.getPassword());
-        userEntity.setClubEntity(clubEntity);
+        userEntity.setClubEntity(ClubEntity.toUpdateClub(clubDTO));
         return userEntity;
     }
 }

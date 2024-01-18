@@ -3,8 +3,10 @@ package com.example.springsecurity.user.controller;
 
 import com.example.springsecurity.board.dto.BoardDTO;
 import com.example.springsecurity.board.dto.FavoriteBoardDTO;
+import com.example.springsecurity.board.dto.HeartDTO;
 import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.FavoriteService;
+import com.example.springsecurity.board.service.HeartService;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.dto.ClubFeeDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
@@ -43,6 +45,7 @@ public class MainController {
     private final FavoriteService favoriteService;
     private final BoardService boardService;
     private final ClubFeeService clubFeeService;
+    private final HeartService heartService;
 
     @GetMapping("/")
     public String mainP(Model model){
@@ -80,7 +83,7 @@ public class MainController {
             List<UserDTO> chairManList = clubService.findChairManList(clubDTO);
             todoPersonalDTO = todoService.getFilteredTodoList(clubDTO,id);
             UserDTO userDTO = customUserDetails.getUserDTO();
-            List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(UserEntity.toUpdateUserEntity(userDTO, ClubEntity.toUpdateClub(clubDTO)), userDTO.getUsername());
+            List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(userDTO, clubDTO);
 
             clubScore = scoreService.getMyClubScore(clubRatingDTO,clubDTO);
             percentScore = clubScore/80.0 * 100;
@@ -98,7 +101,9 @@ public class MainController {
                 model.addAttribute("feePercent",feePercent);
             }
 
+            List<BoardDTO> heartBoardList = heartService.findAllByUserId(userDTO.getId());
 
+            model.addAttribute("heartBoardList",heartBoardList);
             model.addAttribute("clubId",clubId);
             model.addAttribute("clubDTO",clubDTO);
             model.addAttribute("chairManList",chairManList);
