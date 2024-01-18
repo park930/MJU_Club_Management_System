@@ -69,7 +69,6 @@ public class MainController {
         List<String> headText = scoreService.setHeadText(updateScoreList);
 
         ClubRatingDTO clubRatingDTO = scoreService.sortScore(headText,totalScoreList,updateScoreList,clubDTOList);
-        System.out.println("clubRatingDTO = " + clubRatingDTO);
 
         Long clubId = 0L;
         int clubScore = 0;

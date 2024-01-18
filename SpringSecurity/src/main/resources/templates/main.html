@@ -28,7 +28,7 @@
         <button onclick="clubReq()" id="clubBtn">동아리 목록</button>
         <button onclick="clubMemberBtn()" id="clubMemberBtn">부원 관리</button>
         <button onclick="clubFeeBtn()" id="clubFeeBtn">회비 내역</button>
-        <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
+        <button onclick="anqReq()" id="qnaBtn">Q&A</button>
     </div>
 </nav>
 
@@ -98,6 +98,7 @@
                 <div id="receive-todo-list">
                     <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
                         <h2>동연회 요청</h2>
+                        <span th:if="${receiveTodoList == null}">등록된 요청이 없습니다.</span>
                         <table th:if="${receiveTodoList != null}" class="todo-table">
                             <tr th:each="todo: ${receiveTodoList}">
                                 <td>•</td>
@@ -114,6 +115,7 @@
 
             <div class="admin-box">
                 <h2>공지사항</h2>
+                <span th:if="${noticeList == null}">등록된 공지가 없습니다.</span>
                 <table th:if="${noticeList != null}" class="todo-table">
                     <tr th:each="notice: ${noticeList}">
                         <td>•</td>
@@ -131,17 +133,14 @@
                 <div id="my-todo-list">
                     <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
                         <h2>나의 일정</h2>
+                        <span th:if="${myTodoList == null}">등록된 일정이 없습니다.</span>
                         <table th:if="${myTodoList != null}" class="todo-table">
-                            <tr>
-                                <th>제목</th>
-                                <th>시작일</th>
-                                <th>종료일</th>
-                            </tr>
                             <tr th:each="todo: ${myTodoList}">
+                                <td>•</td>
                                 <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"
                                        th:text="${todo.title}"></a>
                                 </td>
-                                <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+                                <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>
                                 <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
                             </tr>
                         </table>
@@ -190,8 +189,8 @@
 
             </div>
             <div id="extraInfo-container2">
-                <div class="some-box">
-
+                <div class="QnA-box">
+                    <h2>나의 Q&A</h2>
 
                 </div>
             </div>
@@ -212,19 +211,18 @@
         location.href="/login";
     }
 
-
-    const clubId = [[${clubDTO.id}]];
     const clubFeeBtn = () => {
-        location.href="/clubFee/"+clubId;
+        location.href="/clubFee/";
     }
 
     const boardPagingReq = () => {
         location.href="/board/paging";
     }
 
-    const favoriteReq = () => {
-        location.href="/favorite/list"
+    const anqReq = () => {
+        location.href="/qna/";
     }
+
 
     const rentReq = () => {
         location.href="/rental/"
@@ -303,6 +301,9 @@
     });
 
 
+    const favoriteReq = () => {
+        location.href="/favorite/list"
+    }
 
 </script>
 </html>

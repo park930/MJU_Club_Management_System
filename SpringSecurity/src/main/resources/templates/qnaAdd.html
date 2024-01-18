@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+private Long id;
+private String boardWriter;
+private String boardTitle;
+private String boardContents;
+private int secret;
+private int userId;
+
+<form action="/qna/save" method="post" enctype="multipart/form-data">
+    <input type="text" name="userId" th:value="${userId}" hidden> <br>
+    비밀글 여부:
+    <input type="radio" name="secret" value="1" checked> O
+    <input type="radio" name="secret" value="0"> X
+    writer: <input type="text" name="boardWriter" th:value="${userName}" readonly> <br>
+    title: <input type="text" name="boardTitle"> <br>
+    contents: <textarea name="boardContents" cols="30" rows="10"></textarea> <br>
+    <input type="submit" value="글작성">
+</form>
+</body>
+</html>

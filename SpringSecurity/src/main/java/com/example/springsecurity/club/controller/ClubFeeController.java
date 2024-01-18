@@ -25,8 +25,12 @@ public class ClubFeeController
     private final ClubService clubService;
     private final ClubFeeService clubFeeService;
 
-    @GetMapping("/{clubId}")
-    public String clubFeeMain(@PathVariable Long clubId,Model model){
+    @GetMapping("/")
+    public String clubFeeMain(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Long clubId = customUserDetails.getUserDTO().getClubId();
         List<ClubFeeDTO> clubFeeDTOList = clubFeeService.findAllByClubDTO(clubService.findById(clubId));
         List<ClubFeeDTO> feeUserList = clubFeeService.findFeeUser(clubFeeDTOList);
         model.addAttribute("clubFeeList",clubFeeDTOList);
