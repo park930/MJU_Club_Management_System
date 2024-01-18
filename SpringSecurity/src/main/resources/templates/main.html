@@ -84,81 +84,100 @@
         </div>
     </div>
 
+
     <div id="right-container">
+
         <div id="right-top-container">
-            <div id="todo-container">
-
-                <div class="todo-box">
-                    <div id="receive-todo-list">
-                        <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                            <h2>동연회 요청</h2>
-                            <table th:if="${receiveTodoList != null}" class="todo-table">
-                                <tr th:each="todo: ${receiveTodoList}">
-                                    <td>•</td>
-                                    <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
-                                           th:text="${todo.title}"></a></td>
-                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                                </tr>
-                            </table>
-                        </div>
-
-                    </div>
+            <div class="admin-box">
+                <div id="admin-chairman-items">
+                    <h2>동연회 임원</h2>
                 </div>
+            </div>
 
-                <div class="todo-box">
-                    <div id="my-todo-list">
-                        <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                            <h2>나의 일정</h2>
-                            <table th:if="${myTodoList != null}" class="todo-table">
-                                <tr>
-                                    <th>제목</th>
-                                    <th>시작일</th>
-                                    <th>종료일</th>
-                                </tr>
-                                <tr th:each="todo: ${myTodoList}">
-                                    <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"
-                                           th:text="${todo.title}"></a>
-                                    </td>
-                                    <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
-                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                                </tr>
-                            </table>
-                        </div>
+            <div class="admin-box">
+                <div id="receive-todo-list">
+                    <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                        <h2>동연회 요청</h2>
+                        <table th:if="${receiveTodoList != null}" class="todo-table">
+                            <tr th:each="todo: ${receiveTodoList}">
+                                <td>•</td>
+                                <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
+                                       th:text="${todo.title}"></a></td>
+                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="admin-box">
+                <h2>공지사항</h2>
+                <table th:if="${noticeList != null}" class="todo-table">
+                    <tr th:each="notice: ${noticeList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/board/${notice.id}|}"
+                               th:text="${notice.boardTitle}"></a></td>
+                        <td th:text="*{#temporals.format(notice.boardCreatedTime, 'yy.MM.dd')}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="right-middle-container">
+            <div class="todo-box">
+                <div id="my-todo-list">
+                    <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                        <h2>나의 일정</h2>
+                        <table th:if="${myTodoList != null}" class="todo-table">
+                            <tr>
+                                <th>제목</th>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                            </tr>
+                            <tr th:each="todo: ${myTodoList}">
+                                <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"
+                                       th:text="${todo.title}"></a>
+                                </td>
+                                <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
+                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <div id="clubInfo-container">
-                <div class="clubInfo-box">
-                    <div id="clubMember-list">
-                        <div id="clubMember-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                            <h2>동아리 임원 목록</h2>
-                            <table th:if="${chairManList != null}" class="todo-table">
-                                <tr th:each="chairMan: ${chairManList}">
-                                    <td>•</td>
-                                    <td th:text="${chairMan.detailPosition}"></td>
-                                    <td th:text="${chairMan.realName}"></td>
-                                    <td th:text="${chairMan.phoneNumber}"></td>
-                                </tr>
-                            </table>
-                        </div>
+            <div class="clubInfo-box">
+                <div id="clubMember-list">
+                    <div id="clubMember-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                        <h2>동아리 임원</h2>
+                        <table th:if="${chairManList != null}" class="todo-table">
+                            <tr th:each="chairMan: ${chairManList}">
+                                <td>•</td>
+                                <td th:text="${chairMan.detailPosition}"></td>
+                                <td th:text="${chairMan.realName}"></td>
+                                <td th:text="${chairMan.phoneNumber}"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class="clubInfo-box">
-                    <div id="clubMoney-list">
-                        <div id="clubMoney-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                            <h2>동아리 회비</h2>
-                            <div class="zt-skill-bar">
-                                <div th:data-width="${feePercent}" th:text="${feePercent}+'%'"></div>
-                            </div>
-                            <span th:text="'총 입금액 : '+${totalDepositAmount}+'원'"></span><br>
-                            <span th:text="'총 사용액 : '+${totalSpentAmount}+'원'"></span>
+            </div>
+            <div class="clubInfo-box">
+                <div id="clubMoney-list">
+                    <div id="clubMoney-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                        <h2>동아리 회비</h2>
+                        <div class="zt-skill-bar">
+                            <div th:data-width="${feePercent}" th:text="${feePercent}+'%'"></div>
                         </div>
+                        <span th:text="'총 입금액 : '+${totalDepositAmount}+'원'"></span><br>
+                        <span th:text="'총 사용액 : '+${totalSpentAmount}+'원'"></span>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div id="right-bottom-container">
             <div id="extraInfo-container">
@@ -168,17 +187,7 @@
                     <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
                 </div>
 
-                <div class="notice-box">
-                    <h2>공지사항</h2>
-                    <table th:if="${noticeList != null}" class="todo-table">
-                        <tr th:each="notice: ${noticeList}">
-                            <td>•</td>
-                            <td><a th:href="@{|/board/${notice.id}|}"
-                                   th:text="${notice.boardTitle}"></a></td>
-                            <td th:text="*{#temporals.format(notice.boardCreatedTime, 'yy.MM.dd')}"></td>
-                        </tr>
-                    </table>
-                </div>
+
             </div>
             <div id="extraInfo-container2">
                 <div class="some-box">

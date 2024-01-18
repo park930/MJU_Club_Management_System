@@ -68,7 +68,8 @@ h2 {
 
 /***********************************************/
 
-#right-top-container, #right-bottom-container, #todo-container, #extraInfo-container, #clubInfo-container{
+#right-top-container,#right-middle-container, #right-bottom-container,
+#todo-container, #extraInfo-container, #clubInfo-container, #admin-container{
     display: flex;
     justify-content: center;
     align-items: flex-start;
