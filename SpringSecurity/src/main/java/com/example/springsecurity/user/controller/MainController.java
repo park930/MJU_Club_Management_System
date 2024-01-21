@@ -122,6 +122,7 @@ public class MainController {
         model.addAttribute("chairManList", chairManList);
         model.addAttribute("favoriteBoardDTOList", favoriteBoardDTOList);
         model.addAttribute("myTodoList", todoPersonalDTO.getMyTodoDTOList());
+
         model.addAttribute("receiveTodoList", todoPersonalDTO.getReceviedIncompleteList());
         model.addAttribute("clubScore", clubScore);
 

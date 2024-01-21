@@ -89,27 +89,21 @@
 
         <div id="right-top-container">
             <div class="admin-box">
-                <div id="admin-chairman-items">
-                    <h2>동연회 임원</h2>
-                </div>
+                <h2>동연회 임원</h2>
             </div>
 
             <div class="admin-box">
-                <div id="receive-todo-list">
-                    <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>동연회 요청</h2>
-                        <span th:if="${receiveTodoList == null}">등록된 요청이 없습니다.</span>
-                        <table th:if="${receiveTodoList != null}" class="todo-table">
-                            <tr th:each="todo: ${receiveTodoList}">
-                                <td>•</td>
-                                <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
-                                       th:text="${todo.title}"></a></td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                            </tr>
-                        </table>
-                    </div>
-
+                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                    <h2>동연회 요청</h2>
+                    <h3 th:if="${#lists.isEmpty(receiveTodoList)}">등록된 요청이 없습니다</h3>
+                    <table th:if="${receiveTodoList != null}" class="todo-table">
+                        <tr th:each="todo: ${receiveTodoList}">
+                            <td>•</td>
+                            <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
+                                   th:text="${todo.title}"></a></td>
+                            <td th:text="*{#temporals.format(todo.endTime, 'MM월dd일까지')}"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -133,7 +127,7 @@
                 <div id="my-todo-list">
                     <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
                         <h2>나의 일정</h2>
-                        <span th:if="${myTodoList == null}">등록된 일정이 없습니다.</span>
+                        <h3 th:if="${#lists.isEmpty(myTodoList)}">등록된 일정이 없습니다</h3>
                         <table th:if="${myTodoList != null}" class="todo-table">
                             <tr th:each="todo: ${myTodoList}">
                                 <td>•</td>
@@ -194,6 +188,7 @@
                         <td>답변여부(미완성)</td>
                     </tr>
                 </table>
+                <h3 th:unless="${myQnaList != null}">나의 QnA가 없습니다.</h3>
             </div>
 
             <div class="some-box">
@@ -205,6 +200,7 @@
                         <td th:text="${rentalDTO.location}"></td>
                     </tr>
                 </table>
+                <h4 th:unless="${myRentalList != null}">대여 중인 물품이 없습니다.</h4>
             </div>
 
         </div>
