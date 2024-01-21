@@ -45,7 +45,7 @@
         <td th:text="${board.boardHits}"></td>
     </tr>
 </table>
-<div id="page-link">
+<div id="page-link" th:if="${boardList.totalPages != 0}">
     <!-- 첫번째 페이지로 이동 -->
     <!-- /board/paging?page=1 -->
     <a th:href="@{/board/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>

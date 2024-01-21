@@ -39,19 +39,15 @@ public class QnaController {
         if (searchKeyWord == null || searchKeyWord.isEmpty()) {
             qnaList = qnaService.paging(pageable);
         } else {
-
+            qnaList = qnaService.searchPaging(pageable,searchKeyWord);
         }
         int blockLimit = 4;
         int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit)))-1) * blockLimit + 1;   // 1,5,9,13...
         int endPage = ((startPage+blockLimit-1) < qnaList.getTotalPages())? startPage+blockLimit-1: qnaList.getTotalPages();
-//        List<QnaDTO> qnaDTOList = qnaService.findAll();
-//        model.addAttribute("qnaList",qnaDTOList);
+        System.out.println("qnaList = " + qnaList);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
         model.addAttribute("qnaList",qnaList);
-        System.out.println("endPage = " + endPage);
-        System.out.println("startPage = " + startPage);
-        System.out.println("qnaList = " + qnaList);
         return "qnaMain";
     }
 

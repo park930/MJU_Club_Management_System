@@ -11,4 +11,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
+    Page<QnaEntity> findByBoardTitleContaining(String keyWord, Pageable pageable);
 }

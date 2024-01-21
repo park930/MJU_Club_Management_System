@@ -98,7 +98,6 @@ public class BoardService {
         int page = pageable.getPageNumber()-1;
         int pageLimit = 3;      //한페이지에 몇개씩 볼건지
         Page<BoardEntity> boardEntities = boardRepository.findByBoardTitleContaining(searchKeyWord,PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"id")));
-        System.out.println("찾은 것들 = " + boardEntities);
         Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getType(),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
         return boardDTOS;
     }

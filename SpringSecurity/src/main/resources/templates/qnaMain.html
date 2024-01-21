@@ -23,7 +23,7 @@
 
 
 
-<form th:action="@{/board/paging}" method="get">
+<form th:action="@{/qna/paging}" method="get">
     <input type="text" name="searchKeyWord">
     <button type="submit">검색</button>
 </form>
@@ -46,7 +46,7 @@
     </tr>
 </table>
 
-<div id="page-link">
+<div id="page-link" th:if="${qnaList.totalPages != 0}">
     <!-- 첫번째 페이지로 이동 -->
     <!-- /board/paging?page=1 -->
     <a th:href="@{/qna/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>

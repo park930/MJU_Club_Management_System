@@ -56,7 +56,16 @@ public class QnaService {
         int pageLimit = 4;
         // page(현재 페이지), pageLimit, sort, sort의 기준
         Page<QnaEntity> qnaEntityList = qnaRepository.findAll(PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
-        Page<QnaDTO> qnaDTOS = qnaEntityList.map(qna -> new QnaDTO(qna.getId(),qna.getBoardTitle(),qna.getBoardWriter(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime()) ) ;
+        Page<QnaDTO> qnaDTOS = qnaEntityList.map(qna -> new QnaDTO(qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime()) ) ;
         return qnaDTOS;
     }
+
+    public Page<QnaDTO> searchPaging(Pageable pageable,String searchKeyWord) {
+        int pageLimit = 4;
+        int page = pageable.getPageNumber()-1;
+        Page<QnaEntity> qnaEntities = qnaRepository.findByBoardTitleContaining(searchKeyWord,PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+        Page<QnaDTO> qnaDTOS = qnaEntities.map(qna -> new QnaDTO( qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime() ));
+        return qnaDTOS;
+    }
+
 }
