@@ -187,11 +187,24 @@
 
             <div class="QnA-box">
                 <h2>나의 Q&A</h2>
-
+                <table th:if="${myQnaList != null}" class="todo-table">
+                    <tr th:each="qnaDTO: ${myQnaList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/qna/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>
+                        <td>답변여부(미완성)</td>
+                    </tr>
+                </table>
             </div>
 
             <div class="some-box">
-                <h2>미완성</h2>
+                <h2>대여 물품</h2>
+                <table th:if="${myRentalList != null}" class="todo-table">
+                    <tr th:each="rentalDTO: ${myRentalList}">
+                        <td>•</td>
+                        <td th:text="${rentalDTO.name}"></td>
+                        <td th:text="${rentalDTO.location}"></td>
+                    </tr>
+                </table>
             </div>
 
         </div>

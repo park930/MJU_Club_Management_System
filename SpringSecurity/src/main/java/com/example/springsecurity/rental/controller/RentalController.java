@@ -47,6 +47,7 @@ public class RentalController {
         RentalDTO rentalDTO = rentalService.findById(id);
         List<RenterDTO> renterDTOList = rentalRenterService.findAllByRenterList(rentalDTO);
         model.addAttribute("renterList",renterDTOList);
+        model.addAttribute("rentalDTO",rentalDTO);
         return "rentalDetail";
     }
 

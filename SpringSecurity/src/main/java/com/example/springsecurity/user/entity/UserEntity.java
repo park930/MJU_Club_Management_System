@@ -6,6 +6,7 @@ import com.example.springsecurity.board.entity.HeartEntity;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.qna.entity.QnaEntity;
+import com.example.springsecurity.rental.entity.RenterEntity;
 import com.example.springsecurity.user.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -56,6 +57,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<QnaEntity> qnaEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<RenterEntity> renterEntityList = new ArrayList<>();
 
     public static UserEntity toNewUserEntity(UserDTO userDTO, ClubEntity clubEntity) {
         UserEntity userEntity = new UserEntity();

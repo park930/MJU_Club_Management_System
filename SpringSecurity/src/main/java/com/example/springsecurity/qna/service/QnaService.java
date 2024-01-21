@@ -68,4 +68,19 @@ public class QnaService {
         return qnaDTOS;
     }
 
+    public List<QnaDTO> findAllByUserName(String userName) {
+        List<QnaDTO> qnaDTOList = new ArrayList<>();
+
+        UserEntity userEntity = userRepository.findByUsername(userName);
+        List<QnaEntity> qnaEntityList = qnaRepository.findAllByUserEntityOrderByCreatedTimeDesc(userEntity);
+        for(QnaEntity qnaEntity : qnaEntityList){
+            qnaDTOList.add(QnaDTO.toQnaDTO(qnaEntity));
+        }
+
+        if (qnaDTOList.isEmpty()) {
+            return null;
+        } else {
+            return qnaDTOList;
+        }
+    }
 }

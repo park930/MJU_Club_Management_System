@@ -7,23 +7,28 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
+
+카테고리: <h4 th:text="${rentalDTO.type}"></h4>
+물품명: <h4 th:text="${rentalDTO.name}"></h4>
+잔여 수량: <h4 th:text="${rentalDTO.remain}"></h4>
+대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
+
 <table>
     <tr>
-        <th>신청일자</th>
-        <th>학과</th>
         <th>학번</th>
         <th>성명</th>
-        <th>대여기간</th>
         <th>전화번호</th>
+        <th>대여 시작일</th>
+        <th>대여 마감일</th>
+        <th>대여 현황</th>
     </tr>
     <tr th:each="renter: ${renterList}">
-        <td th:text="*{#temporals.format(renter.offerDate, 'yy-MM-dd HH:mm')}"></td>
-        <td th:text="${renter.department}"></td>
-        <td th:text="${renter.studentNumber}"></td>
-        <td th:text="${renter.name}"></td>
-        <td th:text="*{#temporals.format(renter.duration, 'yy-MM-dd HH:mm')}"></td>
-        <td th:text="${renter.phone}"></td>
-<!--        <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>-->
+        <td th:text="${renter.userDTO.username}"></td>
+        <td th:text="${renter.userDTO.realName}"></td>
+        <td th:text="${renter.userDTO.phoneNumber}"></td>
+        <td th:text="*{#temporals.format(renter.startDate, 'yy-MM-dd HH:mm')}"></td>
+        <td th:text="*{#temporals.format(renter.endDate, 'yy-MM-dd HH:mm')}"></td>
+        <td th:text="${renter.isRent}"></td>
     </tr>
 </table>
 

@@ -12,6 +12,14 @@ import com.example.springsecurity.club.dto.ClubFeeDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubFeeService;
 import com.example.springsecurity.club.service.ClubService;
+import com.example.springsecurity.qna.dto.QnaDTO;
+import com.example.springsecurity.qna.service.QnaService;
+import com.example.springsecurity.rental.dto.RentalDTO;
+import com.example.springsecurity.rental.dto.RentalRenterDTO;
+import com.example.springsecurity.rental.dto.RenterDTO;
+import com.example.springsecurity.rental.entity.RentalRenterEntity;
+import com.example.springsecurity.rental.service.RentalService;
+import com.example.springsecurity.rental.service.RenterService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
 import com.example.springsecurity.score.dto.ScoreClubDTO;
@@ -44,6 +52,8 @@ public class MainController {
     private final ScoreService scoreService;
     private final FavoriteService favoriteService;
     private final BoardService boardService;
+    private final RenterService renterService;
+    private final QnaService qnaService;
     private final ClubFeeService clubFeeService;
     private final HeartService heartService;
 
@@ -56,15 +66,12 @@ public class MainController {
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        TodoPersonalDTO todoPersonalDTO;
+        TodoPersonalDTO todoPersonalDTO = null;
 
-
-        List<ScoreClubDTO> scoreClubDTOList = scoreClubService.findAll();
-        List<ScoreDTO> scoreDTOList = scoreService.findAll();
         List<BoardDTO> boardNoticeList = boardService.findNotice();
 
         List<ClubDTO> clubDTOList = clubService.findAll();
-        List<ScoreDTO> updateScoreList = scoreService.getScoreInfo(scoreClubDTOList,scoreDTOList,clubDTOList);
+        List<ScoreDTO> updateScoreList = scoreService.getScoreInfo(scoreClubService.findAll(),scoreService.findAll(),clubDTOList);
         List<Integer> totalScoreList = scoreService.getTotalScore(updateScoreList);
         List<String> headText = scoreService.setHeadText(updateScoreList);
 
@@ -74,45 +81,50 @@ public class MainController {
         int clubScore = 0;
         double percentScore = 0.0;
 
-        if (!id.equals("anonymousUser")){
-            //받은 일정 리스트를 가져와야함
-            CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-            clubId = customUserDetails.getClubId();
-            ClubDTO clubDTO = clubService.findById(clubId);
-            List<UserDTO> chairManList = clubService.findChairManList(clubDTO);
-            todoPersonalDTO = todoService.getFilteredTodoList(clubDTO,id);
-            UserDTO userDTO = customUserDetails.getUserDTO();
-            List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(userDTO, clubDTO);
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        clubId = customUserDetails.getClubId();
+        ClubDTO clubDTO = clubService.findById(clubId);
+        List<UserDTO> chairManList = clubService.findChairManList(clubDTO);
+        todoPersonalDTO = todoService.getFilteredTodoList(clubDTO, id);
+        UserDTO userDTO = customUserDetails.getUserDTO();
+        List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(userDTO, clubDTO);
 
-            clubScore = scoreService.getMyClubScore(clubRatingDTO,clubDTO);
-            percentScore = clubScore/80.0 * 100;
+        clubScore = scoreService.getMyClubScore(clubRatingDTO, clubDTO);
+        percentScore = clubScore / 80.0 * 100;
 
-            List<ClubFeeDTO> clubFeeList = clubFeeService.findAllByClubDTO(clubDTO);
-            if (clubFeeList.isEmpty()){
-                model.addAttribute("totalDepositAmount",0);
-                model.addAttribute("totalSpentAmount",0);
-                model.addAttribute("feePercent",0);
-            } else {
-                ClubFeeDTO lastClubFee = clubFeeList.get(0);
-                double feePercent =  (lastClubFee.getTotalMinusFee()) / (1.0*(lastClubFee.getTotalPlusFee())) * 100;
-                model.addAttribute("totalDepositAmount",lastClubFee.getTotalPlusFee());
-                model.addAttribute("totalSpentAmount",lastClubFee.getTotalMinusFee());
-                model.addAttribute("feePercent",feePercent);
-            }
-
-            List<BoardDTO> heartBoardList = heartService.findAllByUserId(userDTO.getId());
-
-            model.addAttribute("heartBoardList",heartBoardList);
-            model.addAttribute("clubId",clubId);
-            model.addAttribute("clubDTO",clubDTO);
-            model.addAttribute("chairManList",chairManList);
-
-            model.addAttribute("chairManList",chairManList);
-            model.addAttribute("favoriteBoardDTOList",favoriteBoardDTOList);
-            model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
-            model.addAttribute("receiveTodoList",todoPersonalDTO.getReceviedIncompleteList());
-            model.addAttribute("clubScore",clubScore);
+        List<ClubFeeDTO> clubFeeList = clubFeeService.findAllByClubDTO(clubDTO);
+        if (clubFeeList.isEmpty()) {
+            model.addAttribute("totalDepositAmount", 0);
+            model.addAttribute("totalSpentAmount", 0);
+            model.addAttribute("feePercent", 0);
+        } else {
+            ClubFeeDTO lastClubFee = clubFeeList.get(0);
+            double feePercent = (lastClubFee.getTotalMinusFee()) / (1.0 * (lastClubFee.getTotalPlusFee())) * 100;
+            model.addAttribute("totalDepositAmount", lastClubFee.getTotalPlusFee());
+            model.addAttribute("totalSpentAmount", lastClubFee.getTotalMinusFee());
+            model.addAttribute("feePercent", feePercent);
         }
+
+        List<BoardDTO> heartBoardList = heartService.findAllByUserId(userDTO.getId());
+        List<RentalDTO> myRentalDTOList = renterService.findAllByUserName(id);
+        List<QnaDTO> myQnaList = qnaService.findAllByUserName(id);
+
+
+        System.out.println("myRentalDTOList = " + myRentalDTOList);
+        System.out.println("myRentalDTOList = " + myRentalDTOList);
+        model.addAttribute("myQnaList", myQnaList);
+        model.addAttribute("heartBoardList", heartBoardList);
+        model.addAttribute("myRentalList", myRentalDTOList);
+        model.addAttribute("clubId", clubId);
+        model.addAttribute("clubDTO", clubDTO);
+        model.addAttribute("chairManList", chairManList);
+
+        model.addAttribute("chairManList", chairManList);
+        model.addAttribute("favoriteBoardDTOList", favoriteBoardDTOList);
+        model.addAttribute("myTodoList", todoPersonalDTO.getMyTodoDTOList());
+        model.addAttribute("receiveTodoList", todoPersonalDTO.getReceviedIncompleteList());
+        model.addAttribute("clubScore", clubScore);
+
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();

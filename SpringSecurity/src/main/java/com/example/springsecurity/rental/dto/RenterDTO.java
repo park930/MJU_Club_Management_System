@@ -1,6 +1,7 @@
 package com.example.springsecurity.rental.dto;
 
 import com.example.springsecurity.rental.entity.RenterEntity;
+import com.example.springsecurity.user.dto.UserDTO;
 import jakarta.persistence.Column;
 import lombok.*;
 
@@ -15,22 +16,20 @@ import java.time.LocalDateTime;
 public class RenterDTO {
 
     private Long id;
-    private Long studentNumber;
-    private String department;
-    private String name;
-    private String phone;
-    private LocalDateTime duration;
-    private LocalDateTime offerDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String userName;
+
+    //특정 메서드에만 적용됨
+    private UserDTO userDTO;
+    private String isRent;
 
     public static RenterDTO toRenterDTO(RenterEntity renterEntity) {
         RenterDTO renterDTO = new RenterDTO();
         renterDTO.setId(renterEntity.getId());
-        renterDTO.setStudentNumber(renterEntity.getStudentNumber());
-        renterDTO.setDepartment(renterEntity.getDepartment());
-        renterDTO.setName(renterEntity.getName());
-        renterDTO.setPhone(renterEntity.getPhone());
-        renterDTO.setDuration(renterEntity.getDuration());
-        renterDTO.setOfferDate(renterEntity.getCreatedTime());
+        renterDTO.setStartDate(renterEntity.getStartDate());
+        renterDTO.setEndDate(renterEntity.getEndDate());
+        renterDTO.setUserName(UserDTO.toUserDTO(renterEntity.getUserEntity()).getUsername());
         return renterDTO;
     }
 }

@@ -6,11 +6,16 @@
 
 .rental-item {
     margin-bottom: 20px;
+    margin-top: 20px;
     box-sizing: border-box;
     text-align: center;
+    border: 2px solid #d4d4d4;
+    border-radius: 10px;
+    background-color: whitesmoke;
 }
 
 img {
+    margin-top : 10px;
     max-width: 100%;
     height: auto;
     margin-bottom: 10px;

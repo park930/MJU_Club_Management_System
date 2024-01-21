@@ -12,14 +12,27 @@
 대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
 
 <form th:action="@{'/rental/offer/' + ${rentalDTO.id}}" method="post" enctype="multipart/form-data">
-    학번 : <input type="text" name="studentNumber"> <br>
-    학과 : <input type="text" name="department"> <br>
-    대여자 명: <input type="text" name="name"> <br>
-    전화 번호 : <input type="text" name="phone"> <br>
-    대여 기간 : <input type="datetime-local" name="duration"> <br>
+    <input type="text" name="userName" th:value="${userName}" hidden> <br>
+    대여 기간 : <input type="datetime-local" name="startDate" id="startDate" readonly> ~ <input type="datetime-local" name="endDate"><br>
     <input type="submit" value="신청하기">
 </form>
 
+<script>
+    // 현재 시간을 가져오는 함수
+    function getCurrentDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
+        return dateTimeString;
+    }
 
+    // input 요소에 현재 시간을 설정
+    const startDateInput = document.getElementById('startDate');
+    startDateInput.value = getCurrentDateTime();
+</script>
 </body>
 </html>
