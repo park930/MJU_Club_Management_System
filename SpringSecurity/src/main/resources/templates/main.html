@@ -259,7 +259,7 @@
     }
 
     const chart1 = document.querySelector('.chart1');
-    const clubScore = [[${clubScore}]];
+    const percentScore = [[${percentScore}]];
 
     const makeChart = (percent,classname,color) => {
         let i=1;
@@ -277,7 +277,7 @@
         classname.style.background = "conic-gradient(" + color + " 0% " + i + "%, transparent " + i + "% 10%, #dedede 50% 100%)";
     }
 
-    makeChart(clubScore, chart1, '#374864');
+    makeChart(percentScore, chart1, '#374864');
 
 
     document.addEventListener('DOMContentLoaded', function () {
