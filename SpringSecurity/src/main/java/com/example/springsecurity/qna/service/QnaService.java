@@ -49,4 +49,14 @@ public class QnaService {
             return null;
         }
     }
+
+    public Page<QnaDTO> paging(Pageable pageable) {
+
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 4;
+        // page(현재 페이지), pageLimit, sort, sort의 기준
+        Page<QnaEntity> qnaEntityList = qnaRepository.findAll(PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+        Page<QnaDTO> qnaDTOS = qnaEntityList.map(qna -> new QnaDTO(qna.getId(),qna.getBoardTitle(),qna.getBoardWriter(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime()) ) ;
+        return qnaDTOS;
+    }
 }

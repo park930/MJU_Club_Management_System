@@ -32,7 +32,6 @@
     <tr>
         <th>작성자</th>
         <th>제목</th>
-        <th>내용</th>
         <th>등록일</th>
     </tr>
     <tr th:each="qna: ${qnaList}">
@@ -43,54 +42,39 @@
         <td th:unless="${qna.secret==0}">
             <a th:href="@{|/qna/${qna.id}|}">비밀글 입니다.</a>
         </td>
-        <td th:text="${qna.boardContents}" th:if="${qna.secret==0}"></td>
-        <td th:if="${qna.secret==1}"> </td>
         <td th:text="*{#temporals.format(qna.createdTime, 'yy.MM.dd HH:mm')}"></td>
     </tr>
 </table>
 
+<div id="page-link">
+    <!-- 첫번째 페이지로 이동 -->
+    <!-- /board/paging?page=1 -->
+    <a th:href="@{/qna/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>
+    <!-- 이전 링크 활성화 비활성화 -->
+    <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
+    <a th:href="${qnaList.first} ? '#' : @{/qna/paging(page=${qnaList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>
+
+    <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+    for(int page=startPage; page<=endPage; page++)-->
+    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+        <!-- 현재페이지는 링크 없이 숫자만 -->
+        <span th:if="${page == qnaList.number + 1}" th:text="${page}"></span>
+        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+        <span th:unless="${page == qnaList.number + 1}">
+            <a th:href="@{/qna/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="${page}"></a>
+        </span>
+    </span>
+
+    <!-- 다음 링크 활성화 비활성화
+        사용자: 2페이지, getNumber: 1, 3페이지-->
+    <a th:href="${qnaList.last} ? '#' : @{/qna/paging(page=${qnaList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>
+    <!-- 마지막 페이지로 이동 -->
+    <a th:href="@{/qna/paging(page=${qnaList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>
+</div>
+
+
 <hr>
-<!--<table>-->
-<!--    <tr>-->
-<!--        <th>종류</th>-->
-<!--        <th>제목</th>-->
-<!--        <th>작성자</th>-->
-<!--        <th>작성일</th>-->
-<!--        <th>조회수</th>-->
-<!--    </tr>-->
-<!--    <tr th:each="board: ${boardList}">-->
-<!--        <td th:text="${board.type}"></td>-->
-<!--        <td><a th:href="@{|/board/${board.id}|(page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>-->
-<!--        <td th:text="${board.boardWriter}"></td>-->
-<!--        <td th:text="*{#temporals.format(board.boardCreatedTime, 'yy.MM.dd HH:mm')}"></td>-->
-<!--        <td th:text="${board.boardHits}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
-<!--<div id="page-link">-->
-<!--    &lt;!&ndash; 첫번째 페이지로 이동 &ndash;&gt;-->
-<!--    &lt;!&ndash; /board/paging?page=1 &ndash;&gt;-->
-<!--    <a th:href="@{/board/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>-->
-<!--    &lt;!&ndash; 이전 링크 활성화 비활성화 &ndash;&gt;-->
-<!--    &lt;!&ndash; boardList.getNumber() 사용자:2페이지 getNumber()=1 &ndash;&gt;-->
-<!--    <a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>-->
 
-<!--    &lt;!&ndash; 페이지 번호 링크(현재 페이지는 숫자만)-->
-<!--            for(int page=startPage; page<=endPage; page++)&ndash;&gt;-->
-<!--    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
-<!--    &lt;!&ndash; 현재페이지는 링크 없이 숫자만 &ndash;&gt;-->
-<!--    <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>-->
-<!--        &lt;!&ndash; 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 &ndash;&gt;-->
-<!--    <span th:unless="${page == boardList.number + 1}">-->
-<!--        <a th:href="@{/board/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="${page}"></a>-->
-<!--    </span>-->
-<!--    </span>-->
-
-<!--    &lt;!&ndash; 다음 링크 활성화 비활성화-->
-<!--        사용자: 2페이지, getNumber: 1, 3페이지&ndash;&gt;-->
-<!--    <a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>-->
-<!--    &lt;!&ndash; 마지막 페이지로 이동 &ndash;&gt;-->
-<!--    <a th:href="@{/board/paging(page=${boardList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>-->
-<!--</div>-->
 <br>
 <button onclick="saveReq()">글작성</button>
 </body>

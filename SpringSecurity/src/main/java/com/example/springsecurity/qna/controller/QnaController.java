@@ -13,9 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +30,28 @@ import java.util.List;
 @RequestMapping("/qna")
 public class QnaController {
     private final QnaService qnaService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/")
-    public String qnaMainP(Model model){
-        List<QnaDTO> qnaDTOList = qnaService.findAll();
-        model.addAttribute("qnaList",qnaDTOList);
+    @GetMapping("/paging")
+    public String qnaMainP(@PageableDefault(page=1) Pageable pageable,String searchKeyWord ,Model model){
+
+        Page<QnaDTO> qnaList = null;
+        if (searchKeyWord == null || searchKeyWord.isEmpty()) {
+            qnaList = qnaService.paging(pageable);
+        } else {
+
+        }
+        int blockLimit = 4;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit)))-1) * blockLimit + 1;   // 1,5,9,13...
+        int endPage = ((startPage+blockLimit-1) < qnaList.getTotalPages())? startPage+blockLimit-1: qnaList.getTotalPages();
+//        List<QnaDTO> qnaDTOList = qnaService.findAll();
+//        model.addAttribute("qnaList",qnaDTOList);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("qnaList",qnaList);
+        System.out.println("endPage = " + endPage);
+        System.out.println("startPage = " + startPage);
+        System.out.println("qnaList = " + qnaList);
         return "qnaMain";
     }
 
@@ -50,7 +70,7 @@ public class QnaController {
     public String saveProc(@ModelAttribute QnaDTO qnaDTO){
         System.out.println("qnaDTO = " + qnaDTO);
         qnaService.save(qnaDTO);
-        return "redirect:/qna/";
+        return "redirect:/qna/paging";
     }
 
     @GetMapping("/{qnaId}")
@@ -58,7 +78,25 @@ public class QnaController {
         QnaDTO qnaDTO = qnaService.findById(qnaId);
         System.out.println("qnaDTO = " + qnaDTO);
         model.addAttribute("qnaDTO",qnaDTO);
+        if (qnaDTO.getSecret()==1){
+            model.addAttribute("qnaId",qnaId);
+            return "checkQnaSecret";
+        }
         return "qnaDetail";
+    }
+
+    @PostMapping("/checkSecret")
+    public ResponseEntity checkSecret(@RequestParam String password, @RequestParam Long qnaId){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        if (bCryptPasswordEncoder.matches(password,customUserDetails.getUserDTO().getPassword())){
+            QnaDTO qnaDTO = qnaService.findById(qnaId);
+            return new ResponseEntity<>(qnaDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("해당 QnA는 존재하지 않습니다.",HttpStatus.NOT_FOUND);
+        }
     }
 
 }
