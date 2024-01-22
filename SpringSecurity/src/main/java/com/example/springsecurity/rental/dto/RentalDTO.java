@@ -3,6 +3,8 @@ package com.example.springsecurity.rental.dto;
 import com.example.springsecurity.rental.entity.RentalEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -15,6 +17,9 @@ public class RentalDTO {
     private int totalCount;
     private String location;
     private int remain;
+
+    //일부 상황에서만 사용
+    private LocalDateTime endDate;
 
     public static RentalDTO toRentalDTO(RentalEntity rentalEntity) {
         RentalDTO rentalDTO = new RentalDTO();

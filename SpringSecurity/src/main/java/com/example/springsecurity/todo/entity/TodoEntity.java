@@ -1,9 +1,6 @@
 package com.example.springsecurity.todo.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
-import com.example.springsecurity.board.entity.BoardEntity;
-import com.example.springsecurity.club.entity.ClubEntity;
-import com.example.springsecurity.rental.entity.RentalRenterEntity;
 import com.example.springsecurity.todo.dto.TodoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -29,6 +29,8 @@
         <td th:text="*{#temporals.format(renter.startDate, 'yy-MM-dd HH:mm')}"></td>
         <td th:text="*{#temporals.format(renter.endDate, 'yy-MM-dd HH:mm')}"></td>
         <td th:text="${renter.isRent}"></td>
+        <td><a th:href="@{|/rental/offer/update/${renter.id}/${rentalDTO.id}|}">수정</a></td>
+        <td><a th:href="@{|/rental/offer/delete/${renter.id}/${rentalDTO.id}|}">삭제</a></td>
     </tr>
 </table>
 

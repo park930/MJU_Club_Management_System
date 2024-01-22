@@ -198,6 +198,7 @@
                         <td>•</td>
                         <td th:text="${rentalDTO.name}"></td>
                         <td th:text="${rentalDTO.location}"></td>
+                        <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>
                     </tr>
                 </table>
                 <h4 th:unless="${myRentalList != null}">대여 중인 물품이 없습니다.</h4>

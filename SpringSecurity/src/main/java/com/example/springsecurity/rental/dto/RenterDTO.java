@@ -19,6 +19,7 @@ public class RenterDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String userName;
+    private Long rentalId;
 
     //특정 메서드에만 적용됨
     private UserDTO userDTO;
@@ -29,7 +30,7 @@ public class RenterDTO {
         renterDTO.setId(renterEntity.getId());
         renterDTO.setStartDate(renterEntity.getStartDate());
         renterDTO.setEndDate(renterEntity.getEndDate());
-        renterDTO.setUserName(UserDTO.toUserDTO(renterEntity.getUserEntity()).getUsername());
+        renterDTO.setUserDTO(UserDTO.toUserDTO(renterEntity.getUserEntity()));
         return renterDTO;
     }
 }

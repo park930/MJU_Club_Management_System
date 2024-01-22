@@ -3,33 +3,25 @@ package com.example.springsecurity.user.controller;
 
 import com.example.springsecurity.board.dto.BoardDTO;
 import com.example.springsecurity.board.dto.FavoriteBoardDTO;
-import com.example.springsecurity.board.dto.HeartDTO;
 import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.FavoriteService;
 import com.example.springsecurity.board.service.HeartService;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.dto.ClubFeeDTO;
-import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubFeeService;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.qna.dto.QnaDTO;
 import com.example.springsecurity.qna.service.QnaService;
 import com.example.springsecurity.rental.dto.RentalDTO;
-import com.example.springsecurity.rental.dto.RentalRenterDTO;
-import com.example.springsecurity.rental.dto.RenterDTO;
-import com.example.springsecurity.rental.entity.RentalRenterEntity;
-import com.example.springsecurity.rental.service.RentalService;
 import com.example.springsecurity.rental.service.RenterService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
-import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.service.TodoService;
 import com.example.springsecurity.user.dto.UserDTO;
-import com.example.springsecurity.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -109,9 +101,6 @@ public class MainController {
         List<RentalDTO> myRentalDTOList = renterService.findAllByUserName(id);
         List<QnaDTO> myQnaList = qnaService.findAllByUserName(id);
 
-
-        System.out.println("myRentalDTOList = " + myRentalDTOList);
-        System.out.println("myRentalDTOList = " + myRentalDTOList);
         model.addAttribute("myQnaList", myQnaList);
         model.addAttribute("heartBoardList", heartBoardList);
         model.addAttribute("myRentalList", myRentalDTOList);

@@ -1,7 +1,6 @@
 package com.example.springsecurity.rental.service;
 
 import com.example.springsecurity.rental.dto.RentalDTO;
-import com.example.springsecurity.rental.dto.RentalRenterDTO;
 import com.example.springsecurity.rental.entity.RentalEntity;
 import com.example.springsecurity.rental.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;

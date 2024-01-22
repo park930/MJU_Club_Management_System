@@ -11,8 +11,9 @@
 잔여 수량: <h4 th:text="${rentalDTO.remain}"></h4>
 대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
 
-<form th:action="@{'/rental/offer/' + ${rentalDTO.id}}" method="post" enctype="multipart/form-data">
+<form th:action="@{'/rental/offer'}" method="post" enctype="multipart/form-data">
     <input type="text" name="userName" th:value="${userName}" hidden> <br>
+    <input type="text" name="rentalId" th:value="${rentalDTO.id}" hidden> <br>
     대여 기간 : <input type="datetime-local" name="startDate" id="startDate" readonly> ~ <input type="datetime-local" name="endDate"><br>
     <input type="submit" value="신청하기">
 </form>

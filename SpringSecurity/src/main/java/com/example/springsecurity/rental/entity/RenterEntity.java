@@ -35,24 +35,30 @@ public class RenterEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "renterEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<RentalRenterEntity> rentalRenterEntityList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rental_id")
+    private RentalEntity rentalEntity;
+
+    @Column
+    private int checkRent;
 
 
-    public static RenterEntity toRenterEntity(RenterDTO renterDTO, UserEntity userEntity) {
+    public static RenterEntity toRenterEntity(RenterDTO renterDTO,RentalEntity rentalEntity, UserEntity userEntity) {
         RenterEntity renterEntity = new RenterEntity();
         renterEntity.setStartDate(renterDTO.getStartDate());
         renterEntity.setEndDate(renterDTO.getEndDate());
         renterEntity.setUserEntity(userEntity);
+        renterEntity.setRentalEntity(rentalEntity);
         return renterEntity;
     }
 
-    public static RenterEntity toUpdateRenterEntity(RenterDTO renterDTO,UserEntity userEntity) {
+    public static RenterEntity toUpdateRenterEntity(RenterDTO renterDTO,RentalEntity rentalEntity,UserEntity userEntity) {
         RenterEntity renterEntity = new RenterEntity();
         renterEntity.setId(renterDTO.getId());
         renterEntity.setStartDate(renterDTO.getStartDate());
         renterEntity.setEndDate(renterDTO.getEndDate());
         renterEntity.setUserEntity(userEntity);
+        renterEntity.setRentalEntity(rentalEntity);
         return renterEntity;
     }
 }

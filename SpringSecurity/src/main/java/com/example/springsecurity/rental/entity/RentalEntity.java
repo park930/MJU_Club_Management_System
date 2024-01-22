@@ -36,7 +36,7 @@ public class RentalEntity {
     private int remain;
 
     @OneToMany(mappedBy = "rentalEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<RentalRenterEntity> rentalRenterEntityList = new ArrayList<>();
+    private List<RenterEntity> renterEntityList = new ArrayList<>();
 
 
     public static RentalEntity toRentalEntity(RentalDTO rentalDTO) {

@@ -1,7 +1,6 @@
 package com.example.springsecurity.score.entity;
 
 import com.example.springsecurity.board.entity.BaseEntity;
-import com.example.springsecurity.rental.entity.RentalRenterEntity;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
