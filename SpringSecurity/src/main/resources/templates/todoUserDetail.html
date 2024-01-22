@@ -35,9 +35,14 @@
     <tr>
     <th>등록일</th>
     <td th:text="*{#temporals.format(todoDTO.createdTime, 'yy.MM.dd HH:mm')}"></td>
-</tr>
+    </tr>
 </table>
+
 <hr>
 
+<a th:href="@{|/todo/user/update/${todoDTO.id}|}">수정</a>
+<a th:href="@{|/todo/user/delete/${todoDTO.id}|}">삭제</a>
+
 </body>
+
 </html>

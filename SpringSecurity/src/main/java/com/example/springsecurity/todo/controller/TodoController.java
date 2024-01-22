@@ -148,6 +148,29 @@ public class TodoController
         return "todoUserDetail";
     }
 
+    @GetMapping("/user/update/{todoId}")
+    public String updateTodoP(@PathVariable Long todoId, Model model){
+        TodoDTO todoDTO = todoService.findById(todoId);
+        model.addAttribute("todoDTO",todoDTO);
+        return "todoUserUpdate";
+    }
+
+
+    @PostMapping("/user/update")
+    public String updateTodo(@ModelAttribute TodoDTO todoDTO){
+        System.out.println("todoDTO = " + todoDTO);
+        todoService.update(todoDTO);
+        return "redirect:/todo/user";
+    }
+
+    @GetMapping("/user/delete/{todoId}")
+    public String deleteUserTodo(@PathVariable Long todoId){
+        todoService.deleteById(todoId);
+        return "redirect:/todo/user";
+    }
+
+
+
 
     @GetMapping("/receivedTodo/{clubId}/{id}")
     public String receivcedTodoDetail(

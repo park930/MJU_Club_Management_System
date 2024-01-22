@@ -101,7 +101,7 @@
                     <td th:if="${todo.check}" th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:if="${todo.check}" th:text="*{#temporals.format(todo.createdTime, 'yy.MM.dd HH:mm')}"></td>
                     <td th:if="${todo.check}" th:text="${todo.check}"></td>
-                    <td th:if="${todo.check}"><a th:href="@{|/todo/admin/${todo.id}|}">상세</a></td>
+                    <td th:if="${todo.check}"><a th:href="@{|/todo/user/${todo.id}|}">상세</a></td>
                 </tr>
             </table>
         </div>

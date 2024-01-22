@@ -88,6 +88,8 @@ public class TodoService {
         List<String> remainTimeList = new ArrayList<>();
         List<LocalDateTime> submitDateList = new ArrayList<>();
 
+        myTodoList = findAllByUserWriter(userName);
+
         for(TodoClubEntity todoClubEntity : todoClubList){
             TodoEntity todoEntity = todoClubEntity.getTodoEntity();
             TodoDTO todoDTO = TodoDTO.toTodoDTO(todoEntity);
@@ -97,7 +99,7 @@ public class TodoService {
                 submitDateList.add(todoCommentEntity.getCreatedTime());
                 completeTodoList.add(todoDTO);
             } else if (todoDTO.getWriter().equals(userName)) {
-                myTodoList.add(todoDTO);
+                continue;
             } else {
 
                 LocalDateTime endTime = todoDTO.getEndTime();
@@ -220,5 +222,9 @@ public class TodoService {
 
     public void deleteById(Long id) {
         todoRepository.deleteById(id);
+    }
+
+    public void update(TodoDTO todoDTO) {
+        todoRepository.save(TodoEntity.toUpdateTodoEntity(todoDTO));
     }
 }
