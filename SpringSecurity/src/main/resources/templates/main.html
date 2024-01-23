@@ -90,6 +90,15 @@
         <div id="right-top-container">
             <div class="admin-box">
                 <h2>동연회 임원</h2>
+                <h3 th:if="${adminChairManList == null}">등록된 임원이 없습니다</h3>
+                <table th:if="${adminChairManList != null}" class="todo-table">
+                    <tr th:each="admin: ${adminChairManList}">
+                        <td>•</td>
+                        <td th:text="${admin.detailPosition}"></td>
+                        <td th:text="${admin.realName}"></td>
+                        <td th:text="${admin.phoneNumber}"></td>
+                    </tr>
+                </table>
             </div>
 
             <div class="admin-box">

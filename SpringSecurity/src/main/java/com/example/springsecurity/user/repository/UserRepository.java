@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("SELECT u.clubEntity FROM UserEntity u")
     List<ClubEntity> findAllClubEntities();
 
+    List<UserEntity> findAllByUsernameContains(String userName);
+
 }

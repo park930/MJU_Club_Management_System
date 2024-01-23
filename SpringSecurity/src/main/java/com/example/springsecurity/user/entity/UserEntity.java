@@ -85,4 +85,15 @@ public class UserEntity {
         userEntity.setClubEntity(ClubEntity.toUpdateClub(clubDTO));
         return userEntity;
     }
+
+    public static UserEntity toNewAdminEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setRealName(userDTO.getRealName());
+        userEntity.setPhoneNumber(userDTO.getPhoneNumber());
+        userEntity.setPosition(userDTO.getPosition());
+        userEntity.setDetailPosition(userDTO.getDetailPosition());
+        userEntity.setPassword(userDTO.getPassword());
+        return userEntity;
+    }
 }

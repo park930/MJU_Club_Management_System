@@ -45,6 +45,13 @@ public class JoinController {
         return "redirect:/login";
     }
 
+    @PostMapping("/joinAdminProc")
+    public String joinAdminProcess(UserDTO userDTO){
+        joinService.joinAdminProcess(userDTO);
+        return "redirect:/login";
+    }
+
+
     @PostMapping("/tempJoinProc")
     public String tempJoinProcess(UserDTO userDTO){
         joinService.joinProcess(userDTO,"normal");

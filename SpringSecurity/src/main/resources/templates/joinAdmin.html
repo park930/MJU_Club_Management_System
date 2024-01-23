@@ -10,7 +10,7 @@
 <body>
 <h1>가입페이지</h1>
 <hr>
-<form action="/joinProc" method="post" name="joinForm">
+<form action="/joinAdminProc" method="post" name="joinForm">
     <h3>관리자는 이름을 "admin"으로 시작해야함</h3>
     <input type="text" value="admin" hidden>
 
@@ -18,6 +18,13 @@
     비밀번호 : <input type="password" name="password" placeholder="Password"/>
     성명 : <input type="text" name="realName" placeholder="학번"/><br>
     전화번호 : <input type="text" name="phoneNumber" placeholder="학번"/><br>
+    직책 :
+    <select id="detailPosition" name="detailPosition">
+        <option value="회장">회장</option>
+        <option value="부회장">부회장</option>
+        <option value="국장">국장</option>
+        <option value="부원">부원</option>
+    </select>
     <input type="text" name="position" value="임원" hidden/><br>
 
     <input type="submit" value="Join"/>

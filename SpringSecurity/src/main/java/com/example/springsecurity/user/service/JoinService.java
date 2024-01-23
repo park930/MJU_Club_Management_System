@@ -25,9 +25,23 @@ public class JoinService {
     private final UserRepository userRepository;
     private final TempUserRepository tempUserRepository;
     private final ClubRepository clubRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public void joinAdminProcess(UserDTO userDTO) {
+        if (userRepository.existsByUsername(userDTO.getUsername())){
+            return;
+        }
+        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+
+        System.out.println("userDTO = " + userDTO);
+
+        UserEntity userEntity = UserEntity.toNewAdminEntity(userDTO);
+        userEntity.setRole("ROLE_ADMIN");
+        userRepository.save(userEntity);
+
+    }
+
 
     public void joinProcess(UserDTO userDTO,String type){
 
@@ -76,4 +90,6 @@ public class JoinService {
         }
         return clubList;
     }
+
+
 }

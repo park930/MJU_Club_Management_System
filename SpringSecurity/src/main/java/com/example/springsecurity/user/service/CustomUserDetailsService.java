@@ -48,6 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (optionalClubEntity.isPresent()){
             ClubEntity clubEntity = optionalClubEntity.get();
             UserEntity newUserEntity = UserEntity.toNewUserEntity(userDTO,clubEntity);
+            newUserEntity.setRole("ROLE_USER");
             userRepository.save(newUserEntity);
         }
 
@@ -83,6 +84,25 @@ public class CustomUserDetailsService implements UserDetailsService {
             return UserDTO.toUserDTO(optionalUserEntity.get());
         } else {
             return null;
+        }
+    }
+
+    public List<UserDTO> findAllAdminChairMan() {
+        List<UserEntity> userEntityList = userRepository.findAllByUsernameContains("admin");
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for(UserEntity userEntity : userEntityList){
+            UserDTO userDTO = UserDTO.toAdminUserDTO(userEntity);
+            if (userDTO.getDetailPosition().equals("회장") || userDTO.getDetailPosition().equals("부회장")) {
+                userDTOList.add(userDTO);
+            }
+        }
+
+        System.out.println("userDTOList = " + userDTOList);
+
+        if (userDTOList.isEmpty()){
+            return null;
+        } else {
+            return userDTOList;
         }
     }
 }

@@ -22,6 +22,7 @@ import com.example.springsecurity.score.service.ScoreService;
 import com.example.springsecurity.todo.dto.TodoPersonalDTO;
 import com.example.springsecurity.todo.service.TodoService;
 import com.example.springsecurity.user.dto.UserDTO;
+import com.example.springsecurity.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,6 +49,7 @@ public class MainController {
     private final QnaService qnaService;
     private final ClubFeeService clubFeeService;
     private final HeartService heartService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/")
     public String mainP(Model model){
@@ -100,6 +102,7 @@ public class MainController {
         List<BoardDTO> heartBoardList = heartService.findAllByUserId(userDTO.getId());
         List<RentalDTO> myRentalDTOList = renterService.findAllByUserName(id);
         List<QnaDTO> myQnaList = qnaService.findAllByUserName(id);
+        List<UserDTO> adminCharManList = customUserDetailsService.findAllAdminChairMan();
 
         model.addAttribute("myQnaList", myQnaList);
         model.addAttribute("heartBoardList", heartBoardList);
@@ -107,6 +110,7 @@ public class MainController {
         model.addAttribute("clubId", clubId);
         model.addAttribute("clubDTO", clubDTO);
         model.addAttribute("chairManList", chairManList);
+        model.addAttribute("adminChairManList",adminCharManList);
 
         model.addAttribute("chairManList", chairManList);
         model.addAttribute("favoriteBoardDTOList", favoriteBoardDTOList);

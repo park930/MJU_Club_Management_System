@@ -47,4 +47,17 @@ public class UserDTO {
         userDTO.setDetailPosition(tempUserDTO.getDetailPosition());
         return userDTO;
     }
+
+    public static UserDTO toAdminUserDTO(UserEntity userEntity) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userEntity.getId());
+        userDTO.setPassword(userEntity.getPassword());
+        userDTO.setUsername(userEntity.getUsername());
+        userDTO.setRealName(userEntity.getRealName());
+        userDTO.setPosition(userEntity.getPosition());
+        userDTO.setPhoneNumber(userEntity.getPhoneNumber());
+        userDTO.setRole(userEntity.getRole());
+        userDTO.setDetailPosition(userEntity.getDetailPosition());
+        return userDTO;
+    }
 }
