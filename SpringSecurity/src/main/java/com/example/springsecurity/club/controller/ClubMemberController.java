@@ -12,9 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,10 +48,19 @@ public class ClubMemberController {
         return "clubMember";
     }
 
-    @GetMapping("clubMember/manage/{clubId}/{userId}")
-    public String manageP(@PathVariable Long clubId, @PathVariable int userId, Model model){
+    @GetMapping("/manage/{userId}")
+    public String manageP(@PathVariable int userId, Model model){
         UserDTO userDTO = customUserDetailsService.findByUserId(userId);
+        UserDTO clubChairMan = customUserDetailsService.findClubChairMan(userDTO.getClubId());
         model.addAttribute("userDTO", userDTO);
+        model.addAttribute("chairMan",clubChairMan);
         return "clubMemberManage";
     }
+
+    @PostMapping("/manage/update")
+    public String updatePosition(@RequestParam int userId, @RequestParam String detailPosition, @RequestParam String position){
+        customUserDetailsService.updatePosition(userId,detailPosition,position);
+        return "redirect:/clubMember/";
+    }
+
 }

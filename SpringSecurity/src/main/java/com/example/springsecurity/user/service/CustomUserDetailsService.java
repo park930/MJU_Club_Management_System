@@ -105,4 +105,24 @@ public class CustomUserDetailsService implements UserDetailsService {
             return userDTOList;
         }
     }
+
+    public UserDTO findClubChairMan(Long clubId) {
+        Optional<ClubEntity> optionalClubEntity = clubRepository.findById(clubId);
+        if (optionalClubEntity.isPresent()){
+            UserEntity userEntity = userRepository.findByClubEntityAndDetailPosition(optionalClubEntity.get(), "회장");
+            return UserDTO.toUserDTO(userEntity);
+        } else {
+            return null;
+        }
+    }
+
+    public void updatePosition(int userId, String detailPosition,String position) {
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
+        if (optionalUserEntity.isPresent()){
+            UserEntity userEntity = optionalUserEntity.get();
+            userEntity.setDetailPosition(detailPosition);
+            userEntity.setPosition(position);
+            userRepository.save(userEntity);
+        }
+    }
 }

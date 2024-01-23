@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     List<UserEntity> findAllByUsernameContains(String userName);
 
+    UserEntity findByClubEntityAndDetailPosition(ClubEntity clubEntity, String detail);
+
 }
