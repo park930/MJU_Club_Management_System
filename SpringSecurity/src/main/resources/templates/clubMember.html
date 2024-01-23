@@ -33,7 +33,12 @@
     <td th:text="${clubUser.username}"></td>
     <td th:text="${clubUser.realName}"></td>
     <td th:text="${clubUser.phoneNumber}"></td>
-    <td th:if="${chairMan != null and chairMan.id == userId}"><a th:href="@{|/clubMember/manage/${clubUser.id}|}">관리</a></td>
+    <td th:if="${clubUser.id != userId}">
+      <span th:if="${chairMan != null and chairMan.id == userId}">
+        <a th:href="@{|/clubMember/manage/${clubUser.id}|}">관리</a>
+        <a th:href="@{|/clubMember/delete/${clubUser.id}|}">삭제</a>
+      </span>
+    </td>
   </tr>
 </table>
 

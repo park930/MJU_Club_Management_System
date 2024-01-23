@@ -63,4 +63,11 @@ public class ClubMemberController {
         return "redirect:/clubMember/";
     }
 
+    @GetMapping("/delete/{userId}")
+    public String deleteMember(@PathVariable int userId){
+        customUserDetailsService.deleteMember(userId);
+        return "redirect:/clubMember/";
+    }
+
+
 }

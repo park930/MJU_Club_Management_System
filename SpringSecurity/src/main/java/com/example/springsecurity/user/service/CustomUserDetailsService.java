@@ -125,4 +125,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             userRepository.save(userEntity);
         }
     }
+
+    public void deleteMember(int userId) {
+        userRepository.deleteById(userId);
+    }
 }

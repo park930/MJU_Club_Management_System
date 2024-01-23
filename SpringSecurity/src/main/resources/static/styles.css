@@ -226,5 +226,10 @@ span.center{
 
 a {
     text-decoration: none;
-    color: #081d7b;
+    color: #4d85b1;
+}
+
+.empty-text {
+    font-weight: bold;
+    color: #bbd7ea;
 }
