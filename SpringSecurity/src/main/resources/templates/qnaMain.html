@@ -40,7 +40,7 @@
             <a th:href="@{|/qna/${qna.id}|}" th:text="${qna.boardTitle}"></a>
         </td>
         <td th:unless="${qna.secret==0}">
-            <a th:href="@{|/qna/${qna.id}|}">비밀글 입니다.</a>
+            <a th:href="@{|/qna/check/${qna.id}|}">비밀글 입니다.</a>
         </td>
         <td th:text="*{#temporals.format(qna.createdTime, 'yy.MM.dd HH:mm')}"></td>
     </tr>

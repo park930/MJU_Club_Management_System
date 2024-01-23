@@ -5,7 +5,9 @@ import com.example.springsecurity.board.dto.CommentDTO;
 import com.example.springsecurity.board.service.BoardService;
 import com.example.springsecurity.board.service.CommentService;
 import com.example.springsecurity.board.service.HeartService;
+import com.example.springsecurity.qna.dto.QnaAnswerDTO;
 import com.example.springsecurity.qna.dto.QnaDTO;
+import com.example.springsecurity.qna.service.QnaAnswerService;
 import com.example.springsecurity.qna.service.QnaService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.user.dto.UserDTO;
@@ -30,6 +32,7 @@ import java.util.List;
 @RequestMapping("/qna")
 public class QnaController {
     private final QnaService qnaService;
+    private final QnaAnswerService qnaAnswerService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/paging")
@@ -69,29 +72,40 @@ public class QnaController {
         return "redirect:/qna/paging";
     }
 
+    @GetMapping("/check/{qnaId}")
+    public String qnaCheckPassword(@PathVariable Long qnaId, Model model){
+        model.addAttribute("qnaId",qnaId);
+        return "checkQnaSecret";
+    }
+
     @GetMapping("/{qnaId}")
     public String qnaDetail(@PathVariable Long qnaId, Model model){
         QnaDTO qnaDTO = qnaService.findById(qnaId);
-        System.out.println("qnaDTO = " + qnaDTO);
+        List<QnaAnswerDTO> qnaAnswerDTOList = qnaAnswerService.findAll(qnaId);
+        model.addAttribute("qnaAnswerList",qnaAnswerDTOList);
         model.addAttribute("qnaDTO",qnaDTO);
-        if (qnaDTO.getSecret()==1){
-            model.addAttribute("qnaId",qnaId);
-            return "checkQnaSecret";
-        }
         return "qnaDetail";
     }
 
+
+    @GetMapping("/admin/{qnaId}")
+    public String qnaAnswerAdminP(@PathVariable Long qnaId){
+
+        return "qnaAdminDetail";
+    }
+
+
+
     @PostMapping("/checkSecret")
-    public ResponseEntity checkSecret(@RequestParam String password, @RequestParam Long qnaId){
+    public String checkSecret(@RequestParam String password, @RequestParam Long qnaId){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         if (bCryptPasswordEncoder.matches(password,customUserDetails.getUserDTO().getPassword())){
-            QnaDTO qnaDTO = qnaService.findById(qnaId);
-            return new ResponseEntity<>(qnaDTO, HttpStatus.OK);
+            return "redirect:/qna/"+qnaId;
         } else {
-            return new ResponseEntity<>("해당 QnA는 존재하지 않습니다.",HttpStatus.NOT_FOUND);
+            return "redirect:/qna/";
         }
     }
 

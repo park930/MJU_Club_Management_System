@@ -23,7 +23,6 @@ public class CommentController {
 
     @PostMapping("/save")
     public ResponseEntity save(@ModelAttribute CommentDTO commentDTO){
-        System.out.println("commentDTO = " + commentDTO);
         Long saveResult = commentService.save(commentDTO);
         if (saveResult != null){
             //작성 성공 시, 댓글 목록들을 가져와서 리턴
