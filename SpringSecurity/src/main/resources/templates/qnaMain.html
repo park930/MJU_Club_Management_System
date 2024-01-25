@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/styles.css">
-    <link rel="stylesheet" type="text/css" href="/boardStyles.css">
+    <link rel="stylesheet" type="text/css" href="/qnaStyles.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <title>Title</title>
 </head>
@@ -12,62 +11,66 @@
 <div th:replace="header :: header"></div>
 
 
-<form th:action="@{/qna/paging}" method="get">
-    <input type="text" name="searchKeyWord">
-    <button type="submit">검색</button>
-</form>
+<div class="qna-container">
+    <div class="qna-header">
+        <h1>Q&A 게시판</h1>
+    </div>
+    <div class="qna-item">
+        <form th:action="@{/qna/paging}" method="get">
+            <input type="text" name="searchKeyWord">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <div class="qna-item">
+        <button onclick="saveReq()">Q&A 작성</button>
+        <table th:if="${qnaList != null}">
+            <tr>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>등록일</th>
+                <th>답변여부</th>
+            </tr>
+            <tr th:each="qna: ${qnaList}">
+                <td th:text="${qna.boardWriter}"></td>
+                <td th:if="${qna.secret==0}">
+                    <a th:href="@{|/qna/${qna.id}|}" th:text="${qna.boardTitle}"></a>
+                </td>
+                <td th:unless="${qna.secret==0}">
+                    <a th:href="@{|/qna/check/${qna.id}|}">비밀글 입니다.</a>
+                </td>
+                <td th:text="*{#temporals.format(qna.createdTime, 'yy.MM.dd HH:mm')}"></td>
+                <td th:text="${qna.answerString}"></td>
+            </tr>
+        </table>
 
-<table th:if="${qnaList != null}">
-    <tr>
-        <th>작성자</th>
-        <th>제목</th>
-        <th>등록일</th>
-        <th>답변여부</th>
-    </tr>
-    <tr th:each="qna: ${qnaList}">
-        <td th:text="${qna.boardWriter}"></td>
-        <td th:if="${qna.secret==0}">
-            <a th:href="@{|/qna/${qna.id}|}" th:text="${qna.boardTitle}"></a>
-        </td>
-        <td th:unless="${qna.secret==0}">
-            <a th:href="@{|/qna/check/${qna.id}|}">비밀글 입니다.</a>
-        </td>
-        <td th:text="*{#temporals.format(qna.createdTime, 'yy.MM.dd HH:mm')}"></td>
-        <td th:text="${qna.answerString}"></td>
-    </tr>
-</table>
+        <div id="page-link" th:if="${qnaList.totalPages != 0}">
+            <!-- 첫번째 페이지로 이동 -->
+            <!-- /board/paging?page=1 -->
+            <a th:href="@{/qna/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>
+            <!-- 이전 링크 활성화 비활성화 -->
+            <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
+            <a th:href="${qnaList.first} ? '#' : @{/qna/paging(page=${qnaList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>
 
-<div id="page-link" th:if="${qnaList.totalPages != 0}">
-    <!-- 첫번째 페이지로 이동 -->
-    <!-- /board/paging?page=1 -->
-    <a th:href="@{/qna/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>
-    <!-- 이전 링크 활성화 비활성화 -->
-    <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
-    <a th:href="${qnaList.first} ? '#' : @{/qna/paging(page=${qnaList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>
-
-    <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-    for(int page=startPage; page<=endPage; page++)-->
-    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+            <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+            for(int page=startPage; page<=endPage; page++)-->
+            <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
         <!-- 현재페이지는 링크 없이 숫자만 -->
-        <span th:if="${page == qnaList.number + 1}" th:text="${page}"></span>
-        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+        <span th:if="${page == qnaList.number + 1}" th:text="' '+${page}+' '"></span>
+                <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
         <span th:unless="${page == qnaList.number + 1}">
-            <a th:href="@{/qna/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="${page}"></a>
+            <a th:href="@{/qna/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="' '+${page}+' '"></a>
         </span>
     </span>
 
-    <!-- 다음 링크 활성화 비활성화
-        사용자: 2페이지, getNumber: 1, 3페이지-->
-    <a th:href="${qnaList.last} ? '#' : @{/qna/paging(page=${qnaList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>
-    <!-- 마지막 페이지로 이동 -->
-    <a th:href="@{/qna/paging(page=${qnaList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>
+            <!-- 다음 링크 활성화 비활성화
+                사용자: 2페이지, getNumber: 1, 3페이지-->
+            <a th:href="${qnaList.last} ? '#' : @{/qna/paging(page=${qnaList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>
+            <!-- 마지막 페이지로 이동 -->
+            <a th:href="@{/qna/paging(page=${qnaList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>
+        </div>
+    </div>
 </div>
 
-
-<hr>
-
-<br>
-<button onclick="saveReq()">글작성</button>
 </body>
 <script>
     const saveReq = () => {

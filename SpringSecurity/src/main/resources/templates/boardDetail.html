@@ -10,7 +10,15 @@
 </head>
 <body>
 
-<div th:replace="header :: header"></div>
+
+<div  th:if="${#strings.equals(userId, 'anonymousUser')}">
+    <div th:replace="header_anonymous :: header"></div>
+</div>
+
+<div  th:if="${not #strings.equals(userId, 'anonymousUser')}">
+    <div th:replace="header :: header"></div>
+</div>
+
 
 <div class="my_update_button">
     <button th:if="${board.boardWriter eq userId}" onclick="updateReq()">수정</button>

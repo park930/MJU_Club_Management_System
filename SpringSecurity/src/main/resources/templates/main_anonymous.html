@@ -11,24 +11,103 @@
     <title>메인화면</title>
 </head>
 <body>
-<div id="login-items">
-    <button onclick="join()" id="joinBtn">회원가입</button>
-    <button onclick="login()" id="loginBtn">로그인</button>
-<!--    <form action="/logout" method="get">-->
-<!--        <input type="submit" id="logout" value="로그아웃">-->
-<!--    </form>-->
-</div>
-<h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
-<nav id="main-nav">
-    <div id="menu-items">
-        <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
-        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
-        <button onclick="clubReq()" id="clubBtn">동아리 목록</button>
+
+<div th:replace="header_anonymous :: header"></div>
+
+<div id="main-container">
+    <div id="left-container">
+        <div class="login-box">
+            <h2>로그인 정보</h2>
+            <div id="login-items">
+                <button onclick="login()" id="loginBtn">로그인</button>
+                <button onclick="join()" id="joinBtn">회원가입</button>
+            </div>
+        </div>
+
+        <div class="favorite-box">
+            <div class="favorite-item">
+                <h2>즐겨찾기</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+        </div>
+
+        <div class="heart-box">
+            <div class="heart-item">
+                <h2>"좋아요" 목록</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+        </div>
     </div>
-</nav>
 
-<!-------------------------------------------------------------------------------------------------------------------->
 
+    <div id="right-container">
+        <div id="right-top-container">
+            <div class="admin-box">
+                <h2>동연회 임원</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+
+            <div class="admin-box">
+                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                    <h2>동연회 요청</h2>
+                    <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                </div>
+            </div>
+
+            <div class="admin-box">
+                <h2>공지사항</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+        </div>
+
+
+        <div id="right-middle-container">
+            <div class="todo-box">
+                <div id="my-todo-list">
+                    <div id="my-todo-items">
+                        <h2>나의 일정</h2>
+                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clubInfo-box">
+                <div id="clubMember-list">
+                    <div id="clubMember-items">
+                        <h2>동아리 임원</h2>
+                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clubInfo-box">
+                <div id="clubMoney-list">
+                    <div id="clubMoney-items">
+                        <h2>동아리 회비</h2>
+                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="right-bottom-container">
+            <div class="achievement-box">
+                <h2>지원금 기준 달성도</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+
+            <div class="QnA-box">
+                <h2>나의 Q&A</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+
+            <div class="some-box">
+                <h2>대여 중인 물품</h2>
+                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <script th:inline="javascript">

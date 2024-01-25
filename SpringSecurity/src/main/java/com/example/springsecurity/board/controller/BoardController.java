@@ -100,7 +100,7 @@ public class BoardController {
 
     @GetMapping("/paging")
     public String paging(@PageableDefault(page=1) Pageable pageable, Model model, String searchKeyWord){
-
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<BoardDTO> boardList = null;
 
         if (searchKeyWord != null){
@@ -117,6 +117,7 @@ public class BoardController {
         model.addAttribute("boardList",boardList);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
+        model.addAttribute("userId",id);
         return "boardPaging";
     }
 }

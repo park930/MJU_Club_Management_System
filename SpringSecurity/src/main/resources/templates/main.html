@@ -11,10 +11,6 @@
     <title>메인화면</title>
 </head>
 <body>
-<div id="login-items">
-    <button onclick="join()" id="joinBtn">회원가입</button>
-    <button onclick="login()" id="loginBtn">로그인</button>
-</div>
 
 <div th:replace="header :: header"></div>
 
@@ -210,13 +206,6 @@
 
     const id = [[${id}]];
 
-    const join = () => {
-        location.href="/join";
-    }
-
-    const login = () => {
-        location.href="/login";
-    }
 
 
     const chart1 = document.querySelector('.chart1');

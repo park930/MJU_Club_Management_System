@@ -9,10 +9,19 @@
 </head>
 <body>
 
-<div th:replace="header :: header"></div>
+<div  th:if="${#strings.equals(userId, 'anonymousUser')}">
+    <div th:replace="header_anonymous :: header"></div>
+</div>
+
+<div  th:if="${not #strings.equals(userId, 'anonymousUser')}">
+    <div th:replace="header :: header"></div>
+</div>
 
 
 <div class="board-container">
+    <div class="board-header">
+        <h1>자유게시판</h1>
+    </div>
     <div class="board-item">
         <form th:action="@{/board/paging}" method="get">
             <input type="text" name="searchKeyWord">

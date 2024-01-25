@@ -9,7 +9,13 @@
 <body>
 
 
-<div th:replace="header :: header"></div>
+<div  th:if="${#strings.equals(userId, 'anonymousUser')}">
+  <div th:replace="header_anonymous :: header"></div>
+</div>
+
+<div  th:if="${not #strings.equals(userId, 'anonymousUser')}">
+  <div th:replace="header :: header"></div>
+</div>
 
 
 <button onclick="clubAddReq()">동아리 추가</button>

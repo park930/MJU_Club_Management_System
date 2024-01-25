@@ -22,13 +22,13 @@ import java.util.List;
 public class ClubController
 {
     private final ClubService clubService;
-    private final TempUserService tempUserService;
-    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/")
     public String clubForm(Model model){
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ClubDTO> clubList = clubService.findAll();
         model.addAttribute("clubList",clubList);
+        model.addAttribute("userId",userId);
         return "clubManagement";
     }
 
