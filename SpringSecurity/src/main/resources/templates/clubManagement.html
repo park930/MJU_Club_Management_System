@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <link rel="stylesheet" type="text/css" href="/clubList.css">
   <link rel="stylesheet" type="text/css" href="/menuStyles.css">
   <title>list</title>
 </head>
@@ -16,26 +16,35 @@
 
 
 <hr>
-<table>
-  <tr>
-    <th>id</th>
-    <th>분과</th>
-    <th>동아리명</th>
-    <th>동아리 호실</th>
-    <th>동아리 비밀번호</th>
-  </tr>
-  <tr th:each="club: ${clubList}">
-    <td th:text="${club.id}"></td>
-    <td th:text="${club.category}"></td>
-    <td th:text="${club.clubName}"></td>
-    <td th:text="${club.clubRoom}"></td>
-    <td th:text="${club.roomPassword}"></td>
-    <td><a th:href="@{|/club/${club.id}|}">관리 </a></td>
-    <td><a th:href="@{|/club/update/${club.id}|}">수정</a></td>
-    <td><a th:href="@{|/club/delete/${club.id}|}">삭제</a></td>
-  </tr>
-</table>
+<h2>중앙 동아리 목록</h2>
 
+<div class="club-container">
+  <div class="club-item" th:each="club: ${clubList}">
+    <table>
+      <tr>
+        <th th:text="${club.category}"></th>
+      </tr>
+      <tr>
+        <td>
+          <img src="/noFile.png" alt="Rental Item Image">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h2 th:text="${club.clubName}"></h2>
+        </td>
+      </tr>
+      <tr>
+        <th th:text="${club.clubRoom}+'호실'"></th>
+      </tr>
+    </table>
+<!--    <div>-->
+<!--      <a th:href="@{|/club/${club.id}|}">관리 </a>-->
+<!--      <a th:href="@{|/club/update/${club.id}|}">수정</a>-->
+<!--      <a th:href="@{|/club/delete/${club.id}|}">삭제</a>-->
+<!--    </div>-->
+  </div>
+</div>
 
 </body>
 

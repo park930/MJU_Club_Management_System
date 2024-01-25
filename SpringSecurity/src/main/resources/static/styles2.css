@@ -126,3 +126,7 @@ tr:nth-child(even) {
     text-decoration: underline;
     font-weight: bold;
 }
+
+div#tables {
+    text-align: center;
+}
