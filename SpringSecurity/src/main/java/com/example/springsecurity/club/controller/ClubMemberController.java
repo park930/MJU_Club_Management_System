@@ -38,11 +38,13 @@ public class ClubMemberController {
         ClubDTO clubDTO = clubService.findById(clubId);
         List<UserDTO> userDTOList = customUserDetailsService.findAllByClubDTO(clubDTO);
         UserDTO chairMan = customUserDetailsService.findChairMan(userDTOList);
+        int clubRight = customUserDetailsService.getClubRight(userDTOList,userId);
 
         model.addAttribute("clubDTO",clubDTO);
         model.addAttribute("clubUserList",userDTOList);
         model.addAttribute("tempUserList",tempUserDTOList);
         model.addAttribute("chairMan",chairMan);
+        model.addAttribute("clubRight",clubRight);
         model.addAttribute("userId",userId);
 
         return "clubMember";

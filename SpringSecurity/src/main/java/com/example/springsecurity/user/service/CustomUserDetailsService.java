@@ -64,7 +64,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDTO findChairMan(List<UserDTO> userDTOList) {
-
         for(UserDTO userDTO : userDTOList){
             String position = userDTO.getDetailPosition();
             if (position == null){
@@ -128,5 +127,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public void deleteMember(int userId) {
         userRepository.deleteById(userId);
+    }
+
+
+
+    public int getClubRight(List<UserDTO> userDTOList, int userId) {
+        for(UserDTO userDTO : userDTOList){
+            if (userDTO.getPosition().equals("임원")) {
+                if (userDTO.getId() == userId){
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 }

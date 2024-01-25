@@ -20,17 +20,19 @@
         <th>학번</th>
         <th>성명</th>
         <th>전화번호</th>
+        <th th:if="${chairMan != null and chairMan.id == userId}">비고</th>
       </tr>
       <tr th:each="clubUser: ${clubUserList}">
         <td th:text="${clubUser.position}"></td>
         <td th:text="${clubUser.username}"></td>
         <td th:text="${clubUser.realName}"></td>
         <td th:text="${clubUser.phoneNumber}"></td>
-        <td th:if="${clubUser.id != userId}">
-      <span th:if="${chairMan != null and chairMan.id == userId}">
-        <a th:href="@{|/clubMember/manage/${clubUser.id}|}">관리</a>
-        <a th:href="@{|/clubMember/delete/${clubUser.id}|}">삭제</a>
-      </span>
+
+        <td th:if="${chairMan != null and chairMan.id == userId}">
+          <span th:if="${clubUser.id != userId}">
+            <a th:href="@{|/clubMember/manage/${clubUser.id}|}">관리</a>
+            <a th:href="@{|/clubMember/delete/${clubUser.id}|}">삭제</a>
+          </span>
         </td>
       </tr>
     </table>
@@ -44,8 +46,12 @@
         <th>학번</th>
         <th>성명</th>
         <th>전화번호</th>
+        <th colspan="2">관리</th>
       </tr>
-      <tr th:each="tempUser: ${tempUserList}">
+      <tr th:if="${clubRight==0}">
+        <td colspan="6"><h1>권한이 없습니다.</h1></td>
+      </tr>
+      <tr th:if="${clubRight==1}" th:each="tempUser: ${tempUserList}">
         <td th:text="${tempUser.position}"></td>
         <td th:text="${tempUser.username}"></td>
         <td th:text="${tempUser.realName}"></td>
