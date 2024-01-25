@@ -5,73 +5,75 @@
     <title>detail</title>
     <!-- jquery cdn -->
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/boardDetail.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
 
 <div th:replace="header :: header"></div>
 
-<table>
-    <tr>
-        <th>id</th>
-        <td th:text="${board.id}"></td>
-    </tr>
-    <tr>
-        <th>title</th>
-        <td th:text="${board.boardTitle}"></td>
-    </tr>
-    <tr>
-        <th>writer</th>
-        <td th:text="${board.boardWriter}"></td>
-    </tr>
-    <tr>
-        <th>date</th>
-        <td th:text="${board.boardCreatedTime}"></td>
-    </tr>
-    <tr>
-        <th>hits</th>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-    <tr>
-        <th>contents</th>
-        <td th:text="${board.boardContents}"></td>
-    </tr>
-</table>
-<button onclick="listReq()">목록</button>
-<button th:if="${userId != 'anonymousUser'}" onclick="FavortieReq()">즐겨찾기 추가</button>
-<button th:if="${userId != 'anonymousUser'}" onclick="HeartReq()">좋아요</button>
-<button th:if="${board.boardWriter eq userId}" onclick="updateReq()">수정</button>
-<button th:if="${board.boardWriter eq userId}" onclick="deleteReq()">삭제</button>
-
-<div id="heart-count">
-    <h3 th:text="'좋아요 '+${heartCount}+'개'"></h3>
+<div class="my_update_button">
+    <button th:if="${board.boardWriter eq userId}" onclick="updateReq()">수정</button>
+    <button th:if="${board.boardWriter eq userId}" onclick="deleteReq()">삭제</button>
 </div>
+
+<br>
+<div id="board-container">
+    <div class="board_view">
+        <h2 th:text="${board.boardTitle}"></h2>
+        <div class="board_writer">
+            <div class="name" th:text="${board.boardWriter}"></div>
+            <div class="date" th:text="*{#temporals.format(board.boardCreatedTime, 'YYYY-MM-dd')}"></div>
+            <div class="hit" th:text="'조회수 '+${board.boardHits}"></div>
+        </div>
+        <div class="main_boardView" th:text="${board.boardContents}">
+
+        </div>
+
+        <div id="heart-count">
+            <h3 th:text="'좋아요 '+${heartCount}+'개'"></h3>
+        </div>
+        <div class="board_click_list">
+            <button th:if="${userId != 'anonymousUser'}" onclick="HeartReq()">좋아요</button>
+            <button th:if="${userId != 'anonymousUser'}" onclick="FavortieReq()">즐겨찾기 추가</button>
+            <button onclick="listReq()">게시판 목록</button>
+        </div>
+    </div>
+
+    <div class="comment-view">
+        <div id="comment-write">
+            <input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}">
+            <textarea id="commentContents" placeholder="내용"></textarea><br>
+            <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+        </div>
+
+    </div>
+    <div id="comment-list">
+        <ul>
+            <li th:each="comment: ${commentList}">
+                <div class="comment-box">
+                    <div class="user">
+                        <span th:text="${comment.commentWriter}" id="userId"></span>
+                        <span th:text="*{#temporals.format(comment.commentCreatedTime, 'YY-MM-dd hh:mm')}"></span>
+                    </div>
+                    <div class="user_content">
+                        <div class="user_text" th:text="${comment.commentContents}"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
 
 <hr>
 
-<div id="comment-write">
-    <input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}" readonly>
-    <input type="text" id="commentContents" placeholder="내용">
-    <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
-</div>
+
 
 <!-- 댓글 출력 부분 -->
-<div id="comment-list">
-    <table>
-        <tr>
-            <th>댓글번호</th>
-            <th>작성자</th>
-            <th>내용</th>
-            <th>작성시간</th>
-        </tr>
-        <tr th:each="comment: ${commentList}">
-            <td th:text="${comment.id}"></td>
-            <td th:text="${comment.commentWriter}"></td>
-            <td th:text="${comment.commentContents}"></td>
-            <td th:text="${comment.commentCreatedTime}"></td>
-        </tr>
-    </table>
-</div>
+
 
 </body>
 <script th:inline="javascript">
