@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <link rel="stylesheet" type="text/css" href="/clubFeeStyles.css">
   <link rel="stylesheet" type="text/css" href="/menuStyles.css">
   <title>list</title>
 </head>
@@ -12,50 +12,53 @@
 
 
 
-<button onclick="feeAddReq()">회비 이력 추가</button>
 
+<div class="clubFee-container">
+  <button onclick="feeAddReq()" id="feeAdd">회비 이력 추가</button>
 
-<hr>
-
-<h2>회비 변동 이력</h2>
-<table th:if="${clubFeeList != null}">
-  <tr>
-    <th>유형</th>
-    <th>이름</th>
-    <th>금액</th>
-    <th>목적</th>
-    <th>일자</th>
-    <th>잔액</th>
-  </tr>
-  <tr th:each="clubFee: ${clubFeeList}">
-    <td th:text="${clubFee.type}"></td>
-    <td th:text="${clubFee.userName}"></td>
-    <td th:text="${clubFee.amount}"></td>
-    <td th:text="${clubFee.purpose}"></td>
-    <td th:text="${clubFee.date}"></td>
-    <td th:text="${clubFee.balance}"></td>
-    <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
-    <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
-  </tr>
-</table>
-
-<hr>
-<h2>회비 납부자 명단</h2>
-<table th:if="${feeUserList != null}">
-  <tr>
-    <th>이름</th>
-    <th>금액</th>
-    <th>일자</th>
-  </tr>
-  <tr th:each="clubFee: ${feeUserList}">
-    <td th:text="${clubFee.userName}"></td>
-    <td th:text="${clubFee.amount}+'원'"></td>
-    <td th:text="${clubFee.date}"></td>
-    <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
-    <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
-  </tr>
-</table>
-
+  <div class="clubFee-item">
+    <h1 class="head-text">회비 변동 이력</h1>
+    <table th:if="${clubFeeList != null}">
+      <tr>
+        <th>유형</th>
+        <th>이름</th>
+        <th>금액</th>
+        <th>목적</th>
+        <th>등록 일자</th>
+        <th>잔액</th>
+        <th colspan="2">관리</th>
+      </tr>
+      <tr th:each="clubFee: ${clubFeeList}">
+        <td th:text="${clubFee.type}"></td>
+        <td th:text="${clubFee.userName}"></td>
+        <td th:text="${clubFee.amount}"></td>
+        <td th:text="${clubFee.purpose}"></td>
+        <td th:text="*{#temporals.format(clubFee.date, 'yyyy-MM-dd  HH:mm')}"></td>
+        <td th:text="${clubFee.balance}+'원'"></td>
+        <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
+        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="clubFee-item">
+    <h1 class="head-text">회비 납부자 명단</h1>
+    <table th:if="${feeUserList != null}">
+      <tr>
+        <th>이름</th>
+        <th>금액</th>
+        <th>일자</th>
+        <th colspan="2">관리</th>
+      </tr>
+      <tr th:each="clubFee: ${feeUserList}">
+        <td th:text="${clubFee.userName}"></td>
+        <td th:text="${clubFee.amount}+'원'"></td>
+        <td th:text="*{#temporals.format(clubFee.date, 'yyyy-MM-dd  HH:mm')}"></td>
+        <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
+        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
+      </tr>
+    </table>
+  </div>
+</div>
 
 </body>
 
