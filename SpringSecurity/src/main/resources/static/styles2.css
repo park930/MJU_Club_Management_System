@@ -129,4 +129,6 @@ tr:nth-child(even) {
 
 div#tables {
     text-align: center;
+    display: flex;
+    flex-wrap: nowrap;
 }

@@ -21,7 +21,7 @@
 .board_view .board_writer {
     background: #fdfaf8;
     overflow: hidden;
-    font-size: 1.125rem;
+    font-size: 1rem;
     padding: 15px 20px;
     border-bottom: 1px solid #e1e1e2;
     color: #5c5c5c;
@@ -37,7 +37,7 @@
 
 .board_view .main_boardView {
     padding: 20px;
-    font-size: 16px;
+    font-size: 1.25rem;
     line-height: 26px;
     border-bottom: 1px solid #e1e1e2;
 }

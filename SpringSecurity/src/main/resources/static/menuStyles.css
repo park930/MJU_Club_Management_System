@@ -40,7 +40,17 @@ a#home_like {
 }
 
 
-button, #logout, .nav-item {
+.nav-item, #logout  {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #38454b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button{
     padding: 10px;
     margin: 5px;
     cursor: pointer;
