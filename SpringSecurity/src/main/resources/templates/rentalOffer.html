@@ -1,22 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/rentalOffer.css">
     <title>rentalOffer</title>
 </head>
 <body>
 
-카테고리: <h4 th:text="${rentalDTO.type}"></h4>
-물품명: <h4 th:text="${rentalDTO.name}"></h4>
-잔여 수량: <h4 th:text="${rentalDTO.remain}"></h4>
-대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
 
-<form th:action="@{'/rental/offer'}" method="post" enctype="multipart/form-data">
-    <input type="text" name="userName" th:value="${userName}" hidden> <br>
-    <input type="text" name="rentalId" th:value="${rentalDTO.id}" hidden> <br>
-    대여 기간 : <input type="datetime-local" name="startDate" id="startDate" readonly> ~ <input type="datetime-local" name="endDate"><br>
-    <input type="submit" value="신청하기">
-</form>
+<div th:replace="header :: header"></div>
+
+
+<table>
+    <tr>
+        <td colspan="2">
+            <img src="/noFile.png" alt="Rental Item Image">
+        </td>
+    </tr>
+    <tr>
+        <td class="head-td">카테고리</td>
+        <td th:text="${rentalDTO.type}"></td>
+    </tr>
+    <tr>
+        <td class="head-td">물품명</td>
+        <td th:text="${rentalDTO.name}"></td>
+    </tr>
+    <tr>
+        <td class="head-td">잔여 수량</td>
+        <td th:text="${rentalDTO.remain}"></td>
+    </tr>
+    <tr>
+        <td class="head-td">대여 위치</td>
+        <td th:text="${rentalDTO.location}"></td>
+    </tr>
+</table>
+
+<div id="rental-offer-form">
+    <form th:action="@{'/rental/offer'}" method="post" enctype="multipart/form-data">
+        <input type="text" name="userName" th:value="${userName}" hidden> <br>
+        <input type="text" name="rentalId" th:value="${rentalDTO.id}" hidden> <br>
+        대여 기간 : <input type="datetime-local" name="startDate" id="startDate" readonly> ~ <input type="datetime-local"
+                                                                                                name="endDate"><br>
+        <input type="submit" value="신청하기">
+    </form>
+</div>
 
 <script>
     // 현재 시간을 가져오는 함수

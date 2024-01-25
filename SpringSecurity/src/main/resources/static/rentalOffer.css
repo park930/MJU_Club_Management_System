@@ -1,0 +1,33 @@
+table {
+    width: 50%; /* 페이지 너비의 50% */
+    margin: auto; /* 가운데 정렬을 위해 */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #333; /* 어두운 색 배경 */
+    color: #fff; /* 흰색 글자색 */
+    font-weight: bold; /* 글자의 두께를 진하게 설정 */
+}
+
+.head-td {
+    background-color: #0e102f;
+    color: white;
+    font-weight: bold;
+}
+
+#rental-offer-form {
+    text-align: center;
+}
+
+#rental-offer-form input[type="submit"] {
+    margin-top: 5px;
+    width: 35%;
+}
