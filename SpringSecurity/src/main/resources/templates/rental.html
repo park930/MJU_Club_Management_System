@@ -5,22 +5,13 @@
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <link rel="stylesheet" type="text/css" href="/rentalStyles.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>list</title>
 </head>
 <body>
 
-<h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
-<nav id="main-nav">
-    <div id="menu-items">
-        <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
-        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
-        <button onclick="todoReq()" id="todoBtn">일정 관리</button>
-        <button onclick="scoreReq()" id="scoreBtn">동아리 평가</button>
-        <button onclick="clubReq()" id="clubBtn">동아리 현황</button>
-        <button th:if="${id != 'anonymousUser'}" onclick="favoriteReq()" id="favoriteBtn">즐겨찾기 조회</button>
-    </div>
-</nav>
 
+<div th:replace="header :: header"></div>
 
 
 <h3>대여시스템</h3>
@@ -44,40 +35,11 @@
 
 </body>
 
-<script>
+<script th:inline="javascript">
+
 
     const rentalAddReq = () => {
         location.href="/rental/add";
-    }
-
-    const boardPagingReq = () => {
-        location.href="/board/paging";
-    }
-
-    const favoriteReq = () => {
-        location.href="/favorite/list"
-    }
-
-    const rentReq = () => {
-        location.href="/rental/"
-    }
-
-    const clubReq = () => {
-        location.href="/club/"
-    }
-
-    const todoReq = () => {
-        // if (id.startsWith('admin')) {
-        //     location.href="/todo/admin";
-        // } else {
-        //     location.href="/todo/user";
-        // }
-        location.href="/todo/user";
-    }
-
-
-    const scoreReq = () => {
-        location.href="/score/";
     }
 
 </script>

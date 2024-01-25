@@ -18,9 +18,14 @@ public class QnaDTO {
     private String boardWriter;
     private String boardTitle;
     private String boardContents;
+    private int answer;
     private int secret;
     private int userId;
     private LocalDateTime createdTime;
+
+
+
+    private String answerString;
 
     public static QnaDTO toQnaDTO(QnaEntity qnaEntity) {
         QnaDTO qnaDTO = new QnaDTO();
@@ -28,6 +33,7 @@ public class QnaDTO {
         qnaDTO.setBoardWriter(qnaEntity.getBoardWriter());
         qnaDTO.setBoardTitle(qnaEntity.getBoardTitle());
         qnaDTO.setBoardContents(qnaEntity.getBoardContents());
+        qnaDTO.setAnswer(qnaEntity.getAnswer());
         qnaDTO.setSecret(qnaEntity.getSecret());
         qnaDTO.setUserId(qnaEntity.getUserEntity().getId());
         qnaDTO.setCreatedTime(qnaEntity.getCreatedTime());

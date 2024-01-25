@@ -1,4 +1,7 @@
 
+
+
+
 a#home_like {
     text-decoration: none; /* 밑줄 제거 */
     color: black;          /* 글자색을 검은색으로 설정 */
@@ -26,17 +29,18 @@ a#home_like {
     padding: 5px;
 }
 
-#menu-items button {
+#menu-items .nav-item {
     margin-left: 27px; /* 좌측 마진 설정 */
     margin-right: 27px; /* 우측 마진 설정 */
     font-weight: bold;
     text-align: center;
     background-color: transparent;
     font-size: 20px;
+    text-decoration: none;
 }
 
 
-button, #logout {
+button, #logout, .nav-item {
     padding: 10px;
     margin: 5px;
     cursor: pointer;
@@ -47,10 +51,10 @@ button, #logout {
 }
 
 
-button:hover {
+button:hover, .nav-item {
     background-color: #4e77be;
 }
 
-#menu-items button:hover {
+#menu-items .nav-item:hover {
     color: #bbdfff8f;
 }

@@ -22,6 +22,7 @@ public class QnaAnswerDTO {
 
     public static QnaAnswerDTO toQnaAnswerDTO(QnaAnswerEntity qnaAnswerEntity) {
         QnaAnswerDTO qnaAnswerDTO = new QnaAnswerDTO();
+        qnaAnswerDTO.setId(qnaAnswerEntity.getId());
         qnaAnswerDTO.setAnswerWriter(qnaAnswerEntity.getAnswerWriter());
         qnaAnswerDTO.setAnswerContents(qnaAnswerEntity.getAnswerContents());
         qnaAnswerDTO.setCreatedTime(qnaAnswerEntity.getCreatedTime());

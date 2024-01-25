@@ -36,6 +36,16 @@ public class TodoController
 
     private TodoPersonalDTO todoPersonalDTO;
 
+    @GetMapping("/divide")
+    public String divideUser(){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (id.startsWith("admin")){
+            return "redirect:/todo/admin";
+        } else {
+            return "redirect:/todo/user";
+        }
+    }
+
     @GetMapping("/admin")
     public String todoMain(Model model){
         List<TodoDTO> todoDTOList = todoService.findAll();

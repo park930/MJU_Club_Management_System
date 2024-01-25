@@ -5,12 +5,6 @@
     <title>save</title>
 </head>
 <body>
-private Long id;
-private String boardWriter;
-private String boardTitle;
-private String boardContents;
-private int secret;
-private int userId;
 
 <form action="/qna/save" method="post" enctype="multipart/form-data">
     <input type="text" name="userId" th:value="${userId}" hidden> <br>

@@ -50,13 +50,21 @@ public class QnaService {
         }
     }
 
+    private String setAnswerString(int secret) {
+        if (secret==1){
+            return "답변 완료";
+        } else {
+            return "답변 미완료";
+        }
+    }
+
     public Page<QnaDTO> paging(Pageable pageable) {
 
         int page = pageable.getPageNumber() - 1;
         int pageLimit = 4;
         // page(현재 페이지), pageLimit, sort, sort의 기준
         Page<QnaEntity> qnaEntityList = qnaRepository.findAll(PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
-        Page<QnaDTO> qnaDTOS = qnaEntityList.map(qna -> new QnaDTO(qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime()) ) ;
+        Page<QnaDTO> qnaDTOS = qnaEntityList.map(qna -> new QnaDTO(qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getAnswer(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime(),setAnswerString(qna.getSecret())) ) ;
         return qnaDTOS;
     }
 
@@ -64,7 +72,7 @@ public class QnaService {
         int pageLimit = 4;
         int page = pageable.getPageNumber()-1;
         Page<QnaEntity> qnaEntities = qnaRepository.findByBoardTitleContaining(searchKeyWord,PageRequest.of(page,pageLimit,Sort.by(Sort.Direction.DESC,"id")));
-        Page<QnaDTO> qnaDTOS = qnaEntities.map(qna -> new QnaDTO( qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime() ));
+        Page<QnaDTO> qnaDTOS = qnaEntities.map(qna -> new QnaDTO( qna.getId(),qna.getBoardWriter(),qna.getBoardTitle(),qna.getBoardContents(),qna.getAnswer(),qna.getSecret(),qna.getUserEntity().getId(),qna.getCreatedTime(),setAnswerString(qna.getSecret()) ));
         return qnaDTOS;
     }
 
@@ -74,13 +82,28 @@ public class QnaService {
         UserEntity userEntity = userRepository.findByUsername(userName);
         List<QnaEntity> qnaEntityList = qnaRepository.findAllByUserEntityOrderByCreatedTimeDesc(userEntity);
         for(QnaEntity qnaEntity : qnaEntityList){
-            qnaDTOList.add(QnaDTO.toQnaDTO(qnaEntity));
+            QnaDTO qnaDTO = QnaDTO.toQnaDTO(qnaEntity);
+            if (qnaDTO.getSecret()==1){
+                qnaDTO.setAnswerString("답변 완료");
+            } else {
+                qnaDTO.setAnswerString("답변 미완료");
+            }
+            qnaDTOList.add(qnaDTO);
         }
 
         if (qnaDTOList.isEmpty()) {
             return null;
         } else {
             return qnaDTOList;
+        }
+    }
+
+    public void setAnswer(Long qnaId) {
+        Optional<QnaEntity> optionalQnaEntity = qnaRepository.findById(qnaId);
+        if (optionalQnaEntity.isPresent()){
+            QnaEntity qnaEntity = optionalQnaEntity.get();
+            qnaEntity.setAnswer(1);
+            qnaRepository.save(qnaEntity);
         }
     }
 }

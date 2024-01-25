@@ -26,11 +26,16 @@ import java.util.List;
 @RequestMapping("/qnaAnswer")
 public class QnaAnswerController {
     private final QnaAnswerService qnaAnswerService;
+    private final QnaService qnaService;
 
     @PostMapping("/save")
     public ResponseEntity answerSave(@ModelAttribute QnaAnswerDTO qnaAnswerDTO){
+        System.out.println("qnaAnswerDTO = " + qnaAnswerDTO);
         Long save = qnaAnswerService.save(qnaAnswerDTO);
         if (save != null){
+            //해당 qna의 answer을 1로 바꿔야함
+            qnaService.setAnswer(qnaAnswerDTO.getQnaId());
+
             List<QnaAnswerDTO> qnaAnswerDTOList = qnaAnswerService.findAll(qnaAnswerDTO.getQnaId());
             System.out.println("qnaAnswerDTOList = " + qnaAnswerDTOList);
             return new ResponseEntity<>(qnaAnswerDTOList, HttpStatus.OK);

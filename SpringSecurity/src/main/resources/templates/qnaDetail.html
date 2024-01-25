@@ -9,20 +9,7 @@
 </head>
 <body>
 
-<h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
-<nav id="main-nav">
-    <div id="menu-items">
-        <button onclick="boardPagingReq()" id="boardPagingBtn">자유게시판</button>
-        <button onclick="rentReq()" id="rentBtn">대여 시스템</button>
-<!--        <button onclick="todoReq()" id="todoBtn">일정 관리</button>-->
-        <button onclick="scoreReq()" id="scoreBtn">동아리 평가</button>
-        <button onclick="clubReq()" id="clubBtn">동아리 목록</button>
-        <button onclick="clubMemberBtn()" id="clubMemberBtn">부원 관리</button>
-        <button onclick="clubFeeBtn()" id="clubFeeBtn">회비 내역</button>
-        <button onclick="anqReq()" id="qnaBtn">Q&A</button>
-    </div>
-</nav>
-
+<div th:replace="header :: header"></div>
 
 <table>
     <tr>
@@ -66,45 +53,4 @@
 </div>
 
 </body>
-<script th:inline="javascript">
-
-    const clubFeeBtn = () => {
-        location.href="/clubFee/";
-    }
-
-    const boardPagingReq = () => {
-        location.href="/board/paging";
-    }
-
-    const anqReq = () => {
-        location.href="/qna/";
-    }
-
-
-    const rentReq = () => {
-        location.href="/rental/"
-    }
-
-    const clubReq = () => {
-        location.href="/club/"
-    }
-
-     const todoReq = () => {
-         if (id.startsWith('admin')) {
-             location.href="/todo/admin";
-         } else {
-             location.href="/todo/user";
-         }
-     }
-
-     const clubMemberBtn = () => {
-         location.href="/clubMember/"
-     }
-
-
-     const scoreReq = () => {
-         location.href="/score/";
-     }
-
-</script>
 </html>

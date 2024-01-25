@@ -89,8 +89,13 @@ public class QnaController {
 
 
     @GetMapping("/admin/{qnaId}")
-    public String qnaAnswerAdminP(@PathVariable Long qnaId){
-
+    public String qnaAnswerAdminP(@PathVariable Long qnaId, Model model){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        QnaDTO qnaDTO = qnaService.findById(qnaId);
+        List<QnaAnswerDTO> qnaAnswerDTOList = qnaAnswerService.findAll(qnaId);
+        model.addAttribute("qnaDTO",qnaDTO);
+        model.addAttribute("qnaAnswerDTOList",qnaAnswerDTOList);
+        model.addAttribute("userId",id);
         return "qnaAdminDetail";
     }
 
