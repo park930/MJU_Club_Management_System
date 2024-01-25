@@ -89,7 +89,7 @@ public class BoardService {
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"id")));
 
         //board는 entity객체임 --> foreach문과 비슷
-        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getType(),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(setTypeString(board.getType()),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
         return boardDTOS;
 
     }
@@ -98,8 +98,16 @@ public class BoardService {
         int page = pageable.getPageNumber()-1;
         int pageLimit = 3;      //한페이지에 몇개씩 볼건지
         Page<BoardEntity> boardEntities = boardRepository.findByBoardTitleContaining(searchKeyWord,PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"id")));
-        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getType(),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(setTypeString(board.getType()),board.getId(),board.getBoardWriter(), board.getBoardTitle(),board.getBoardHits(),board.getCreatedTime()));
         return boardDTOS;
+    }
+
+    private String setTypeString(String type) {
+        if (type.equals("notice")){
+            return "공지";
+        } else {
+            return "일반";
+        }
     }
 
     public String favorite(FavoriteBoardDTO favoriteBoardDTO) {

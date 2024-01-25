@@ -12,55 +12,63 @@
 <div th:replace="header :: header"></div>
 
 
-<form th:action="@{/board/paging}" method="get">
-    <input type="text" name="searchKeyWord">
-    <button type="submit">검색</button>
-</form>
+<div class="board-container">
+    <div class="board-item">
+        <form th:action="@{/board/paging}" method="get">
+            <input type="text" name="searchKeyWord">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <div class="board-item">
+        <button onclick="saveReq()">글작성</button>
+        <table>
+            <tr>
+                <th>종류</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+            <tr th:each="board: ${boardList}">
+                <td th:text="${board.type}"></td>
+                <td><a th:href="@{|/board/${board.id}|(page=${boardList.number + 1})}"
+                       th:text="${board.boardTitle}"></a>
+                </td>
+                <td th:text="${board.boardWriter}"></td>
+                <td th:text="*{#temporals.format(board.boardCreatedTime, 'yy.MM.dd HH:mm')}"></td>
+                <td th:text="${board.boardHits}"></td>
+            </tr>
+        </table>
 
-<hr>
-<table>
-    <tr>
-        <th>종류</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-        <th>조회수</th>
-    </tr>
-    <tr th:each="board: ${boardList}">
-        <td th:text="${board.type}"></td>
-        <td><a th:href="@{|/board/${board.id}|(page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="*{#temporals.format(board.boardCreatedTime, 'yy.MM.dd HH:mm')}"></td>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-</table>
-<div id="page-link" th:if="${boardList.totalPages != 0}">
-    <!-- 첫번째 페이지로 이동 -->
-    <!-- /board/paging?page=1 -->
-    <a th:href="@{/board/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>
-    <!-- 이전 링크 활성화 비활성화 -->
-    <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
-    <a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>
 
-    <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-            for(int page=startPage; page<=endPage; page++)-->
-    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-    <!-- 현재페이지는 링크 없이 숫자만 -->
-    <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
-        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-    <span th:unless="${page == boardList.number + 1}">
-        <a th:href="@{/board/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="${page}"></a>
-    </span>
-    </span>
+        <div id="page-link" th:if="${boardList.totalPages != 0}">
+            <!-- 첫번째 페이지로 이동 -->
+            <!-- /board/paging?page=1 -->
+            <a th:href="@{/board/paging(page=1, searchKeyWord= ${param.searchKeyWord} )}"><<</a>
+            <!-- 이전 링크 활성화 비활성화 -->
+            <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
+            <a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number}, searchKeyWord= ${param.searchKeyWord}  )}"><</a>
 
-    <!-- 다음 링크 활성화 비활성화
-        사용자: 2페이지, getNumber: 1, 3페이지-->
-    <a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>
-    <!-- 마지막 페이지로 이동 -->
-    <a th:href="@{/board/paging(page=${boardList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>
+            <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                    for(int page=startPage; page<=endPage; page++)-->
+            <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                <!-- 현재페이지는 링크 없이 숫자만 -->
+                <span th:if="${page == boardList.number + 1}" th:text="' '+${page}+' '"></span>
+                <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                <span th:unless="${page == boardList.number + 1}">
+                    <a th:href="@{/board/paging(page=${page}, searchKeyWord= ${param.searchKeyWord} )}" th:text="' '+${page}+' '"></a>
+                </span>
+            </span>
+            <!-- 다음 링크 활성화 비활성화
+                사용자: 2페이지, getNumber: 1, 3페이지-->
+            <a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2}, searchKeyWord= ${param.searchKeyWord} )}">></a>
+            <!-- 마지막 페이지로 이동 -->
+            <a th:href="@{/board/paging(page=${boardList.totalPages}, searchKeyWord= ${param.searchKeyWord} )}">>></a>
+        </div>
+
+    </div>
 </div>
-<br>
-<button onclick="saveReq()">글작성</button>
+
 </body>
 <script>
     const saveReq = () => {
