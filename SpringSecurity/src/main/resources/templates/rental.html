@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <link rel="stylesheet" type="text/css" href="/rentalStyles.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
@@ -15,7 +20,26 @@
 
 
 <h3>대여시스템</h3>
-<button onclick="rentalAddReq()">대여물품 추가</button>
+
+<a class="seeButton" data-toggle="modal" href="#rentalAddModal" th:if="${#strings.startsWith(userId, 'admin')}">대여물품 추가</a>
+
+
+<div class="modal fade" id="rentalAddModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h1 class="modal-title">대여물품 추가</h1>
+            </div>
+            <div class="modal-body">
+                <th:block th:replace="rentalAdd::rentalAdd"></th:block>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <hr>
 
 

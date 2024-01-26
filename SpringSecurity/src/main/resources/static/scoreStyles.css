@@ -1,0 +1,131 @@
+.score-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.score-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.score-header {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #3e6a86;
+    color: #fff;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+
+
+#boardPagingBtn {
+    background-color: #15265d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#boardPagingBtn:hover {
+    background-color: #4974d2;
+}
+
+/* Add similar styling for other buttons if needed */
+
+form {
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+}
+
+button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2d3c4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Add margin-top if needed */
+}
+
+#page-link a {
+    margin: 0 5px; /* Add margin between the links if needed */
+    text-decoration: none;
+    color: rgba(26, 30, 42, 0.7);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.title {
+    border-bottom: 1px solid #838181;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.qna-writer {
+    background-color: #dad3c9;
+}
+
+.qna-writer .name {
+    margin-right: 10px;
+}
+
+.qna-content {
+    padding-left: 10px;
+}
+
+.qnaAnswer-item {
+    border-bottom: 1px solid #afaeae;
+}
+
+
+span#userId {
+    font-size: 1.25rem;
+    margin-right: 30px;
+}
+
+.not-dot {
+    list-style-type: none;
+}
+
+.answer-text {
+    font-size: 1.5rem;
+}

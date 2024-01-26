@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
     <link rel="stylesheet" type="text/css" href="/styles2.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -12,8 +13,10 @@
 
 <div th:replace="header :: header"></div>
 
-<button onclick="scoreAddReq()">평가항목 추가</button>
-<button onclick="plusScoreAddReq()">가산점 부여</button>
+<button onclick="scoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">평가항목 추가</button>
+<button onclick="plusScoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">가산점 부여</button>
+
+
 
 
 <hr>

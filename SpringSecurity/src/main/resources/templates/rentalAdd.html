@@ -4,15 +4,35 @@
     <meta charset="UTF-8">
     <title>save</title>
 </head>
-<body>
 
+<th:block th:fragment="rentalAdd">
+<body>
 <form action="/rental/add" method="post" enctype="multipart/form-data">
-    카테고리: <input type="text" name="type"> <br>
-    물품명: <input type="text" name="name"> <br>
-    수량: <input type="text" name="totalCount"> <br>
-    위치: <input type="text" name="location"> <br>
-    <input type="submit" value="추가하기">
+    <table class="add-table">
+        <tr>
+            <td>카테고리</td>
+            <td><input type="text" name="type"></td>
+        </tr>
+        <tr>
+            <td>물품명</td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td>수량</td>
+            <td><input type="text" name="totalCount"></td>
+        </tr>
+        <tr>
+            <td>위치</td>
+            <td><input type="text" name="location"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="추가하기">
+            </td>
+        </tr>
+    </table>
 </form>
 
 </body>
+</th:block>
 </html>

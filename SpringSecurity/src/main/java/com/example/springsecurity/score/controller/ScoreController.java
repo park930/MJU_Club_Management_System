@@ -11,6 +11,7 @@ import com.example.springsecurity.score.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class ScoreController
 
     @GetMapping("/")
     public String scoreForm(Model model){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ScoreClubDTO> scoreClubDTOList = scoreClubService.findAll();
         List<ScoreDTO> scoreDTOList = scoreService.findAll();
 
@@ -40,6 +42,7 @@ public class ScoreController
 
         ClubRatingDTO clubRatingDTO = scoreService.sortScore(headText,totalScoreList,updateScoreList,clubDTOList);
         model.addAttribute("clubRatingDTO",clubRatingDTO);
+        model.addAttribute("userId",id);
 
         return "scoreMain";
     }

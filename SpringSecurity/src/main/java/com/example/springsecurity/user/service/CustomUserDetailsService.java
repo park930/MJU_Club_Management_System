@@ -30,12 +30,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
-        UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-        if (userDTO != null){
-            return new CustomUserDetails(userDTO);
+        UserDTO userDTO = null;
+
+        if (userEntity.getRole().equals("ROLE_ADMIN")){
+            userDTO = UserDTO.toAdminUserDTO(userEntity);
+        } else {
+            userDTO = UserDTO.toUserDTO(userEntity);
         }
 
-        return null;
+        return new CustomUserDetails(userDTO);
     }
 
     public UserDTO findByUserName(String writer) {

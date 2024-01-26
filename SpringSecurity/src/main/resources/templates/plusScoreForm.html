@@ -2,37 +2,74 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/scoreStyles.css">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
+
 <body>
-<h1>가산점 부여</h1>
-<hr>
 
-<form id="plusScoreForm" action="/score/plusScoreAdd/proc" method="post">
-    <select id="scoreTitle" name="scoreTitle" onchange="getScoreDetails()">
-        <option th:each="score : ${scoreList}" th:value="${score.id}" th:text="${score.title}"></option>
-    </select>
-    <!-- 비동기로 업데이트될 select -->
-    <select id="clubSelect" name="clubId">
-        <option th:each="club : ${clubDTOList}" th:value="${club.id}" th:text="${club.clubName}"></option>
-    </select>
 
-    <select id="plusScoreSelect" name="plusScoreId">
-        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank1}" th:text="${score.plusRank1}"></option>
-        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank2}" th:text="${score.plusRank2}"></option>
-        <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank3}" th:text="${score.plusRank3}"></option>
-    </select>
-    <input type="submit" value="가산점 부여">
-</form>
+<div th:replace="header :: header"></div>
+
+
+<div class="score-container">
+    <div class="score-item">
+        <h1 class="modal-title">가산점 부여</h1>
+        <form id="plusScoreForm" action="/score/plusScoreAdd/proc" method="post">
+            <table>
+                <tr>
+                    <td>가산점 부여 항목</td>
+                    <td>
+                        <select id="scoreTitle" name="scoreTitle" onchange="getScoreDetails()">
+                            <option value="none">=== 선택 ===</option>
+                            <option th:each="score : ${scoreList}" th:value="${score.id}"
+                                    th:text="${score.title}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>해당 동아리</td>
+                    <td>
+                        <select id="clubSelect" name="clubId">
+                            <option value="none">=== 선택 ===</option>
+                            <option th:each="club : ${clubDTOList}" th:value="${club.id}"
+                                    th:text="${club.clubName}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>가산점</td>
+                    <td>
+                        <select id="plusScoreSelect" name="plusScoreId">
+                            <option value="none">=== 선택 ===</option>
+                            <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank1}"
+                                    th:text="${score.plusRank1}"></option>
+                            <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank2}"
+                                    th:text="${score.plusRank2}"></option>
+                            <option th:class="${score.id}" th:each="score : ${scoreList}" th:value="${score.plusRank3}"
+                                    th:text="${score.plusRank3}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="가산점 부여">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
 <div id="scoreInfo">
 
 </div>
 
+</div>
 
 <script>
     function getScoreDetails() {

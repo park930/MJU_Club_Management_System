@@ -5,6 +5,7 @@ import com.example.springsecurity.rental.dto.RenterDTO;
 import com.example.springsecurity.rental.service.RentalService;
 import com.example.springsecurity.rental.service.RenterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,10 @@ public class RentalController {
 
     @GetMapping("/")
     public String rentalMain(Model model){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
         List<RentalDTO> rentalDTOList = renterService.updateRemain(rentalService.findAll());
         model.addAttribute("rentalList",rentalDTOList);
+        model.addAttribute("userId",id);
         return "rental";
     }
 
