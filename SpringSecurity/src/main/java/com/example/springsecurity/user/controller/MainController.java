@@ -84,7 +84,7 @@ public class MainController {
         List<FavoriteBoardDTO> favoriteBoardDTOList = favoriteService.findAll(userDTO, clubDTO);
 
         clubScore = scoreService.getMyClubScore(clubRatingDTO, clubDTO);
-        percentScore = clubScore / 80.0 * 100;
+        percentScore = Double.parseDouble(String.format("%.2f", clubScore / 80.0 * 100));
 
         List<ClubFeeDTO> clubFeeList = clubFeeService.findAllByClubDTO(clubDTO);
         if (clubFeeList.isEmpty()) {
@@ -93,7 +93,7 @@ public class MainController {
             model.addAttribute("feePercent", 0);
         } else {
             ClubFeeDTO lastClubFee = clubFeeList.get(0);
-            double feePercent = (lastClubFee.getTotalMinusFee()) / (1.0 * (lastClubFee.getTotalPlusFee())) * 100;
+            double feePercent = Double.parseDouble(String.format("%.2f", (lastClubFee.getTotalMinusFee()) / (1.0 * (lastClubFee.getTotalPlusFee())) * 100));
             model.addAttribute("totalDepositAmount", lastClubFee.getTotalPlusFee());
             model.addAttribute("totalSpentAmount", lastClubFee.getTotalMinusFee());
             model.addAttribute("feePercent", feePercent);

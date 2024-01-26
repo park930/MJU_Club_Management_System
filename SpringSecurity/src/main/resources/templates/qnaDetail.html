@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/qnaStyles.css">
     <title>detail</title>
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -11,46 +12,41 @@
 
 <div th:replace="header :: header"></div>
 
-<table>
-    <tr>
-        <th>id</th>
-        <td th:text="${qnaDTO.id}"></td>
-    </tr>
-    <tr>
-        <th>title</th>
-        <td th:text="${qnaDTO.boardTitle}"></td>
-    </tr>
-    <tr>
-        <th>writer</th>
-        <td th:text="${qnaDTO.boardWriter}"></td>
-    </tr>
-    <tr>
-        <th>date</th>
-        <td th:text="${qnaDTO.createdTime}"></td>
-    </tr>
-    <tr>
-        <th>contents</th>
-        <td th:text="${qnaDTO.boardContents}"></td>
-    </tr>
-</table>
 
-<!--&lt;!&ndash; 댓글 출력 부분 &ndash;&gt;-->
-<div id="comment-list">
-    <table th:if="${qnaAnswerList != null}">
-        <tr>
-            <th>댓글번호</th>
-            <th>작성자</th>
-            <th>내용</th>
-            <th>작성시간</th>
-        </tr>
-        <tr th:each="qnaAnswer: ${qnaAnswerList}">
-            <td th:text="${qnaAnswer.id}"></td>
-            <td th:text="${qnaAnswer.answerWriter}"></td>
-            <td th:text="${qnaAnswer.answerContents}"></td>
-            <td th:text="${qnaAnswer.createdTime}"></td>
-        </tr>
-    </table>
+<div class="qna-container">
+    <div class="qna-item">
+        <div class="qna-view">
+            <h1 class="title" th:text="${qnaDTO.boardTitle}"></h1>
+            <div class="qna-writer">
+                <span class="name" th:text="${qnaDTO.boardWriter}"></span>
+                <span class="date" th:text="*{#temporals.format(qnaDTO.createdTime, 'YYYY-MM-dd')}"></span>
+            </div>
+            <div class="qna-content">
+                <h3 th:text="${qnaDTO.boardContents}"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="qna-item">
+        <h2 class="title">답변</h2>
+        <div id="comment-list">
+            <ul th:if="${qnaAnswerList != null}" class="not-dot">
+                <li th:each="qnaAnswer: ${qnaAnswerList}" class="qnaAnswer-item">
+                    <div class="user">
+                        <span th:text="${qnaAnswer.answerWriter}" id="userId"></span>
+                        <span th:text="*{#temporals.format(qnaAnswer.createdTime, 'YYYY-MM-dd hh:mm')}"></span>
+                    </div>
+                    <div class="user-content">
+                        <div class="user-text">
+                            <h3 class="answer-text" th:text="${qnaAnswer.answerContents}"></h3>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

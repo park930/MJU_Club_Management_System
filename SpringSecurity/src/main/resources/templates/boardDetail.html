@@ -27,49 +27,51 @@
 
 <br>
 <div id="board-container">
-    <div class="board_view">
-        <h2 th:text="${board.boardTitle}"></h2>
-        <div class="board_writer">
-            <div class="name" th:text="${board.boardWriter}"></div>
-            <div class="date" th:text="*{#temporals.format(board.boardCreatedTime, 'YYYY-MM-dd')}"></div>
-            <div class="hit" th:text="'조회수 '+${board.boardHits}"></div>
-        </div>
-        <div class="main_boardView" th:text="${board.boardContents}">
+    <div class="board-items">
+        <div class="board_view">
+            <h2 th:text="${board.boardTitle}"></h2>
+            <div class="board_writer">
+                <div class="name" th:text="${board.boardWriter}"></div>
+                <div class="date" th:text="*{#temporals.format(board.boardCreatedTime, 'YYYY-MM-dd')}"></div>
+                <div class="hit" th:text="'조회수 '+${board.boardHits}"></div>
+            </div>
+            <div class="main_boardView" th:text="${board.boardContents}">
 
-        </div>
+            </div>
 
-        <div id="heart-count">
-            <h3 th:text="'좋아요 '+${heartCount}+'개'"></h3>
-        </div>
-        <div class="board_click_list">
-            <button th:if="${userId != 'anonymousUser'}" onclick="HeartReq()">좋아요</button>
-            <button th:if="${userId != 'anonymousUser'}" onclick="FavortieReq()">즐겨찾기 추가</button>
-            <button onclick="listReq()">게시판 목록</button>
-        </div>
-    </div>
-
-    <div class="comment-view">
-        <div id="comment-write">
-            <input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}">
-            <textarea id="commentContents" placeholder="내용"></textarea><br>
-            <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+            <div id="heart-count">
+                <h4 th:text="'❤️ '+${heartCount}+'명'"></h4>
+            </div>
+            <div class="board_click_list">
+                <button th:if="${userId != 'anonymousUser'}" onclick="HeartReq()">좋아요</button>
+                <button th:if="${userId != 'anonymousUser'}" onclick="FavortieReq()">즐겨찾기 추가</button>
+                <button onclick="listReq()">게시판 목록</button>
+            </div>
         </div>
 
-    </div>
-    <div id="comment-list">
-        <ul>
-            <li th:each="comment: ${commentList}">
-                <div class="comment-box">
-                    <div class="user">
-                        <span th:text="${comment.commentWriter}" id="userId"></span>
-                        <span th:text="*{#temporals.format(comment.commentCreatedTime, 'YY-MM-dd hh:mm')}"></span>
+        <div class="comment-view">
+            <div id="comment-write">
+                <input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}">
+                <textarea id="commentContents" placeholder="내용"></textarea><br>
+                <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+            </div>
+
+        </div>
+        <div id="comment-list">
+            <ul>
+                <li th:each="comment: ${commentList}">
+                    <div class="comment-box">
+                        <div class="user">
+                            <span th:text="${comment.commentWriter}" id="userId"></span>
+                            <span th:text="*{#temporals.format(comment.commentCreatedTime, 'YY-MM-dd hh:mm')}"></span>
+                        </div>
+                        <div class="user_content">
+                            <div class="user_text" th:text="${comment.commentContents}"></div>
+                        </div>
                     </div>
-                    <div class="user_content">
-                        <div class="user_text" th:text="${comment.commentContents}"></div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -104,20 +106,21 @@
             },
             success: function (res) {
                 console.log("요청성공", res);
-                let output = "<table>";
-                output += "<tr><th>댓글번호</th>";
-                output += "<th>작성자</th>";
-                output += "<th>내용</th>";
-                output += "<th>작성시간</th></tr>";
+
+                let output = "<ul>";
                 for (let i in res) {
-                    output += "<tr>";
-                    output += "<td>" + res[i].id + "</td>";
-                    output += "<td>" + res[i].commentWriter + "</td>";
-                    output += "<td>" + res[i].commentContents + "</td>";
-                    output += "<td>" + res[i].commentCreatedTime + "</td>";
-                    output += "</tr>";
+                    output += "<li>";
+                    output += "<div class='comment-box'>";
+                    output += "<span id='userId'>" + res[i].commentWriter + "</span>";
+                    output += "<span>" + res[i].commentCreatedTime + "</span>";
+                    output += "</div>";
+                    output += "<div class='user_content'>";
+                    output += "<div class='user_text'>"+res[i].commentContents+ "</div>";
+                    output += "</div>";
+                    output += "</div>";
+                    output += "</li>";
                 }
-                output += "</table>";
+                output += "</ul>";
                 document.getElementById('comment-list').innerHTML = output;
                 document.getElementById('commentContents').value = '';
             },

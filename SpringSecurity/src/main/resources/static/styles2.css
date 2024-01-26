@@ -132,3 +132,13 @@ div#tables {
     display: flex;
     flex-wrap: nowrap;
 }
+
+.fc-col-header-cell-cushion {
+    color: white;
+}
+
+.add-table td,
+.add-table th{
+    text-align: left;
+
+}

@@ -50,7 +50,7 @@ public class ClubFeeController
         Long clubId = clubFeeDTO.getClubId();
         ClubDTO clubDTO = clubService.findById(clubId);
         clubFeeService.save(clubFeeDTO,clubDTO);
-        return "redirect:/clubFee/"+clubId;
+        return "redirect:/clubFee/";
     }
 
     @GetMapping("/update/{clubFeeId}")
@@ -71,12 +71,12 @@ public class ClubFeeController
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Long clubId = customUserDetails.getClubId();
         clubFeeService.deleteFee(clubFeeId);
-        return "redirect:/clubFee/"+clubId;
+        return "redirect:/clubFee/";
     }
 
     @PostMapping("/update")
     public String updateFee(@ModelAttribute ClubFeeDTO clubFeeDTO){
         clubFeeService.updateClubFee(clubFeeDTO);
-        return "redirect:/clubFee/"+clubFeeDTO.getClubId();
+        return "redirect:/clubFee/";
     }
 }

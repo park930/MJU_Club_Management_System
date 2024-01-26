@@ -51,3 +51,8 @@ a {
 #feeAdd {
     margin: 3px 20px 20px;
 }
+
+.add-table th,
+.add-table td {
+    text-align: left;
+}

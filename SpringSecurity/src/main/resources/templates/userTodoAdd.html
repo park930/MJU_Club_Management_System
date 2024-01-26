@@ -2,17 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/todoAdd.css">
     <title>save</title>
 </head>
-<body>
 
-<form action="/todo/user/add" method="post" enctype="multipart/form-data">
-    작성자: <input type="text" name="writer" th:value="${writer}" readonly> <br>
-    제목: <input type="text" name="title"> <br>
-    내용: <textarea name="content" cols="30" rows="10"></textarea> <br>
-    기간: <input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"><br>
-    <input type="submit" value="일정 추가">
-</form>
+<th:block th:fragment="todoAddUser(writer)">
+    <body>
 
-</body>
+    <div class="todoAddForm">
+        <form action="/todo/user/add" method="post" enctype="multipart/form-data">
+            <table class="add-table">
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer" th:value="${writer}" readonly></td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea name="content" cols="30" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                    <td>기간</td>
+                    <td><input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="일정 추가"></td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+
+    </body>
+</th:block>
 </html>

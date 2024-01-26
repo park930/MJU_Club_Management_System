@@ -63,6 +63,7 @@ public class TodoController
         ClubDTO clubDTO = clubService.findById(customUserDetailsService.findByUserName(userName).getClubId());
         todoPersonalDTO = todoService.getFilteredTodoList(clubDTO,userName);
         model.addAttribute("incompleteList",todoPersonalDTO.getReceviedIncompleteList());
+        model.addAttribute("userName",userName);
         model.addAttribute("completeList",todoPersonalDTO.getReceviedCompleteList());
         model.addAttribute("myTodoList",todoPersonalDTO.getMyTodoDTOList());
         model.addAttribute("remainTimeList",todoPersonalDTO.getRemainTimeList());
