@@ -24,3 +24,15 @@ img {
 h2 {
     text-align: center;
 }
+
+th {
+    text-align: center;
+}
+
+.add-table {
+    text-align: left;
+}
+
+.add-table td {
+    padding-bottom: 10px;
+}
