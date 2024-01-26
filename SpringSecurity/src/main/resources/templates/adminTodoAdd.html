@@ -1,65 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/adminTodoStyles.css">
     <meta charset="UTF-8">
     <title>save</title>
 </head>
 <body>
 
-<form action="/todo/admin/add" method="post" enctype="multipart/form-data">
-    <input type="checkbox" id="scoreCheckBox" onchange="showInputs()" name="scoreCheckBox"> 동아리 평가 여부 <br>
 
-    <div id="scoreInputs" style="display: none;">
-        <h3>평가 기준</h3>
-        <label for="normalSubmit">정상제출: </label>
-        <input type="number" id="normalSubmit" name="normalSubmit" value="0"><br>
+<div th:replace="header :: header"></div>
 
-        <label for="lateSubmit">지각제출: </label>
-        <input type="number" id="lateSubmit" name="lateSubmit" value="0"><br>
+<div class="adminTodo-container">
+    <form action="/todo/admin/add" method="post" enctype="multipart/form-data">
+        <div class="adminTodo-item">
+            <input type="checkbox" id="scoreCheckBox" onchange="showInputs()" name="scoreCheckBox"> 동아리 평가 여부 <br>
 
-        <label for="noSubmit">미제출: </label>
-        <input type="number" id="noSubmit" name="noSubmit" value="0"><br>
+            <div id="scoreInputs" style="display: none;">
+                <table class="add-table">
+                    <tr>
+                        <td colspan="2">
+                            <h3>평가 기준</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>정상제출</td>
+                        <td><input type="number" id="normalSubmit" name="normalSubmit" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>지각제출</td>
+                        <td><input type="number" id="lateSubmit" name="lateSubmit" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>미제출</td>
+                        <td><input type="number" id="noSubmit" name="noSubmit" value="0"></td>
+                    </tr>
+                </table>
 
-        <input type="checkbox" id="lateCheckBox" onchange="showLateTimeInput()"> 지각제출 가능 여부 <br>
-        <div id="lateTimeInputs" style="display: none;">
-            <label for="lateTime"> 지각제출 마감일: </label>
-            <input type="datetime-local" id="lateTime" name="lateTime"><br>
+                <br>
+                <input type="checkbox" id="lateCheckBox" onchange="showLateTimeInput()"> 지각제출 가능 여부 <br>
+                <div id="lateTimeInputs" style="display: none;">
+                    <label for="lateTime"> 지각제출 마감일: </label>
+                    <input type="datetime-local" id="lateTime" name="lateTime"><br>
+                </div>
+
+                <br>
+                <input type="checkbox" id="plusScoreCheckBox" onchange="showPlusScoreInputs()"> 추가점수 여부 <br>
+                <div id="plusScoreInputs" style="display: none;">
+                    <table class="add-table">
+                        <tr>
+                            <td colspan="2">
+                                <h3>가산점</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1위</td>
+                            <td><input type="number" id="plusRank1" name="plusRank1" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td>2위</td>
+                            <td><input type="number" id="plusRank2" name="plusRank2" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td>3위</td>
+                            <td><input type="number" id="plusRank3" name="plusRank3" value="0"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
 
-        <input type="checkbox" id="plusScoreCheckBox" onchange="showPlusScoreInputs()"> 추가점수 여부 <br>
-        <div id="plusScoreInputs" style="display: none;">
-            <label for="plusRank1"> 1위: </label>
-            <input type="number" id="plusRank1" name="plusRank1" value="0"><br>
+        <div class="adminTodo-item">
 
-            <label for="plusRank2">2위: </label>
-            <input type="number" id="plusRank2" name="plusRank2" value="0"><br>
-
-            <label for="plusRank3">3위: </label>
-            <input type="number" id="plusRank3" name="plusRank3" value="0"><br>
+            <table class="add-table">
+                <tr>
+                    <td>해당 동아리</td>
+                    <td>
+                        <div th:each="club : ${clubList}">
+                            <input type="checkbox" th:id="${'checkbox-' + club.id}" th:name="checkedList" th:value="${club.id}"/>
+                            <label th:for="${'checkbox-' + club.id}" th:text="${club.clubName}"></label>
+                            <br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer"></td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea name="content" cols="30" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                    <td>기간</td>
+                    <td><input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="일정 추가"></td>
+                </tr>
+            </table>
         </div>
-
-
-    </div>
-
-
-
-    <hr>
-    해당 동아리:
-    <div th:each="club : ${clubList}">
-        <input type="checkbox" th:id="${'checkbox-' + club.id}" th:name="checkedList" th:value="${club.id}"/>
-        <label th:for="${'checkbox-' + club.id}" th:text="${club.clubName}"></label>
-        <br>
-    </div>
-    작성자: <input type="text" name="writer"> <br>
-    제목: <input type="text" name="title"> <br>
-    내용: <textarea name="content" cols="30" rows="10"></textarea> <br>
-    기간: <input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime"><br>
-    <input type="submit" value="일정 추가">
-</form>
-
-
-
+    </form>
+</div>
 
 
 <script>
