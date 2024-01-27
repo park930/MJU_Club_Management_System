@@ -2,25 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/join.css">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
 <body>
-<h1>동아리원 가입페이지</h1>
-<hr>
-<form action="/tempJoinProc" method="post" name="joinForm">
 
-    <select name="clubId">
-        <option th:each="club : ${clubList}" th:value="${club.id}" th:text="${club.clubName}"></option>
-    </select>
-    학번(아이디) : <input type="text" name="username" placeholder="학번"/><br>
-    비밀번호 : <input type="password" name="password" placeholder="Password"/>
-    성명 : <input type="text" name="realName" placeholder="학번"/><br>
-    전화번호 : <input type="text" name="phoneNumber" placeholder="학번"/><br>
-    <input type="text" name="position" value="부원" hidden/><br>
-    <input type="submit" value="Join"/>
-</form>
+<div class="join-container">
+    <h1>명지대학교 동아리 관리 시스템</h1>
+    <h2>[ 동아리 부원 가입 ]</h2>
+    <form action="/tempJoinProc" method="post" name="joinForm">
+
+        <input type="text" name="position" value="부원" hidden/><br>
+        <table>
+            <tr>
+                <td>동아리 선택</td>
+                <td>
+                    <select name="clubId">
+                        <option th:each="club : ${clubList}" th:value="${club.id}" th:text="${club.clubName}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>학번(아이디)</td>
+                <td><input type="text" name="username" placeholder="학번"/></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" name="password" placeholder="Password"/></td>
+            </tr>
+            <tr>
+                <td>성명</td>
+                <td><input type="text" name="realName" placeholder="이름"/></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><input type="text" name="phoneNumber" placeholder="전화번호"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="가입"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 </body>
 </html>
