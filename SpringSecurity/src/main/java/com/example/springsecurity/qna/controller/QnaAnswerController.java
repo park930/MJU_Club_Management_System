@@ -44,5 +44,13 @@ public class QnaAnswerController {
         }
     }
 
+    @PostMapping("/update")
+    public String updateAnswer(@ModelAttribute QnaAnswerDTO qnaAnswerDTO,
+                               @RequestParam Long qnaId){
+        System.out.println("qnaAnswerDTO = " + qnaAnswerDTO);
+        qnaAnswerService.updateAnswer(qnaAnswerDTO);
+        return "redirect:/qna/admin/"+qnaId;
+    }
+
 
 }

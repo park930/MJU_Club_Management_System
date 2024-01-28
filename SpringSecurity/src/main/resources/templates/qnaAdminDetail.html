@@ -2,6 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <title>detail</title>
     <!-- jquery cdn -->
@@ -58,6 +64,28 @@
             <td th:text="${qnaAnswer.answerWriter}"></td>
             <td th:text="${qnaAnswer.answerContents}"></td>
             <td th:text="${qnaAnswer.createdTime}"></td>
+            <td><a th:href="@{|/qna/delete/${qnaDTO.id}/${qnaAnswer.id}|}">삭제</a></td>
+            <td>
+
+                <a class="seeButton" data-toggle="modal" href="#qnaUpdateModal">수정</a>
+                <div class="modal fade" id="qnaUpdateModal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h1 class="modal-title">Q&A 수정</h1>
+                            </div>
+                            <div class="modal-body">
+                                <th:block th:replace="qnaAnswerUpdate::qnaUpdate(${qnaAnswer},${qnaDTO.id})"></th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+
+
+
         </tr>
     </table>
 </div>

@@ -74,12 +74,23 @@ public class QnaController {
 
     @GetMapping("/check/{qnaId}")
     public String qnaCheckPassword(@PathVariable Long qnaId, Model model){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (id.startsWith("admin")){
+            return "redirect:/qna/admin/"+qnaId;
+        }
+
         model.addAttribute("qnaId",qnaId);
         return "checkQnaSecret";
     }
 
     @GetMapping("/{qnaId}")
     public String qnaDetail(@PathVariable Long qnaId, Model model){
+
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (id.startsWith("admin")){
+            return "redirect:/qna/admin/"+qnaId;
+        }
+
         QnaDTO qnaDTO = qnaService.findById(qnaId);
         List<QnaAnswerDTO> qnaAnswerDTOList = qnaAnswerService.findAll(qnaId);
         model.addAttribute("qnaAnswerList",qnaAnswerDTOList);
@@ -112,6 +123,13 @@ public class QnaController {
         } else {
             return "redirect:/qna/";
         }
+    }
+
+    @GetMapping("/delete/{qnaId}/{qnaAnswerId}")
+    public String deleteQnA(@PathVariable Long qnaAnswerId,
+                            @PathVariable Long qnaId){
+        qnaAnswerService.deleteById(qnaAnswerId);
+        return "redirect:/qna/admin/"+qnaId;
     }
 
 }

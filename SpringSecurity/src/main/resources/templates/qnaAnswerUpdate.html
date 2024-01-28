@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+</head>
+
+<th:block th:fragment="qnaUpdate(qnaAnswer,qnaId)">
+<body>
+<form action="/qnaAnswer/update" method="post" name="updateForm">
+    <input type="hidden" name="id" th:value="${qnaAnswer.id}">
+    <input type="hidden" name="qnaId" th:value="${qnaId}">
+    writer: <input type="text" name="answerWriter" th:value="${qnaAnswer.answerWriter}" readonly> <br>
+    contents: <textarea name="answerContents" cols="30" rows="10" th:text="${qnaAnswer.answerContents}"></textarea> <br>
+    <input type="submit" value="수정하기">
+</form>
+</body>
+</th:block>
+
+
+</html>

@@ -49,4 +49,17 @@ public class QnaAnswerService {
         }
 
     }
+
+    public void deleteById(Long qnaAnswerId) {
+        qnaAnswerRepository.deleteById(qnaAnswerId);
+    }
+
+    public void updateAnswer(QnaAnswerDTO qnaAnswerDTO) {
+        Optional<QnaAnswerEntity> optionalQnaAnswerEntity = qnaAnswerRepository.findById(qnaAnswerDTO.getId());
+        if (optionalQnaAnswerEntity.isPresent()){
+            QnaAnswerEntity qnaAnswerEntity = optionalQnaAnswerEntity.get();
+            qnaAnswerEntity.setAnswerContents(qnaAnswerDTO.getAnswerContents());
+            qnaAnswerRepository.save(qnaAnswerEntity);
+        }
+    }
 }
