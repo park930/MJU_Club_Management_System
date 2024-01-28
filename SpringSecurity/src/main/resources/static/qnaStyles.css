@@ -102,6 +102,8 @@ a:hover {
 
 .qna-writer {
     background-color: #dad3c9;
+    padding: 10px;
+    color: #8c8c8c;
 }
 
 .qna-writer .name {
@@ -129,3 +131,4 @@ span#userId {
 .answer-text {
     font-size: 1.5rem;
 }
+

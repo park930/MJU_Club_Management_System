@@ -2,107 +2,137 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/receivedStyles.css">
     <title>detail</title>
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<div th:if="${scoreDTO != null}" id="score-info">
-    <h2>동아리평가 항목입니다.</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>정상제출</th>
-            <th>지각제출</th>
-            <th>미제출</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${scoreDTO.normalSubmit}">점</td>
-            <td th:text="${scoreDTO.lateSubmit}">점</td>
-            <td th:text="${scoreDTO.noSubmit}">점</td>
-        </tr>
-        </tbody>
-    </table>
 
-    <table>
-        <thead>
-        <tr>
-            <th>1등</th>
-            <th>2등</th>
-            <th>3등</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${scoreDTO.plusRank1}">점</td>
-            <td th:text="${scoreDTO.plusRank2}">점</td>
-            <td th:text="${scoreDTO.plusRank3}">점</td>
-        </tr>
-        </tbody>
-    </table>
+<div th:replace="header :: header"></div>
+
+
+
+<div class="received-container">
+    <div class="received-item">
+        <div id="todo-info">
+            <h2 th:text="${todo.title}" class="title"></h2>
+            <div class="writer-info">
+                <span class="writer" th:text="${todo.content}"></span>
+                <span class="writer-date" th:text="*{#temporals.format(todo.createdTime, 'yyyy-MM-dd')}"></span>
+            </div>
+
+
+            <div th:if="${scoreDTO != null}" id="score-info">
+                <div class="date-info">
+                    <span class="date" th:text="'제출기한 : ['+*{#temporals.format(todo.startTime, 'MM-dd   HH:mm')}+'] ~ '"></span>
+                    <span class="date" th:text="'['+*{#temporals.format(todo.endTime, 'MM-dd   HH:mm')}+']'"></span>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>정상제출</th>
+                        <th>지각제출</th>
+                        <th>미제출</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${scoreDTO.normalSubmit}">점</td>
+                        <td th:text="${scoreDTO.lateSubmit}">점</td>
+                        <td th:text="${scoreDTO.noSubmit}">점</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>1등</th>
+                        <th>2등</th>
+                        <th>3등</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${scoreDTO.plusRank1}">점</td>
+                        <td th:text="${scoreDTO.plusRank2}">점</td>
+                        <td th:text="${scoreDTO.plusRank3}">점</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="todo-content">
+                <h3 th:text="${todo.content}" class="todo-text"></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="received-item">
+        <div id="comment-write">
+            <input type="text" id="clubId" th:value="${clubId}" hidden>
+            <table class="comment-table">
+                <tr>
+                    <td>유형</td>
+                    <td>
+                        <input type="radio" name="type" id="resultRadio"> 결과물
+                        <input type="radio" name="type" id="questionRadio" checked> 질문
+                    </td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea id="content" placeholder="내용"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="comment-container">
+            <!-- 댓글 출력 부분 -->
+            <div id="comment-list">
+
+                <ul>
+                    <li th:each="comment: ${commentList}">
+                        <div class="comment-writer">
+                            <span class="writer" th:text="'작성일 : '+*{#temporals.format(todo.endTime, 'yyyy-MM-dd  HH:mm')}"></span>
+                        </div>
+                        <div class="comment-text">
+                            <span th:text="${comment.content}"></span>
+                        </div>
+                        <div th:if="${comment.type == 'result'}">
+                            <a th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}">수정</a>
+                        </div>
+                    </li>
+                </ul>
+
+
+<!--                <table class="comment-content">-->
+<!--                    <tr>-->
+<!--                        <th>id</th>-->
+<!--                        <th>유형</th>-->
+<!--                        <th>내용</th>-->
+<!--                        <th>작성시간</th>-->
+<!--                    </tr>-->
+<!--                    <tr th:each="comment: ${commentList}">-->
+<!--                        <td th:text="${comment.id}"></td>-->
+<!--                        <td th:text="${comment.type}"></td>-->
+<!--                        <td th:text="${comment.content}"></td>-->
+<!--                        <td th:text="${comment.createdTime}"></td>-->
+<!--                        <td th:if="${comment.type == 'result'}">-->
+<!--                            <a th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}">수정</a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div id="todo-info">
-    <hr>
-    <table>
-        <tr>
-            <th>id</th>
-            <td th:text="${todo.id}"></td>
-        </tr>
-        <tr>
-            <th>title</th>
-            <td th:text="${todo.title}"></td>
-        </tr>
-        <tr>
-            <th>writer</th>
-            <td th:text="${todo.content}"></td>
-        </tr>
-        <tr>
-            <th>시작일</th>
-            <td th:text="*{#temporals.format(todo.startTime, 'yy.MM.dd   HH:mm')}"></td>
-        </tr>
-        <tr>
-            <th>마감일</th>
-            <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-        </tr>
-    </table>
-</div>
-
-<hr>
-
-<div id="comment-write">
-    <input type="text" id="clubId" th:value="${clubId}" hidden>
-    <input type="radio" name="type" id="resultRadio"> 결과물
-    <input type="radio" name="type" id="questionRadio" checked> 질문<br>
-    <textarea id="content" placeholder="내용"></textarea>
-    <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
-</div>
-<br>
-<!-- 댓글 출력 부분 -->
-<div id="comment-list">
-    <table>
-        <tr>
-            <th>id</th>
-            <th>유형</th>
-            <th>내용</th>
-            <th>작성시간</th>
-        </tr>
-        <tr th:each="comment: ${commentList}">
-            <td th:text="${comment.id}"></td>
-            <td th:text="${comment.type}"></td>
-            <td th:text="${comment.content}"></td>
-            <td th:text="${comment.createdTime}"></td>
-            <td th:if="${comment.type == 'result'}">
-                <a th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}">수정</a>
-            </td>
-        </tr>
-    </table>
-</div>
-
 </body>
 
 <script th:inline="javascript">
@@ -140,22 +170,7 @@
             },
             success: function (res) {
                 console.log("요청성공", res);
-                let output = "<table>";
-                output += "<tr><th>id</th>";
-                output += "<th>유형</th>";
-                output += "<th>내용</th>";
-                output += "<th>작성시간</th></tr>";
-                for (let i in res) {
-                    output += "<tr>";
-                    output += "<td>" + res[i].id + "</td>";
-                    output += "<td>" + res[i].type + "</td>";
-                    output += "<td>" + res[i].content + "</td>";
-                    output += "<td>" + res[i].createdTime + "</td>";
-                    output += "</tr>";
-                }
-                output += "</table>";
-                document.getElementById('comment-list').innerHTML = output;
-                document.getElementById('content').value = '';
+                location.reload();
             },
             error: function (err) {
                 console.log("요청실패", err);
