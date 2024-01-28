@@ -15,4 +15,6 @@ public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
     Page<QnaEntity> findByBoardTitleContaining(String keyWord, Pageable pageable);
 
     List<QnaEntity> findAllByUserEntityOrderByCreatedTimeDesc(UserEntity userEntity);
+
+    List<QnaEntity> findAllByAnswerOrderByCreatedTimeAsc(int Answer);
 }

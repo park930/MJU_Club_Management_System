@@ -24,6 +24,7 @@ import com.example.springsecurity.todo.service.TodoService;
 import com.example.springsecurity.user.dto.UserDTO;
 import com.example.springsecurity.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,9 +55,14 @@ public class MainController {
     @GetMapping("/")
     public String mainP(Model model){
 
+        // 비회원인 경우
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         if (id.equals("anonymousUser")){
             return "main_anonymous";
+        }
+
+        if (id.startsWith("admin")){
+            return "redirect:/adminMain";
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -131,5 +137,23 @@ public class MainController {
         model.addAttribute("percentScore",percentScore);
         model.addAttribute("noticeList",boardNoticeList);
         return "main";
+    }
+
+    @GetMapping("/adminMain")
+    public String adminMain(Model model) {
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO userDTO = customUserDetailsService.findByUserName(id);
+        List<UserDTO> adminList = customUserDetailsService.findAllAdmin();
+        List<ScoreDTO> scoreDTOList = scoreService.findAll();
+        List<QnaDTO> noAnswerList = qnaService.findNoAnswerAll();
+        List<BoardDTO> boardNoticeList = boardService.findNotice();
+
+
+        model.addAttribute("userDTO",userDTO);
+        model.addAttribute("scoreList",scoreDTOList);
+        model.addAttribute("noticeList",boardNoticeList);
+        model.addAttribute("adminList",adminList);
+        model.addAttribute("noAnswerList",noAnswerList);
+        return "admin";
     }
 }

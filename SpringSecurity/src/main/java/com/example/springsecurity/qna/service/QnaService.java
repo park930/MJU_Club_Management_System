@@ -106,4 +106,19 @@ public class QnaService {
             qnaRepository.save(qnaEntity);
         }
     }
+
+
+    public List<QnaDTO> findNoAnswerAll() {
+        List<QnaEntity> qnaEntityList = qnaRepository.findAllByAnswerOrderByCreatedTimeAsc(0);
+        List<QnaDTO> qnaDTOList = new ArrayList<>();
+        for(QnaEntity qnaEntity : qnaEntityList){
+            qnaDTOList.add(QnaDTO.toQnaDTO(qnaEntity));
+        }
+
+        if (qnaDTOList.isEmpty()) {
+            return null;
+        } else {
+            return qnaDTOList;
+        }
+    }
 }

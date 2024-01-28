@@ -43,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public UserDTO findByUserName(String writer) {
         UserEntity userEntity = userRepository.findByUsername(writer);
-        return UserDTO.toUserDTO(userEntity);
+        return UserDTO.toAdminUserDTO(userEntity);
     }
 
     public void save(UserDTO userDTO) {
@@ -143,5 +143,20 @@ public class CustomUserDetailsService implements UserDetailsService {
             }
         }
         return 0;
+    }
+
+    public List<UserDTO> findAllAdmin() {
+        List<UserEntity> userEntityList = userRepository.findAllByUsernameContains("admin");
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for(UserEntity userEntity : userEntityList){
+            UserDTO userDTO = UserDTO.toAdminUserDTO(userEntity);
+            userDTOList.add(userDTO);
+        }
+
+        if (userDTOList.isEmpty()) {
+            return null;
+        } else {
+            return userDTOList;
+        }
     }
 }
