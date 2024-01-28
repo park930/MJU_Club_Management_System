@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/clubFeeStyles.css">
+  <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+  <title>list</title>
+</head>
+<body>
+
+<div th:replace="header :: header"></div>
+
+
+
+
+<div class="clubFee-container">
+<!--  <a class="seeButton" data-toggle="modal" href="#feeAddModal">회비 이력 추가</a>-->
+<!--  <div class="modal fade" id="feeAddModal" role="dialog">-->
+<!--    <div class="modal-dialog">-->
+<!--      <div class="modal-content">-->
+<!--        <div class="modal-header">-->
+<!--          <button type="button" class="close" data-dismiss="modal">×</button>-->
+<!--          <h1 class="modal-title">회비 이력 추가</h1>-->
+<!--        </div>-->
+<!--        <div class="modal-body">-->
+<!--          <th:block th:replace="clubFeeAdd::feeAdd(${clubId})"></th:block>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+
+  <div class="clubFee-item">
+    <h1 class="head-text" th:text="${clubDTO.clubName}"></h1>
+    <table th:if="${clubDTO != null}">
+      <tr>
+        <th>학번</th>
+        <th>직급</th>
+        <th>직책</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th colspan="2">관리</th>
+      </tr>
+      <tr th:each="userDTO: ${clubDTO.memberList}">
+        <td th:text="${userDTO.username}"></td>
+        <td th:text="${userDTO.position}"></td>
+        <td th:text="${userDTO.detailPosition}"></td>
+        <td th:text="${userDTO.realName}"></td>
+        <td th:text="${userDTO.phoneNumber}"></td>
+        <td><a th:href="@{|/clubMember/manage/${userDTO.id}|}">수정</a></td>
+        <td><a th:href="@{|/clubMember/delete/${userDTO.id}|}">삭제</a></td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</body>
+
+</html>

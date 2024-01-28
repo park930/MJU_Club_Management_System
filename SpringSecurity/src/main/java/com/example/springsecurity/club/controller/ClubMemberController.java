@@ -67,8 +67,13 @@ public class ClubMemberController {
 
     @GetMapping("/delete/{userId}")
     public String deleteMember(@PathVariable int userId){
-        customUserDetailsService.deleteMember(userId);
-        return "redirect:/clubMember/";
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long clubId = customUserDetailsService.deleteMember(userId);
+        if (id.startsWith("admin")){
+            return "redirect:/club/admin/"+clubId;
+        } else {
+            return "redirect:/clubMember/";
+        }
     }
 
 

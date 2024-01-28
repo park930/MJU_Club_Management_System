@@ -22,14 +22,21 @@ import java.util.List;
 public class ClubController
 {
     private final ClubService clubService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/")
     public String clubForm(Model model){
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ClubDTO> clubList = clubService.findAll();
         model.addAttribute("clubList",clubList);
-        model.addAttribute("userId",userId);
-        return "clubManagement";
+
+        if (userId.startsWith("admin")){
+            return "adminClubManagement";
+        } else {
+            model.addAttribute("userId",userId);
+            return "clubManagement";
+        }
+
     }
 
     @GetMapping("/add")
@@ -60,6 +67,13 @@ public class ClubController
     public String updateClub(@ModelAttribute ClubDTO clubDTO){
         clubService.updateClub(clubDTO);
         return "redirect:/club/";
+    }
+
+    @GetMapping("/admin/{clubId}")
+    public String adminClubDetail(@PathVariable Long clubId, Model model){
+        ClubDTO clubDTO = customUserDetailsService.setMemberList(clubService.findById(clubId));
+        model.addAttribute("clubDTO",clubDTO);
+        return "clubAdminDetail";
     }
 
 

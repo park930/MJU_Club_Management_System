@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
+    <link rel="stylesheet" type="text/css" href="/qnaStyles.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <title>detail</title>
     <!-- jquery cdn -->
@@ -18,76 +18,70 @@
 
 <div th:replace="header :: header"></div>
 
-<table>
-    <tr>
-        <th>id</th>
-        <td th:text="${qnaDTO.id}"></td>
-    </tr>
-    <tr>
-        <th>title</th>
-        <td th:text="${qnaDTO.boardTitle}"></td>
-    </tr>
-    <tr>
-        <th>writer</th>
-        <td th:text="${qnaDTO.boardWriter}"></td>
-    </tr>
-    <tr>
-        <th>date</th>
-        <td th:text="${qnaDTO.createdTime}"></td>
-    </tr>
-    <tr>
-        <th>contents</th>
-        <td th:text="${qnaDTO.boardContents}"></td>
-    </tr>
-</table>
+<div class="qna-container">
+    <div class="qna-item">
+        <div class="qna-view">
+            <h1 class="title" th:text="${qnaDTO.boardTitle}"></h1>
+            <div class="qna-writer">
+                <span class="name" th:text="${qnaDTO.boardWriter}"></span>
+                <span class="date" th:text="*{#temporals.format(qnaDTO.createdTime, 'YYYY-MM-dd')}"></span>
+            </div>
+            <div class="qna-content">
+                <h3 th:text="${qnaDTO.boardContents}"></h3>
+            </div>
+        </div>
+    </div>
 
-<!--<button th:if="${board.boardWriter eq userId}" onclick="updateReq()">수정</button>-->
-<!--<button th:if="${board.boardWriter eq userId}" onclick="deleteReq()">삭제</button>-->
-
-<div id="comment-write">
-    <input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}" readonly>
-    <input type="text" id="commentContents" placeholder="내용">
-    <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
-</div>
-
-<!-- 댓글 출력 부분 -->
-<div id="comment-list">
-    <table>
-        <tr>
-            <th>댓글번호</th>
-            <th>작성자</th>
-            <th>내용</th>
-            <th>작성시간</th>
-        </tr>
-        <tr th:each="qnaAnswer: ${qnaAnswerDTOList}">
-            <td th:text="${qnaAnswer.id}"></td>
-            <td th:text="${qnaAnswer.answerWriter}"></td>
-            <td th:text="${qnaAnswer.answerContents}"></td>
-            <td th:text="${qnaAnswer.createdTime}"></td>
-            <td><a th:href="@{|/qna/delete/${qnaDTO.id}/${qnaAnswer.id}|}">삭제</a></td>
-            <td>
-
-                <a class="seeButton" data-toggle="modal" href="#qnaUpdateModal">수정</a>
-                <div class="modal fade" id="qnaUpdateModal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">×</button>
-                                <h1 class="modal-title">Q&A 수정</h1>
-                            </div>
-                            <div class="modal-body">
-                                <th:block th:replace="qnaAnswerUpdate::qnaUpdate(${qnaAnswer},${qnaDTO.id})"></th:block>
+    <div class="qna-item">
+        <div id="comment-write">
+            <table class="comment-table">
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" id="commentWriter" placeholder="작성자" th:value="${userId}" readonly></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td class="textarea-part"><textarea id="commentContents" placeholder="내용"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="comment-write-btn" onclick="commentWrite()">댓글작성</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- 댓글 출력 부분 -->
+        <div id="comment-list">
+            <ul th:if="${qnaAnswerDTOList != null}" class="not-dot">
+                <li th:each="qnaAnswer: ${qnaAnswerDTOList}" class="qnaAnswer-item">
+                    <div class="comment-writer">
+                        <span class="writer" th:text="'작성일 : '+*{#temporals.format(qnaAnswer.createdTime, 'YYYY-MM-dd hh:mm')}"></span>
+                        <a data-toggle="modal" href="#qnaUpdateModal">[수정]</a>
+                        <div class="modal fade" id="qnaUpdateModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                        <h1 class="modal-title">Q&A 수정</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <th:block
+                                                th:replace="qnaAnswerUpdate::qnaUpdate(${qnaAnswer},${qnaDTO.id})"></th:block>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <a th:href="@{|/qna/delete/${qnaDTO.id}/${qnaAnswer.id}|}">[삭제]</a>
                     </div>
-                </div>
+                    <div class="comment-text">
+                        <h3 class="answer-text" th:text="${qnaAnswer.answerContents}"></h3>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-            </td>
 
-
-
-        </tr>
-    </table>
+    </div>
 </div>
 
 </body>
@@ -111,22 +105,8 @@
             },
             success: function (res) {
                 console.log("요청성공", res);
-                let output = "<table>";
-                output += "<tr><th>댓글번호</th>";
-                output += "<th>작성자</th>";
-                output += "<th>내용</th>";
-                output += "<th>작성시간</th></tr>";
-                for (let i in res) {
-                    output += "<tr>";
-                    output += "<td>" + res[i].id + "</td>";
-                    output += "<td>" + res[i].answerWriter + "</td>";
-                    output += "<td>" + res[i].answerContents + "</td>";
-                    output += "<td>" + res[i].createdTime + "</td>";
-                    output += "</tr>";
-                }
-                output += "</table>";
-                document.getElementById('comment-list').innerHTML = output;
-                document.getElementById('commentContents').value = '';
+                location.reload();
+
             },
             error: function (err) {
                 console.log("요청실패", err);

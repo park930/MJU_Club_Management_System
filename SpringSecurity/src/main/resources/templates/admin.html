@@ -118,18 +118,17 @@
             <div class="todo-box">
                 <div id="my-todo-list">
                     <div id="my-todo-items">
-                        <h2>나의 일정</h2>
-<!--                        <h3 th:if="${#lists.isEmpty(myTodoList)}" class="empty-text">등록된 일정이 없습니다</h3>-->
-<!--                        <table th:if="${myTodoList != null}" class="todo-table">-->
-<!--                            <tr th:each="todo: ${myTodoList}">-->
-<!--                                <td>•</td>-->
-<!--                                <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"-->
-<!--                                       th:text="${todo.title}"></a>-->
-<!--                                </td>-->
+                        <h2>동아리 목록</h2>
+                        <h3 th:if="${#lists.isEmpty(clubList)}" class="empty-text">등록된 일정이 없습니다</h3>
+                        <table th:if="${clubList != null}" class="todo-table">
+                            <tr th:each="club: ${clubList}">
+                                <td>•</td>
+                                <td><a th:href="@{|/club/admin/${club.id}|}" th:text="${club.clubName}"></a></td>
+                                <td th:text="${club.memberCount}+'명'"></td>
 <!--                                <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>-->
 <!--                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>-->
-<!--                            </tr>-->
-<!--                        </table>-->
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -112,7 +112,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<ClubEntity> optionalClubEntity = clubRepository.findById(clubId);
         if (optionalClubEntity.isPresent()){
             UserEntity userEntity = userRepository.findByClubEntityAndDetailPosition(optionalClubEntity.get(), "회장");
-            return UserDTO.toUserDTO(userEntity);
+            if (userEntity==null){
+                return null;
+            } else {
+                return UserDTO.toUserDTO(userEntity);
+            }
         } else {
             return null;
         }
@@ -128,8 +132,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    public void deleteMember(int userId) {
+    public Long deleteMember(int userId) {
+        Long clubId = findByUserId(userId).getClubId();
         userRepository.deleteById(userId);
+        return clubId;
     }
 
 
@@ -158,5 +164,21 @@ public class CustomUserDetailsService implements UserDetailsService {
         } else {
             return userDTOList;
         }
+    }
+
+    public List<ClubDTO> setClubMemberList(List<ClubDTO> clubDTOList) {
+        for(ClubDTO clubDTO : clubDTOList){
+            List<UserDTO> memberList = findAllByClubDTO(clubDTO);
+            clubDTO.setMemberList(memberList);
+            clubDTO.setMemberCount(memberList.size());
+        }
+        return clubDTOList;
+    }
+
+    public ClubDTO setMemberList(ClubDTO clubDTO) {
+        List<UserDTO> userDTOList = findAllByClubDTO(clubDTO);
+        clubDTO.setMemberList(userDTOList);
+        clubDTO.setMemberCount(userDTOList.size());
+        return clubDTO;
     }
 }

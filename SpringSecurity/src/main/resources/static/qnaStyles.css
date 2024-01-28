@@ -124,11 +124,61 @@ span#userId {
     margin-right: 30px;
 }
 
-.not-dot {
-    list-style-type: none;
-}
-
 .answer-text {
     font-size: 1.5rem;
 }
 
+
+div#comment-write {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.comment-table {
+    width: 40%;
+    border-collapse: collapse;
+    border: 2px solid #d4d4d4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-table td {
+    text-align: left;
+    border: none;
+    padding: 20px;
+}
+
+#comment-list {
+    border-top: 2px solid black;
+}
+
+#comment-list li {
+    border-bottom: 2px solid #b8b8b8;
+}
+
+.comment-writer {
+    margin-top: 20px;
+}
+
+.writer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.comment-text {
+    font-size: 1.5rem;
+    margin: 20px;
+}
+
+.comment-table textarea {
+    width: 100%;
+}
+
+.comment-table .textarea-part {
+    padding-bottom: 0;
+}
+
+#comment-write-btn {
+    width: 100%;
+}

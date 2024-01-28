@@ -147,11 +147,12 @@ public class MainController {
         List<ScoreDTO> scoreDTOList = scoreService.findAll();
         List<QnaDTO> noAnswerList = qnaService.findNoAnswerAll();
         List<BoardDTO> boardNoticeList = boardService.findNotice();
-
+        List<ClubDTO> clubDTOList = customUserDetailsService.setClubMemberList(clubService.findAll());
 
         model.addAttribute("userDTO",userDTO);
         model.addAttribute("scoreList",scoreDTOList);
         model.addAttribute("noticeList",boardNoticeList);
+        model.addAttribute("clubList",clubDTOList);
         model.addAttribute("adminList",adminList);
         model.addAttribute("noAnswerList",noAnswerList);
         return "admin";

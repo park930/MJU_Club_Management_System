@@ -3,11 +3,6 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
   <link rel="stylesheet" type="text/css" href="/clubList.css">
   <link rel="stylesheet" type="text/css" href="/menuStyles.css">
   <title>list</title>
@@ -21,22 +16,6 @@
 
 <div  th:if="${not #strings.equals(userId, 'anonymousUser')}">
   <div th:replace="header :: header"></div>
-</div>
-
-<br>
-<a class="seeButton" data-toggle="modal" href="#clubAddModal" th:if="${#strings.startsWith(userId, 'admin')}">동아리 추가</a>
-<div class="modal fade" id="clubAddModal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h1 class="modal-title">동아리 추가</h1>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="clubAdd::clubAdd"></th:block>
-      </div>
-    </div>
-  </div>
 </div>
 
 
@@ -62,22 +41,9 @@
         <th th:text="${club.clubRoom}+'호실'"></th>
       </tr>
     </table>
-<!--    <div>-->
-<!--      <a th:href="@{|/club/${club.id}|}">관리 </a>-->
-<!--      <a th:href="@{|/club/update/${club.id}|}">수정</a>-->
-<!--      <a th:href="@{|/club/delete/${club.id}|}">삭제</a>-->
-<!--    </div>-->
   </div>
 </div>
 
 </body>
 
-<script>
-
-  const clubAddReq = () => {
-    location.href="/club/add";
-  }
-
-
-</script>
 </html>
