@@ -3,37 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>detail</title>
+    <link rel="stylesheet" type="text/css" href="/renterList.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
 
-카테고리: <h4 th:text="${rentalDTO.type}"></h4>
-물품명: <h4 th:text="${rentalDTO.name}"></h4>
-잔여 수량: <h4 th:text="${rentalDTO.remain}"></h4>
-대여 위치: <h4 th:text="${rentalDTO.location}"></h4>
 
-<table>
-    <tr>
-        <th>학번</th>
-        <th>성명</th>
-        <th>전화번호</th>
-        <th>대여 시작일</th>
-        <th>대여 마감일</th>
-        <th>대여 현황</th>
-    </tr>
-    <tr th:each="renter: ${renterList}">
-        <td th:text="${renter.userDTO.username}"></td>
-        <td th:text="${renter.userDTO.realName}"></td>
-        <td th:text="${renter.userDTO.phoneNumber}"></td>
-        <td th:text="*{#temporals.format(renter.startDate, 'yy-MM-dd HH:mm')}"></td>
-        <td th:text="*{#temporals.format(renter.endDate, 'yy-MM-dd HH:mm')}"></td>
-        <td th:text="${renter.isRent}"></td>
-        <td><a th:href="@{|/rental/offer/update/${renter.id}/${rentalDTO.id}|}">수정</a></td>
-        <td><a th:href="@{|/rental/offer/delete/${renter.id}/${rentalDTO.id}|}">삭제</a></td>
-    </tr>
-</table>
+<div th:replace="header :: header"></div>
+
+<h2 class="head-text">대여 현황</h2>
+<div class="renter-container">
+    <div class="renter-item">
+        <table>
+            <tr>
+                <td>카테고리</td>
+                <td><h4 th:text="${rentalDTO.type}"></h4></td>
+            </tr>
+            <tr>
+                <td>물품명</td>
+                <td><h4 th:text="${rentalDTO.name}"></h4></td>
+            </tr>
+            <tr>
+                <td>잔여 수량</td>
+                <td><h4 th:text="${rentalDTO.remain}"></h4></td>
+            </tr>
+            <tr>
+                <td>대여 위치</td>
+                <td><h4 th:text="${rentalDTO.location}"></h4></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="renter-item">
+        <table>
+            <tr>
+                <th>학번</th>
+                <th>성명</th>
+                <th>전화번호</th>
+                <th>대여 시작일</th>
+                <th>대여 마감일</th>
+                <th>대여 현황</th>
+                <th colspan="2">관리</th>
+            </tr>
+            <tr th:each="renter: ${renterList}">
+                <td th:text="${renter.userDTO.username}"></td>
+                <td th:text="${renter.userDTO.realName}"></td>
+                <td th:text="${renter.userDTO.phoneNumber}"></td>
+                <td th:text="*{#temporals.format(renter.startDate, 'yy-MM-dd HH:mm')}"></td>
+                <td th:text="*{#temporals.format(renter.endDate, 'yy-MM-dd HH:mm')}"></td>
+                <td th:text="${renter.isRent}"></td>
+                <td><a th:href="@{|/rental/offer/update/${renter.id}/${rentalDTO.id}|}">수정</a></td>
+                <td><a th:href="@{|/rental/offer/delete/${renter.id}/${rentalDTO.id}|}">삭제</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 </body>
-
 </html>
