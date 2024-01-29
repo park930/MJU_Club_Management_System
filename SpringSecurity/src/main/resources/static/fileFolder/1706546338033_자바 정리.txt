@@ -1,0 +1,645 @@
+규제 : 추상클래스 ,final, 접근제어자, 인터페이스 등이 있다.
+
+클래스의 접근 제어자 : public, default
+public 클래스의 제어사항 : public클래스의 명은 파일 명과 같아야한다 == 한 파일에서 하나의 public클래스
+
+
+
+final : 변경을 금함. 
+fianl 변수 = [static final double PI = 3.14 ] : PI의 값은 바뀔 수 없음
+final 메서드 = A클래스의 [final void d()]메서드가 있을때, A를 상속받는 B클래스는 d()메서드를 
+	     오버라이딩할 수 없다.
+fianl클래스 = [fianl class c]가 있을때, 상속할 수 없다.
+
+
+인터페이스 : 인터페이스를 클래스A가 구현할 때, 인터페이스의 메서드z를 반드시 구현하고 컴파일해야한다.
+	   [z(){}] 이런식으로
+	   
+	   인터페이스의 접근제어자는 무조건  public이다. 
+	     하나의 클래스는 여러개의 인터페이스를 구현할 수 있다.
+	   
+
+인터페이스 vs abstract : 인터페이스는 무조건 구현이 안된 메서드만 가질 수 있지만, 
+		       abstract는 구현이 된 메서드가 있을 수 있다. 
+
+다형성 : 
+
+class O {
+	public void a(int a){};
+	public void a(String a){};
+}
+
+이어서 o.a(1)하면 자동으로 int a인 메서드가 실행된다.  
+
+
+클래스B가 A를 상속받을 때, 
+A obj = new B();
+라고 변수 obj를 선언하면, 구성은 클래스 B이지만, obj는 A의 인스턴스로 활동한다.  
+obj의 데이터 타입은 부모 클래스나 본인 클래스가 될 수 있다. 
+
+이때, obj.x()를 하였고 x메서드는 A,B클래스 둘 다 존재한다면, 본인의 메서드가 우선으로 활동한다. 
+
+따라서, 호출한 메서드를 부모와 자식 모드 갖는다면, 변수의 실제적인 클래스의 메서드가 우선적으로 활동된다.
+즉, 그 변수의 데이터타입은 특정 메서드만 사용하도록 제한하는 역할이다.
+
+
+
+
+[예외]
+오류는 예외의 일종.
+
+try{
+	//실행 문장
+} catch(예외클래스 인스턴스){
+	//예외 발생시, 실행할 문장
+}
+
+	( e.printStackTrace() = 하면 어떤 오류인지 프린트해서 알려줌 )
+
+예외가 발생하면, catch의 문장이 실행되지만, 프로그램이 종료되지 않고 그 다음 줄부터 이어서 실행된다.
+
+
+[다양한 예외들]
+예외클래스 인스턴스 종류 :
+Exception e = 모든 오류를 처리
+
+
+< 다중 catch문 >
+} catch(AtrithmeticException e){
+	//산술오류 시, 여기 부분 실행
+} catch(ArrayIndexOutOfBoundsException e) {
+	//배열 인덱스 오류 시, 여기 부분 실행
+} catch(Exception e){
+	//위의 두개의 예외에 해당하지 않으면 여기 부분 실행
+}
+
+//만약 Exception e가 제일 위에 있으면 경고 나옴 ==> 무조건 이 부분만 실행되므로
+
+
+
+[Finally]
+
+try{
+
+} catch() {
+
+} finally {
+	//예외여부와 관계없이 실행되는 로직
+}
+
+------> 정상 코드이든 예외상황이든 무조건 실행됨
+------->용도 : try안에 DB처리 코드가 있을때, DB접근 허용량이 넘어서면 접속을 해제해야함. == 반드시 처리	할 코드가 있을때, finally를 사용해야함
+
+
+
+[파일 불러오기]
+import java.io.*; 하고
+BufferedReader bReader = new BufferedReader (new FileReader("out.txt"));
+String input = bReader.readLine();
+
+System.out.println(input); 		//하면 out.txt파일의 내용이 출력됨
+
+
+
+
+[throws절]
+B -> C -> main -> 일반 사용자. 다음과 같은 포함관계를 가질때, 
+B의 run()에서 throw하면 오류에 대한 책임이 C에게 넘어간다.
+C의 run()에서 throw하면 오류에 대한 책임이 main에게 넘어간다.
+
+사용법 :
+class B {
+	void run() throws FileNotFoundException {
+		~~~
+		~~
+	}
+}
+
+다음과 같다. 이때 B의 run에서 발생하는 FileNot에 대한 오류를 처리하지 않아도 되므로 
+B의 run()에서 try문 삭제
+
+
+[throw문]
+
+public void divide(){
+	if (right==0){
+		throw new ArithmeticException("0으로 나눌 수 없습니다.");
+	}
+
+
+
+Throwable -> exception  ---> IOException
+			\--> RuntimeException -> ArithmeticException
+
+부모중 RuntimeException이 없으면 checked인데, 이는 반드시 예외처리를 해야한다.
+==> IOException은 반드시 예외처리를 해야한다.
+
+
+ 
+[나만의 예외 만들기]
+만들 예외가 checked인지 정해야한다. 
+API쪽에서 예외를 던지고 사용자가 복구할 수 있으면 checked 사용.
+________________________________________________________________
+
+class DivideException extends RuntimeException{		
+	DivideException(){
+		super();
+	}
+	DivideException(String message){
+		super(message);
+	}
+	
+}
+
+
+class Calculator{
+	int left,right;
+	public void divide(){		/// 만약 DivideException가 check예외면 예외처리 해야함.
+		if (right==0){
+			throw new DivideException("0 나누기 불가");
+		}
+	}
+	System.out.println(this.left/this.right);
+
+
+________________________________________________________________
+
+
+
+
+[object]
+모든 클래스는 기본적으로 object클래스를 상속한다.
+
+<메서드>
+toString : Calculator c1 = new Calculator(); 이 있고
+	System.out.println(c1) == println(c1.toString()); 과 같다.
+	
+	오버라이딩으로 tostring을 수정할 수 있다.
+	ex) 	public String toString() {
+			return "left:"+this.left+", right:"+this.right;
+		}
+
+
+equals : 객체와 객체를 비교할때 사용. --> s1.equals(s2)
+
+	이또한 오버라이딩으로 활용가능
+		
+	//Student의 조상은 object인 상황.
+	ex) class Student {
+		String name;
+		public boolean equals(Object obj){	//매개변수는 일반적인(큰 범위의) 
+							  부모클래스를 써야함
+			Student s = (student) obj;	// 부모 -> 자식으로 형변환
+			return this.name == s.name;
+		}
+	    }
+
+
+
+finalize : 일단은 객체가 소멸될때, 호출되는 메서드인데, 이 메서드의 직접적인 사용은 만류한다.
+
+
+
+clone : 객체를 복제하는 메서드.
+	class Student가 있을때, clone을 사용하려면 class Student implements Cloneable 라고 		명시해야한다.
+
+	public Object clone() throws CloneNotSupportedException{	//clone은 예외처리
+		return super.clone();					//반드시 해야함
+	}
+	
+	//이다음에 throw받은 사용자는 예외 처리를 해야함.
+	Student s1 = new Student("egoing");
+	try {
+		Student s2 = (Student)s1.clone();     //s1.clone은 object이므로 형변환해야함
+	} catch(CloneNotSupportedException e) {
+		e.printStackTrace();
+	}
+	
+
+	
+===========================================================================================
+상수 : 	만약 변수 a에 대해 a가 1이면 사과, a가 2이면 포도 일때, 이를 이해하기 어려울 수 있다.
+	
+	이를 해결하기 위해 
+		private final static int APPLE = 1;
+		private final static int PEACH = 2;
+		private final static int BANANA = 3;
+		
+		public static void main(String[] args) {
+			int type = APPLE;
+			switch(type) {
+				case APPLE:
+					System.out.println(57+"kcal");
+					break;
+				case PEACH:
+					System.out.println(34+"kcal");
+					break;
+
+				case BANANA:
+					System.out.println(93+"kcal");
+					break;
+			}
+		}
+
+
+		만약, 아래와 같다면 중복으로 인해 오류가 발생된다.
+		private final static int GOOGLE = 1;
+		private final static int APPLE = 2;	//APPLE이 중복됨
+			
+
+		이것을 간결하게 사용하려면, 
+		interface FRUIT{		//암시적 속성 == public final static
+			int APPLE=1, PEACH=2, BANANA=3;
+		}
+		interface COMPANY{		//암시적 속성 == public final static
+			int GOOGLE=1, APPLE=2, ORACLE=3;
+		}
+		
+		이후 사용시, 
+		int type = FRUIT.APPLE; //다음과 같이 사용하면 됨
+		if(FRUIT.APPLE == COMPANY.APPLE) {	//이 둘은 비교하면 안된다. 비교할수X
+			System.out.println("같다");
+		}
+		
+		//이렇게 비교 불가하게 설정하기 위해, 둘의 데이터 타입을 다르게 하면 된다.
+		
+		class Fruit{		
+			public static final Fruit APPLE = new Fruit();
+			public static final Fruit PEACH = new Fruit();
+			public static final Fruit BANANA = new Fruit();
+		}
+		class Company{		
+			public static final Company Google = new Company();
+			public static final Company APPLE = new Company();
+			public static final Company ORACLE = new Company();
+		}		
+		//이렇게 설정하면 타입이 달라 비교 불가
+		
+
+enum : 	열거형, 서로 연관된 상수들의 집합 (바뀌지 않는 상수들의 집합)
+	객체 생성, 상속을 방지하고, 열거의 의도를 분명하게 나타낼 수 있다, 코드가 매우 간결해진다.
+
+	//다음과 같이 사용 가능
+	enum Fruit {
+		APPLE, PEACH, BANANA	//위의 public static..와 같다.
+	}
+
+	이를 사용할땐, 
+	Fruit type = Fruit.APPLE;
+	switch(type) {
+		case APPLE:		//이렇게 Fruit.APPLE이 아닌 APPLE로 사용할 수 있다.
+			System.out.println(57+"kcal");
+			break;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	enum Fruit {			//enum안에 변수와 메서드 둘다 넣을 수 있다.
+		APPLE("red"), PEACH("pink"), BANANA("yellow");	//이는 Fruit생성자를 
+								  3번 호출하는 것과 같다.
+		private String color;
+		public String getColor() {
+			return this.color;
+		}
+		Fruit(String color) {	//이렇게 생성자 호출시, color을 부여하려면,
+			this.color = color;
+		}	
+	}
+
+	switch(type) {
+		case APPLE:		
+			System.out.println(57+"kcal, color "+Fruit.APPLE.getColor);
+			break;
+	}
+
+
+
+
+
+
+참조 : 	변수에 대해, int a =1; int b = a; b = 2;를 하게 되면, a의 값은 1로 그대로이지만, 
+	
+	A a = new A(1);
+	A b = a;
+	이는 A의 인스턴스를 같이 가르키게 되므로 b로 값을 수정하면 a의 값도 변한다.
+	
+	***비유를 하자면, 어떠한 txt파일의 바로가기를 생성하면 이는 원본파일에 대한 참조를 의미한다.
+	   이러한 바로가기 파일은 용량이 아주 작다.
+
+	
+	
+	
+제네릭(포괄적인) :
+
+class Person <T> {
+	public T info;
+}
+
+Person <String> p1 = new Person <String>();		//info의 타입이 String됨
+Person <StringBuilder> p2 = new Person <StringBuilder>();
+
+
+______________________________________________________________________________________
+
+class StudentInfo{
+    public int grade;
+    StudentInfo(int grade){ this.grade = grade; }
+}
+class StudentPerson{
+    public StudentInfo info;
+    StudentPerson(StudentInfo info){ this.info = info; }
+}
+______________________________________________________________________________________
+
+class EmployeeInfo{
+    public int rank;
+    EmployeeInfo(int rank){ this.rank = rank; }
+}
+class EmployeePerson{
+    public EmployeeInfo info;
+    EmployeePerson(EmployeeInfo info){ this.info = info; }
+}
+______________________________________________________________________________________
+
+
+위의 StudentPerson과 EmployeePerson은 같은 메커니즘. 중복 제거가 필요하다. 따라서
+
+class Person {
+	public Object info;
+	Person(Object info){ this.info = info; }
+}
+
+public class GenericDemo {
+	public static void main(String[] args) {
+		Person p1 = new Person("부장");			//info의 타입을 Object로 해서
+		EmployeeInfo ei = (EmployeeInfo)p1.info;	//아무 값이나 들어올 수 있음
+		System.out.println(ei.rank);			//이는 "불안정"하다고 표현
+	}
+}
+
+
+
+이런 불안정을 해결하기 위해, 제네릭을 사용한다. 제네릭화하면,
+
+class Person<T>{		
+    public T info;		//이렇게 info의 타입을 미지로 남겨둠
+    Person(T info){ this.info = info; }
+}
+public class GenericDemo {
+    public static void main(String[] args) {
+        Person<EmployeeInfo> p1 = new Person<EmployeeInfo>(new EmployeeInfo(1));
+        EmployeeInfo ei1 = p1.info;
+        System.out.println(ei1.rank); // 성공
+         
+        Person<String> p2 = new Person<String>("부장");
+        String ei2 = p2.info;
+        System.out.println(ei2.rank); // 컴파일 실패
+    }
+}
+
+
+복수의 제네렉은 다음과 같다.
+
+class EmployeeInfo{
+    public int rank;
+    EmployeeInfo(int rank){ this.rank = rank; }
+}
+class Person<T, S>{			//<T,S>로 표현, 이때 기본 데이터타입은 T/S에 부여불가
+    public T info;			
+    public S id;
+    Person(T info, S id){ 
+        this.info = info; 
+        this.id = id;
+    }
+}
+public class GenericDemo {
+    public static void main(String[] args) {
+        Person<EmployeeInfo, int> p1 = new Person<EmployeeInfo, int>(new EmployeeInfo(1), 1);
+    }
+}
+
+제네릭에 기본 데이터타입을 부여하기 위해, 래퍼클래스(Wrapper)를 사용해야한다. (int -> Integer)
+따라서, Person<EmployeeInfo, Integer>로 설정해야함.
+
+public class GenericDemo {
+    public static void main(String[] args) {
+	Integer id = new Integer(1);
+        Person<EmployeeInfo, Integer> p1 = new Person<EmployeeInfo, Integer>(new EmployeeInfo(1), 1);
+    }
+}
+
+
+제네릭 생략 : class Person<T,S>{ .... } 하고 사용시, 
+EmployeeInfo e = new EmployeeInfo(1);
+Interger i = new Integer(10);
+Person p1 = new Person(e,i);	//이렇게 생략하여 작성시, T,S를 자동적으로 넣어줌
+
+
+제네릭을 메서드에서 사용 :
+public <U> void printInfo (U info){	//info의 데이터타입에 제네릭 사용
+	System.out.println(info);
+}
+
+
+p1.<EmployeeInfo>printInfo(e);	//이렇게 사용 가능, 또한 <...> 이부분 생략 가능
+
+
+		
+
+제네릭의 Extends :
+
+abstract class Info{
+    public abstract int getLevel();
+}
+class EmployeeInfo extends Info{
+    public int rank;
+    EmployeeInfo(int rank){ this.rank = rank; }
+    public int getLevel(){
+        return this.rank;
+    }
+}
+class Person<T extends Info>{			//info의 자식만 T에 들어갈 수 있다.
+    public T info;
+    Person(T info){ this.info = info; }
+}
+public class GenericDemo {
+    public static void main(String[] args) {
+        Person p1 = new Person<EmployeeInfo>(new EmployeeInfo(1)); //EmployeeInfo는 info의 
+								     자식이므로 사용가능	
+        Person<String> p2 = new Person<String>("부장");
+    }
+}
+
+
+
+
+
+===========================================================================================
+
+Collections Framework:
+
+String[] arrayObj = new String[2];
+arrayObj[0] = "one";
+arrayObj[1] = "two";
+arrayObj[0] = "three";	//이때, 에러남. 
+
+이러한 문제 해결 위해, ArrayList를 이용.
+
+import java.util.ArrayList;
+
+ArrayList al = new ArrayList();
+al.add("one");	//이렇게 배열에 추가해야함.
+
+일반적인 배열의 경우, 배열명.length이지만, AL은 al.size();를 사용함.
+또한, array[i]대신, al.get(i)로 사용해야함.
+
+
+************
+String value = al.get(i); 이는 에러다. 
+위의 al.add("one");에서 one은 al안에서 object타입으로 저장된다.
+따라서, String value = (String)al.get(i); 로 강제 형변환해야한다.
+************
+
+
+위의 상황 해결법으로 제네릭을 사용 가능.
+
+ArrayList<String> al = new ArrayList<String>();
+al.add("one");	//위의 제네릭으로 인해 one이 String으로 저장됨 
+
+
+
+컬렉션즈프레임워크 아래에는 크게 Collection, Map으로 구분된다.
+Collection에는 크게 Set, List, Queue로 구분된다.
+set은 중복이 안되지만, List는 가능하다.
+
+
+
+ArrayList vs HashSet :
+
+HashSet<Integer> A = new HashSet<Intege>();
+A.add(1);
+A.add(2);
+A.add(2);
+A.add(2);	//2를 4번 넣으면, 중복이 사라지고 2는 한번만 저정된다.
+
+
+ArrayList<Integer> A = new ArrayList<Intege>();
+A.add(1);
+A.add(2);
+A.add(2);
+A.add(2);	//반면, ArrayList는 2를 4번 넣으면, 4번 저장됨.
+
+
+ 
+HashSet의 집합연산 :
+HashSet A,B에 대해서, A.containsAll(B)의 의미는 B집합이 A집합에 포함되는지 물어보는 것.
+즉, B가 A의 부분집합인지 묻는 것
+
+A.addAll(B);	//이것은 합집합. A를 주체로 <A 합집합 B>를 수행
+A.retainAll(B);	//이것은 교집합. A를 주체로 
+A.removeAll(B); //이것은 차집합.
+
+
+
+Collection, Set,List은 인터페이스이다.
+Collection에는 add,remove메서드를 가진다.
+
+List는 get메서드를 가지지만, Set은 get메서드를 가지지 않는다. (List는 순서가 있지만, Set은 없어서)
+
+
+
+
+
+
+
+
+<Iterator : 반복자, Collection인터페이스에 구성됨>
+
+----HashSet,ArrayList 등 Collection을 구현하면 iterator사용 가능----
+HashSet<Integer> A = new HashSet<Integer>();
+A.add(1);
+A.add(2);
+A.add(3);
+
+Iterator hi = A iterator();
+while(hi.hasNext()){
+	System.out.println(hi.next());
+}
+
+iterator은 hasnext, next메서드를 갖는다. 
+hasNext : hi에 가져올 값이 있는지 확인 (있으면 true)
+next	: hi에서 값을 하나 빼내어 리턴한다.
+
+
+
+
+<map : Key,Value로 구성됨, Key는 중복허용X --- Value는 중복 허용O >
+
+HashMap<String, Integer> a = new HashMap<String, Integer>();	//<Key,Value> 타입을 의미
+a.put("one", 1);	//첫번째 매개변수는 Key, 두번째는 Value
+a.put("two", 2);
+a.put("three", 3);
+a.put("four", 4);
+a.get("one");	//key가 one인 것의 value를 가져온다.
+
+
+iteratorUsingForEach(a);	//map의 key,value를 알아내는 메서드1
+iteratorUsingIterator(a);	//map의 key,value를 알아내는 메서드2
+
+static void iteratorUsingForEach(HashMap map){	
+	Set<Map.Entry<String, Integer>> entries = map.entrySet();	//map의 entry를 set에
+        for (Map.Entry<String, Integer> entry : entries) {		//담는다.
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+}
+     
+static void iteratorUsingIterator(HashMap map){
+        Set<Map.Entry<String, Integer>> entries = map.entrySet();
+        Iterator<Map.Entry<String, Integer>> i = entries.iterator(); //set에 iterator을 사용
+        while(i.hasNext()){
+            Map.Entry<String, Integer> entry = i.next();
+            System.out.println(entry.getKey()+" : "+entry.getValue());
+        }
+}
+
+
+
+
+
+<정렬 : sort(리스트), comparable인터페이스 구현한 리스트를 정렬 가능. >
+
+class Computer implements Comparable{
+    int serial;
+    String owner;
+    Computer(int serial, String owner){
+        this.serial = serial;
+        this.owner = owner;
+    }	
+    public int compareTo(Object o) {	//comparable인터페이스의 compareTo메서드를 구현
+        return this.serial - ((Computer)o).serial;
+    }
+    public String toString(){
+        return serial+" "+owner;
+    }
+}
+
+// a.compareTo(b)의 값은 a가 크면 양수, 작으면 음수로 나타내야함. (a의serial - b의 serial)
+
+
+	List<Computer> computers = new ArrayList<Computer>();
+        computers.add(new Computer(500, "egoing"));
+        computers.add(new Computer(200, "leezche"));
+        computers.add(new Computer(3233, "graphittie"));
+        Iterator i = computers.iterator();
+        System.out.println("before");
+        while(i.hasNext()){
+            System.out.println(i.next());
+        }
+
+	//정렬함
+        Collections.sort(computers);
+        System.out.println("\nafter");
+        i = computers.iterator();
+        while(i.hasNext()){
+            System.out.println(i.next());
+        }
+

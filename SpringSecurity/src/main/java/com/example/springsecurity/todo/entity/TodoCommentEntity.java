@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -38,15 +41,32 @@ public class TodoCommentEntity extends BaseEntity {
     @Column
     private String content;
 
+    @Column
+    private int fileAttached;
 
-    public static TodoCommentEntity toTodoCommentEntity(TodoCommentDTO todoCommentDTO, TodoEntity todoEntity, ClubEntity clubEntity) {
+    @OneToMany(mappedBy = "todoCommentEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<TodoCommentFileEntity> todoCommentFileEntityList = new ArrayList<>();
+
+
+    public static TodoCommentEntity toSaveTodoCommentEntity(TodoCommentDTO todoCommentDTO, TodoEntity todoEntity, ClubEntity clubEntity) {
         TodoCommentEntity todoCommentEntity = new TodoCommentEntity();
         todoCommentEntity.setClubEntity(clubEntity);
         todoCommentEntity.setTodoEntity(todoEntity);
         todoCommentEntity.setType(todoCommentDTO.getType());
         todoCommentEntity.setContent(todoCommentDTO.getContent());
-        System.out.println("결과물 제출? = " + todoCommentDTO.getResultSubmit());
         todoCommentEntity.setIsSubmit(todoCommentDTO.getResultSubmit());
+        todoCommentEntity.setFileAttached(0);   //파일 없음
+        return todoCommentEntity;
+    }
+
+    public static TodoCommentEntity toSaveFileTodoCommentEntity(TodoCommentDTO todoCommentDTO, TodoEntity todoEntity, ClubEntity clubEntity) {
+        TodoCommentEntity todoCommentEntity = new TodoCommentEntity();
+        todoCommentEntity.setClubEntity(clubEntity);
+        todoCommentEntity.setTodoEntity(todoEntity);
+        todoCommentEntity.setType(todoCommentDTO.getType());
+        todoCommentEntity.setContent(todoCommentDTO.getContent());
+        todoCommentEntity.setIsSubmit(todoCommentDTO.getResultSubmit());
+        todoCommentEntity.setFileAttached(1);   //파일 있음
         return todoCommentEntity;
     }
 
@@ -60,4 +80,5 @@ public class TodoCommentEntity extends BaseEntity {
         todoCommentEntity.setTodoEntity(todoEntity);
         return todoCommentEntity;
     }
+
 }

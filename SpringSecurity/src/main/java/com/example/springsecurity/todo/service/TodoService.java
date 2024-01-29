@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.Duration;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -123,6 +124,7 @@ public class TodoService {
         return todoPersonalDTO;
     }
 
+    @Transactional
     public List<TodoCommentDTO> filterCompleteClub(TodoDTO todoDTO) {
         if (todoDTO != null){
             List<TodoCommentEntity> todoCommentEntityList = todoCommentRepository.findAllByTodoEntityAndTypeOrderByCreatedTimeDesc(TodoEntity.toUpdateTodoEntity(todoDTO), "result");

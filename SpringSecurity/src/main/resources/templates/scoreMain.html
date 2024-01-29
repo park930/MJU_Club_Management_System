@@ -40,7 +40,10 @@
     </table>
     <table class="part-table">
         <tr>
-            <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}" th:text="${scoreDTO.title}"></th>
+            <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
+                <a th:href="@{|/todo/admin/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}" th:if="${#strings.startsWith(userId, 'admin')}"></a>
+                <span th:text="${scoreDTO.title}" th:if="${not #strings.startsWith(userId, 'admin')}"></span>
+            </th>
         </tr>
         <tr>
             <th th:each="head : ${clubRatingDTO.headText}" th:text="${head}"></th>

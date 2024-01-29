@@ -142,3 +142,8 @@ div#tables {
     text-align: left;
 
 }
+
+.part-table a {
+    color: wheat;
+    text-decoration: none;
+}

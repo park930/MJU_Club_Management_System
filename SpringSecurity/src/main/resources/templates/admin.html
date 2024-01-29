@@ -36,41 +36,45 @@
             </div>
         </div>
 
-        <div class="favorite-box">
-            <div class="favorite-item">
-                <h2>즐겨찾기</h2>
-<!--                <h3 th:if="${#lists.isEmpty(favoriteBoardDTOList)}" class="empty-text">즐겨찾기가 없습니다.</h3>-->
-<!--                <table th:if="${favoriteBoardDTOList != null}">-->
-<!--                    <tr th:each="favoriteBoardDTO : ${favoriteBoardDTOList}">-->
-<!--                        <td>•</td>-->
-<!--                        <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}"-->
-<!--                               th:text="${favoriteBoardDTO.boardTitle}"></a></td>-->
-<!--                        <td th:text="${favoriteBoardDTO.boardWriter}+'님'"></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
+        <div class="admin-box">
+            <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                <h2>동아리 평가 목록</h2>
+                <h3 th:if="${#lists.isEmpty(scoreList)}" class="empty-text">등록된 요청이 없습니다</h3>
+                <table th:if="${scoreList != null}" class="todo-table">
+                    <tr th:each="score: ${scoreList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/todo/admin/${score.id}|}"
+                               th:text="${score.title}"></a></td>
+                        <td th:text="*{#temporals.format(score.endTime, 'MM월dd일까지')}"></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
-        <div class="heart-box">
-            <div class="heart-item">
-                <h2>"좋아요" 목록</h2>
-<!--                <h3 th:if="${#lists.isEmpty(heartBoardList)}" class="empty-text">좋아요가 없습니다.</h3>-->
-<!--                <table th:if="${heartBoardList != null}">-->
-<!--                    <tr th:each="heartBoard : ${heartBoardList}">-->
-<!--                        <td>•</td>-->
-<!--                        <td><a th:href="@{|/board/${heartBoard.id}|}" th:text="${heartBoard.boardTitle}"></a></td>-->
-<!--                        <td th:text="${heartBoard.boardWriter}+'님'"></td>-->
-<!--                        <td><a th:href="@{|/heart/${heartBoard.id}/${id}|}">❤️</a></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-            </div>
-        </div>
+
+
     </div>
 
 
     <div id="right-container">
 
         <div id="right-top-container">
+
+            <div class="clubInfo-box">
+                <div id="clubMember-list">
+                    <div id="clubMember-items">
+                        <h2>미답변 Q&A</h2>
+                        <table th:if="${noAnswerList != null}" class="todo-table">
+                            <tr th:each="qnaDTO: ${noAnswerList}">
+                                <td>•</td>
+                                <td><a th:href="@{|/qna/admin/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>
+                                <td th:text="*{#temporals.format(qnaDTO.createdTime, 'yy.MM.dd')}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div class="admin-box">
                 <h2>관리자 목록</h2>
                 <h3 th:if="${adminList == null}" class="empty-text">등록된 임원이 없습니다</h3>
@@ -82,21 +86,6 @@
                         <td th:text="${admin.phoneNumber}"></td>
                     </tr>
                 </table>
-            </div>
-
-            <div class="admin-box">
-                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                    <h2>동아리 평가 목록</h2>
-                    <h3 th:if="${#lists.isEmpty(scoreList)}" class="empty-text">등록된 요청이 없습니다</h3>
-                    <table th:if="${scoreList != null}" class="todo-table">
-                        <tr th:each="score: ${scoreList}">
-                            <td>•</td>
-                            <td><a th:href="@{|/todo/admin/${score.id}|}"
-                                   th:text="${score.title}"></a></td>
-                            <td th:text="*{#temporals.format(score.endTime, 'MM월dd일까지')}"></td>
-                        </tr>
-                    </table>
-                </div>
             </div>
 
             <div class="admin-box">
@@ -115,6 +104,20 @@
 
 
         <div id="right-middle-container">
+
+            <div class="some-box">
+                <h2>대여 중인 물품</h2>
+                <!--                <table th:if="${myRentalList != null}" class="todo-table">-->
+                <!--                    <tr th:each="rentalDTO: ${myRentalList}">-->
+                <!--                        <td>•</td>-->
+                <!--                        <td th:text="${rentalDTO.name}"></td>-->
+                <!--                        <td th:text="${rentalDTO.location}"></td>-->
+                <!--                        <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>-->
+                <!--                    </tr>-->
+                <!--                </table>-->
+                <!--                <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>-->
+            </div>
+
             <div class="todo-box">
                 <div id="my-todo-list">
                     <div id="my-todo-items">
@@ -125,37 +128,8 @@
                                 <td>•</td>
                                 <td><a th:href="@{|/club/admin/${club.id}|}" th:text="${club.clubName}"></a></td>
                                 <td th:text="${club.memberCount}+'명'"></td>
-<!--                                <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>-->
-<!--                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>-->
                             </tr>
                         </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clubInfo-box">
-                <div id="clubMember-list">
-                    <div id="clubMember-items">
-                        <h2>미답변 Q&A</h2>
-                        <table th:if="${noAnswerList != null}" class="todo-table">
-                            <tr th:each="qnaDTO: ${noAnswerList}">
-                                <td>•</td>
-                                <td><a th:href="@{|/qna/admin/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>
-                                <td th:text="*{#temporals.format(qnaDTO.createdTime, 'yy.MM.dd')}"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="clubInfo-box">
-                <div id="clubMoney-list">
-                    <div id="clubMoney-items">
-                        <h2>동아리 회비</h2>
-<!--                        <div class="zt-skill-bar">-->
-<!--                            <div th:data-width="${feePercent}" th:text="${feePercent}+'%'"></div>-->
-<!--                        </div>-->
-<!--                        <span th:text="'총 입금액 : '+${totalDepositAmount}+'원'"></span><br>-->
-<!--                        <span th:text="'총 사용액 : '+${totalSpentAmount}+'원'"></span>-->
                     </div>
                 </div>
             </div>
@@ -163,100 +137,12 @@
 
 
         <div id="right-bottom-container">
-            <div class="achievement-box">
-                <h2>지원금 기준 달성도</h2>
-<!--                <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>-->
-<!--                <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>-->
-            </div>
 
-            <div class="QnA-box">
-                <h2>나의 Q&A</h2>
-<!--                <table th:if="${myQnaList != null}" class="todo-table">-->
-<!--                    <tr th:each="qnaDTO: ${myQnaList}">-->
-<!--                        <td>•</td>-->
-<!--                        <td><a th:href="@{|/qna/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>-->
-<!--                        <td th:text="${qnaDTO.answerString}"></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <h3 th:unless="${myQnaList != null}" class="empty-text">나의 QnA가 없습니다.</h3>-->
-            </div>
 
-            <div class="some-box">
-                <h2>대여 중인 물품</h2>
-<!--                <table th:if="${myRentalList != null}" class="todo-table">-->
-<!--                    <tr th:each="rentalDTO: ${myRentalList}">-->
-<!--                        <td>•</td>-->
-<!--                        <td th:text="${rentalDTO.name}"></td>-->
-<!--                        <td th:text="${rentalDTO.location}"></td>-->
-<!--                        <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>-->
-            </div>
 
         </div>
     </div>
 </div>
 </body>
 
-<script th:inline="javascript">
-
-    // const id = [[${id}]];
-
-
-    //
-    // const chart1 = document.querySelector('.chart1');
-    // const percentScore = [[${percentScore}]];
-    //
-    // const makeChart = (percent,classname,color) => {
-    //     let i=1;
-    //     let chartFn = setInterval(function () {
-    //         if (i <= percent) {
-    //             colorFn(i,classname,color);
-    //             i++;
-    //         } else {
-    //             clearInterval(chartFn);
-    //         }
-    //     },10);
-    // }
-    //
-    // const colorFn = (i, classname, color) => {
-    //     classname.style.background = "conic-gradient(" + color + " 0% " + i + "%, transparent " + i + "% 10%, #dedede 50% 100%)";
-    // }
-    //
-    // makeChart(percentScore, chart1, '#374864');
-    //
-    //
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     function animatedContents() {
-    //         var skillBars = document.querySelectorAll('.zt-skill-bar > div');
-    //
-    //         skillBars.forEach(function (bar) {
-    //             var skills = bar.dataset.width;
-    //             bar.style.width = skills + '%';
-    //         });
-    //     }
-    //
-    //     var skillBars = document.querySelectorAll('.zt-skill-bar');
-    //
-    //     if ('IntersectionObserver' in window) {
-    //         var observer = new IntersectionObserver(function (entries) {
-    //             entries.forEach(function (entry) {
-    //                 if (entry.isIntersecting) {
-    //                     animatedContents();
-    //                 }
-    //             });
-    //         });
-    //
-    //         skillBars.forEach(function (bar) {
-    //             observer.observe(bar);
-    //         });
-    //     } else {
-    //         animatedContents();
-    //     }
-    // });
-    //
-
-
-</script>
 </html>

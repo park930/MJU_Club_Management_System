@@ -25,6 +25,7 @@
     <div class="flex-item">
         <div class="item">
             <div class="todo-main">
+                <button onclick="deleteReq()" id="delete-button">삭제</button>
                 <div class="title"><h2 th:text="${todoDTO.title}"></h2></div>
                 <div class="todo-writer">
                     <span class="name" th:text="${todoDTO.writer}"></span>
@@ -33,8 +34,6 @@
                 <div class="todo-content">
                     <h3 th:text="${todoDTO.content}"></h3>
                 </div>
-
-                <button onclick="deleteReq()" id="delete-button">삭제</button>
             </div>
         </div>
         <div th:if="${scoreDTO != null}" class="item">

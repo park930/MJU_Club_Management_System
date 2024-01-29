@@ -19,7 +19,7 @@ a#home_like {
 #logo {
     padding: 10px;
     text-align: center;
-    font-size: 50px;
+    font-size: 2rem;
 }
 
 
@@ -35,7 +35,6 @@ a#home_like {
     font-weight: bold;
     text-align: center;
     background-color: transparent;
-    font-size: 20px;
     text-decoration: none;
 }
 

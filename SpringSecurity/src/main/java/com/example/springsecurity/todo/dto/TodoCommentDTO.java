@@ -2,6 +2,7 @@ package com.example.springsecurity.todo.dto;
 
 import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,15 @@ public class TodoCommentDTO {
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 
+
+
+    private MultipartFile resultFile;
+    private String originalFileName;
+    private String storedFileName;
+    private int fileAttached;
+
+
+
     public static TodoCommentDTO toTodoCommentDTO(TodoCommentEntity todoCommentEntity) {
         TodoCommentDTO todoCommentDTO = new TodoCommentDTO();
         todoCommentDTO.setId(todoCommentEntity.getId());
@@ -31,6 +41,13 @@ public class TodoCommentDTO {
         todoCommentDTO.setResultSubmit(todoCommentEntity.getIsSubmit());
         todoCommentDTO.setCreatedTime(todoCommentEntity.getCreatedTime());
         todoCommentDTO.setUpdatedTime(todoCommentEntity.getUpdatedTime());
+        if (todoCommentEntity.getFileAttached() == 0){
+            todoCommentDTO.setFileAttached(todoCommentEntity.getFileAttached());
+        } else {
+            todoCommentDTO.setFileAttached(todoCommentEntity.getFileAttached());
+            todoCommentDTO.setOriginalFileName(todoCommentEntity.getTodoCommentFileEntityList().get(0).getOriginalFileName());
+            todoCommentDTO.setStoredFileName(todoCommentEntity.getTodoCommentFileEntityList().get(0).getStoredFileName());
+        }
         return todoCommentDTO;
     }
 }

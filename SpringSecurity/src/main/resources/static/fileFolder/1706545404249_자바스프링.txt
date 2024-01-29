@@ -1,0 +1,179 @@
+이상적인 모든 설계에 인터페이스를 부여하자!
+
+
+추상화의 단점 : 구현 클래스를 다시 열어봐야함
+
+기능 확장 가능성 벗으면 구체 클래스 직접 사용하고, 후에 리펙토링으로 인터페이스 도입하는 것도 방법임
+
+
+단축키 : alt + insert 	= 생성자, get/set
+	psvm 		= public static void main 
+	soutv 		= System.out.println("변수명 = " + 변수);	
+	ctrl + alt + v 	= new ~~ 작성 후, 앞의 변수명 입력   
+	ctrl + alt + m	= 메서드 추출
+	iter + tap	= 위에 리스트가 있을때, 이거 치면 반복문 생김
+	ctrl + e	= 이전 코드로 이동
+	alt  + enter	= 긴 코드 import화 시키기
+	ctrl + shift + t = 테스트 만들기
+
+test작성 : 
+@test
+Assertion.assertThat() ===> Assertion은 
+
+
+
+AppConfig : 구현 객체를 생성하고 연결하는 책임을 가진다.
+
+---> 생성자 주입
+: 구현 클래스에서 역할의 구현체를 결정하지 않고, 역할만 선언함
+  이후 생성자를 생성함.	
+
+: Appconfig에서 구현제를 설정해줌
+
+: 원리 = Appconfig에서 메모리member저장소를 생성하여 참조값을 memberService Impl에 넘겨준다. 그래서 이를 의존관계 주입(DI)라고 한다.
+
+
+
+DI컨테이너, Ioc컨테이너 = Appconfig처럼 객체 생성을 관리 + 의존관계 연결하는 것 (Ioc = 제어의 역전)
+
+
+
+자바 스프링으로 전환 = 
+1. AppConfig파일(설정파일)에 @Configuration을 추가한다.
+2. 메서드에 @Bean을 추가한다. == 스프링 컨테이너에 넣음
+3. 스프링을 사용할 클래스에 
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class); 다음 문장을 추가한다.
+4. applicationContext.getBean("memberService",MemberService.class)
+첫번째 메서드는 찾을 메서드 이름, 두번째는 타입
+
+
+
+
+스프링 빈 조회 :
+getBean(빈이름, 타입) / getBean(타입)
+
+특정타입의 여러 빈 조회 :
+ac.getBeansOfType();
+
+
+* getBeanDefinitionNames() : 컨테이너에 등록된 모든 빈을 조회한다.
+* getBeanDefinition(빈 이름) : 빈에 대한 메타 데이터 정보를 BeanDefinition 타입으로 반환
+* 빈이름.getRole() == BeanDefinition.ROLE_APPLICATION : 내부 빈을 제외한 애플리케이션에서 사용하는 빈만 조회할 수 있다 
+
+
+
+
+
+싱글톤 패턴 : 
+1. private static final [클래스명] [객체 명] = new [클래스명]();
+으로 static영역에 객체를 미리 생성해 올려 놓음
+
+2. 이 객체가 필요하면 오직 getInstance()를 통해서만 조회 가능
+
+3. 외부에서 new하는 것을 막기 위해 private로 해야함.
+
+
+
+
+
+싱글톤 방식의 주의점:
+특정 클라이언트에 의존적 필드 있으면 안됨
+가급적 읽기만 가능해야함
+
+
+@Configuration하면 AppConfig가 스프링이 자체적으로 생성하는 것으로 바뀌어서 생성된다. (ex. AppConfig@CGLIB)
+-> 따라서, @Bean이 붙은 메서드는 싱글톤을 유지한다. 
+-> @Configuration을 안붙이면, 싱글톤 불가.
+
+
+
+컴포넌트 스캔 :
+@ComponentScan을 붙여준다.
+이번 예제에서는 스캔에서 @Configuration을 제외하는데 이는 @configuration을 들어가보면, @Component가 붙어있기 때문이다.
+
+사용법 :
+의존관계가 필요한 클래스파일에 @Component를 붙여주고, 생성자 부분에 @AutoWired를 붙인다.
+
+@ComponentScan ( basePackges = "hello.core.member" ) 하면 member부터 스캔함
+
+스캔 범위를 지정하지 않으면, 해당 AUtoConfig의 패키지부터 다 스캔함
+(hello.core 부터)
+
+ 
+
+
+직접 필터 만들기 :
+@ComponentScan(
+includeFilters = @Filter
+(type = FilterType.ANNOTATION, classes = MyIncludeComponent.class),
+excludeFilters = @Filter
+(type = FilterType.ANNOTATION, classes = MyExcludeComponent.class)
+)
+
+다음과 같이 하면 됨
+
+
+
+
+이름 충돌 : 
+자동 빈 vs 자동 빈 = 직접 이름을 설정하지 않는 한, 충돌나지 않음
+수동 빈 vs 자동 빈 = 충돌시, 스프링 부트 에러 남
+
+
+
+
+
+의존관계 주입 방법:
+1. 생성자 주입
+2, 수정자 주입
+3. 필드 주입
+4. 일반 메서드 주입
+
+-생성자 주입 : 생성자 호출 시점에서 딱 1번만 호출되는 것 보장됨 = 불변, 필수
+스프링 빈인데, 생성자가 딱 1개면 자동으로  AutoWired됨
+
+-수정자 주입 : Setter주입 = 선택, 변경 가능성 있는 의존관계에 사용
+
+-필드 주입 : 
+@Autowired 
+private MemberRepository memberRepository 이렇게 사용
+근데, 안좋음. 간단한 수정도 불가능해서 따로 setter를 만들어야함
+= 순수한 자바 코드로 테스트 불가
+= 테스트하는 경우에만 가끔 씀
+
+-일반 메서드 주입 : 일반적으로 잘 사용 안함, 스프링 빈이어야 작동함
+
+
+<자동 주입의 중복 빈 조회 시>
+-Autowired의 매칭
+: 본인과 매칭되면 자식까지 다 끌고 옴
+: 타입매칭 결과가 2개 이상이면 필드명, 파라미터 명으로 빈 이름 매칭
+
+-Qualifier 사용
+: rateDiscountPolicy 파일에 @Component밑에 @Qualifier("main~")
+을 작성하고 OrderServiceImpl파일의 생성자 부분에 2개의 파라미터 중 DiscountPolicy 앞에 @Qualifier 추가함
+: 우선자를 선정하여 인식시키는 방식
+
+
+-Primary 사용
+: 우선으로 사용할 rateDiscountPolicy파일에 @Component 밑에 
+@Primary를 추가함
+
+(추가 : primary는 기본값처럼 동작하므로 넓은 범위다. qualifier과 primary중에는 qualifier가 더 우선권 높음)
+
+
+
+
+
+
+
+<애노테이션 직접 만들기>
+인터페이스를 만들고 Qualifier파일을 찾아서 @ 4줄을 복붙하여 @Qualifier("~")로 재정의하면 됨
+
+
+
+
+
+<자동/수동 주입의 실무 운영기준>
+
+

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -33,24 +35,19 @@ public class TodoCommentController {
     private final ScoreClubService scoreClubService;
 
     @PostMapping("/save")
-    public ResponseEntity saveTodoComment(@ModelAttribute TodoCommentDTO todoCommentDTO){
+    public String saveTodoComment(@ModelAttribute TodoCommentDTO todoCommentDTO) throws IOException {
+        System.out.println("todoCommentDTO = " + todoCommentDTO);
         TodoDTO todoDTO = todoService.findById(todoCommentDTO.getTodoId());
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
-        TodoCommentDTO save = todoCommentService.save(todoCommentDTO, todoDTO, clubDTO);
+        LocalDateTime saveTime = todoCommentService.save(todoCommentDTO, todoDTO, clubDTO);
 
 
         if (todoCommentDTO.getResultSubmit()==1){
             todoClubService.updateTodoClub(TodoEntity.toUpdateTodoEntity(todoDTO),ClubEntity.toUpdateClub(clubDTO));
-            scoreClubService.saveSubmitType(todoDTO.getId(),clubDTO,save.getCreatedTime());
+            scoreClubService.saveSubmitType(todoDTO.getId(),clubDTO,saveTime);
         }
 
-        if (save != null){
-            List<TodoCommentDTO> CommentDTOList = todoCommentService.findAll(todoDTO,clubDTO);
-            return new ResponseEntity<>(CommentDTOList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("해당 일정이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
-        }
-
+        return "redirect:/todo/receivedTodo/"+clubDTO.getId()+"/"+todoDTO.getId();
     }
 
     @GetMapping("/update/{clubId}/{todoId}/{commentId}")
