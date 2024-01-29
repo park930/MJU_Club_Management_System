@@ -220,4 +220,9 @@ public class ScoreService {
         }
         return clubRatingDTO.getTotalScoreList().get(index);
     }
+
+    public void update(ScoreDTO scoreDTO) {
+        ScoreEntity scoreEntity = ScoreEntity.toUpdateScoreEntity(scoreDTO);
+        scoreRepository.save(scoreEntity);
+    }
 }

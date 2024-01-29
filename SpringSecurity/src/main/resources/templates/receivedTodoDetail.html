@@ -16,19 +16,30 @@
 
 
 <div class="received-container">
-    <div class="received-item">
-        <div id="todo-info">
-            <h2 th:text="${todo.title}" class="title"></h2>
-            <div class="writer-info">
-                <span class="writer" th:text="${todo.content}"></span>
-                <span class="writer-date" th:text="*{#temporals.format(todo.createdTime, 'yyyy-MM-dd')}"></span>
+    <div class="flex-item">
+        <div class="received-item">
+            <div id="todo-info">
+                <h2 th:text="${todo.title}" class="title"></h2>
+                <div class="writer-info">
+                    <span class="writer" th:text="${todo.writer}"></span>
+                    <span class="writer-date" th:text="*{#temporals.format(todo.createdTime, 'yyyy-MM-dd')}"></span>
+                </div>
+                <div class="todo-content">
+                    <h3 th:text="${todo.content}" class="todo-text"></h3>
+                </div>
             </div>
+        </div>
 
-
-            <div th:if="${scoreDTO != null}" id="score-info">
+        <div th:if="${scoreDTO != null}" class="received-item">
+            <div id="score-info">
                 <div class="date-info">
-                    <span class="date" th:text="'제출기한 : ['+*{#temporals.format(todo.startTime, 'MM-dd   HH:mm')}+'] ~ '"></span>
+                    <span class="date"
+                          th:text="'제출기한 : ['+*{#temporals.format(todo.startTime, 'MM-dd   HH:mm')}+'] ~ '"></span>
                     <span class="date" th:text="'['+*{#temporals.format(todo.endTime, 'MM-dd   HH:mm')}+']'"></span>
+                </div>
+                <div class="date-info">
+                    <span class="date"
+                          th:text="'지각 제출 : ['+*{#temporals.format(scoreDTO.lateTime, 'MM-dd   HH:mm')}+']까지'"></span>
                 </div>
                 <table>
                     <thead>
@@ -64,12 +75,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="todo-content">
-                <h3 th:text="${todo.content}" class="todo-text"></h3>
-            </div>
         </div>
     </div>
+
 
     <div class="received-item">
         <div id="comment-write">

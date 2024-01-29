@@ -227,4 +227,5 @@ public class TodoService {
     public void update(TodoDTO todoDTO) {
         todoRepository.save(TodoEntity.toUpdateTodoEntity(todoDTO));
     }
+
 }

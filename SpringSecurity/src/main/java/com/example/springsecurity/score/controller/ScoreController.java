@@ -47,6 +47,20 @@ public class ScoreController
         return "scoreMain";
     }
 
+    @GetMapping("/update/{scoreId}")
+    public String updateP(@PathVariable Long scoreId,Model model){
+        ScoreDTO scoreDTO = scoreService.findById(scoreId);
+        model.addAttribute("scoreDTO",scoreDTO);
+        return "scoreUpdate";
+    }
+
+    @PostMapping("/update")
+    public String updateScore(@ModelAttribute ScoreDTO scoreDTO){
+        scoreService.update(scoreDTO);
+        return "redirect:/todo/admin/"+scoreDTO.getTodoId();
+    }
+
+
     @GetMapping("/plusScoreAdd")
     public String plusScoreAddForm(Model model){
         List<ScoreDTO> scoreDTOList = scoreService.findAll();

@@ -156,3 +156,12 @@ div#comment-write {
 .comment-writer {
     margin-top : 20px;
 }
+
+.flex-item {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-item .received-item {
+    flex: 0.48;
+}

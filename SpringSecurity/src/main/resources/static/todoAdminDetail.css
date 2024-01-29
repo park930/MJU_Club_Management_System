@@ -1,0 +1,88 @@
+
+
+button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2d3c4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.title {
+    border-bottom: 1px solid #838181;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.todo-writer {
+    background-color: #dad3c9;
+    padding: 10px;
+    color: #8c8c8c;
+}
+
+.todo-writer .name {
+    margin-right: 10px;
+}
+
+.todo-content {
+    padding-left: 10px;
+}
+
+.qnaAnswer-item {
+    border-bottom: 1px solid #afaeae;
+}
+
+
+span#userId {
+    font-size: 1.25rem;
+    margin-right: 30px;
+}
+
+
+.writer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+.flex-item {
+    display: flex;
+    justify-content: space-around;
+}
+
+.duration {
+    text-align: center;
+    font-size: 1.5rem;
+    margin : 10px;
+    font-weight: bold;
+}
+
+
+.flex-item {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-item .item {
+    flex: 0.48;
+}
+
+#score-info table td,
+#score-info table th {
+    padding: 9px;
+    text-align: center;
+}
+
+h3,h2 {
+    font-weight: bold;
+}
+
+.item button {
+    color : white;
+}

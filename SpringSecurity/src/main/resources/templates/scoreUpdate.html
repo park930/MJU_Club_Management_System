@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+</head>
+
+<th:block th:fragment="scoreUpdate(scoreDTO)">
+<body>
+<form action="/score/update" method="post" name="updateForm">
+    <input type="hidden" name="id" th:value="${scoreDTO.id}">
+    <input type="hidden" name="todoId" th:value="${scoreDTO.todoId}">
+    <input type="hidden" name="title" th:value="${scoreDTO.title}">
+    <table>
+        <tr>
+            <th colspan="2">제출일</th>
+        </tr>
+        <tr>
+            <td>제출 마감일</td>
+            <td><input type="datetime-local" name="endTime" th:value="${scoreDTO.endTime}"></td>
+        </tr>
+        <tr>
+            <td>지각 제출일</td>
+            <td><input type="datetime-local" name="lateTime" th:value="${scoreDTO.lateTime}"></td>
+        </tr>
+        <tr>
+            <th colspan="2">제출 점수</th>
+        </tr>
+        <tr>
+            <td>정상제출</td>
+            <td><input type="number" name="normalSubmit" th:value="${scoreDTO.normalSubmit}"></td>
+        </tr>
+        <tr>
+            <td>지각제출</td>
+            <td><input type="number" name="lateSubmit" th:value="${scoreDTO.lateSubmit}"></td>
+        </tr>
+        <tr>
+            <td>미제출</td>
+            <td><input type="number" name="noSubmit" th:value="${scoreDTO.noSubmit}"></td>
+        </tr>
+        <tr>
+            <th colspan="2">가산점</th>
+        </tr>
+        <tr>
+            <td>1등</td>
+            <td><input type="number" name="plusRank1" th:value="${scoreDTO.plusRank1}"></td>
+        </tr>
+        <tr>
+            <td>2등</td>
+            <td><input type="number" name="plusRank2" th:value="${scoreDTO.plusRank2}"></td>
+        </tr>
+        <tr>
+            <td>3등</td>
+            <td><input type="number" name="plusRank3" th:value="${scoreDTO.plusRank3}"></td>
+        </tr>
+    </table>
+    <input type="submit" value="수정하기">
+</form>
+
+</body>
+</th:block>

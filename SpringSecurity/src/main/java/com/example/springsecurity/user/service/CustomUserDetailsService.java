@@ -8,6 +8,7 @@ import com.example.springsecurity.user.dto.UserDTO;
 import com.example.springsecurity.user.entity.UserEntity;
 import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,7 +44,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public UserDTO findByUserName(String writer) {
         UserEntity userEntity = userRepository.findByUsername(writer);
-        return UserDTO.toAdminUserDTO(userEntity);
+        if (writer.startsWith("admin")){
+            return UserDTO.toAdminUserDTO(userEntity);
+        } else {
+            return UserDTO.toUserDTO(userEntity);
+        }
     }
 
     public void save(UserDTO userDTO) {

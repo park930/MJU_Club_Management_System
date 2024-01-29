@@ -124,7 +124,7 @@
                         <table th:if="${myTodoList != null}" class="todo-table">
                             <tr th:each="todo: ${myTodoList}">
                                 <td>•</td>
-                                <td><a th:href="@{|/todo/myTodoList/${clubId}/${todo.id}|}"
+                                <td><a th:href="@{|/todo/user/${todo.id}|}"
                                        th:text="${todo.title}"></a>
                                 </td>
                                 <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>

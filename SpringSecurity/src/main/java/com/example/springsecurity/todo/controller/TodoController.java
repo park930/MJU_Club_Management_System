@@ -48,11 +48,9 @@ public class TodoController
 
     @GetMapping("/admin")
     public String todoMain(Model model){
-        List<TodoDTO> todoDTOList = todoService.findAll();
+        List<TodoDTO> todoDTOList = todoService.findAllByAdminWriter();
         model.addAttribute("todoList",todoDTOList);
-        
-        //admin todo페이지로 넘어갈때, user todo페이지로 넘어갈때 분리해야함
-        //model에 넘기는게 각자 다름
+
         return "adminTodoMain";
 
     }
@@ -141,8 +139,12 @@ public class TodoController
         TodoDTO todoDTO = todoService.findById(id);
         List<TodoCommentDTO> completeCommentList = todoService.filterCompleteClub(todoDTO);
         List<ClubDTO> clubDTOList = todoService.getImcompleteClubList(todoDTO,completeCommentList);
+
+        ScoreDTO scoreDTO = scoreService.findByTodoId(id);
+
         model.addAttribute("todoDTO",todoDTO);
         model.addAttribute("clubDTOList",clubDTOList);
+        model.addAttribute("scoreDTO",scoreDTO);
         model.addAttribute("completeCommentList",completeCommentList);
         model.addAttribute("userId",userId);
         return "todoAdminDetail";
