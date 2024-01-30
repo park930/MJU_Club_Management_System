@@ -96,7 +96,7 @@ public class TodoService {
             TodoDTO todoDTO = TodoDTO.toTodoDTO(todoEntity);
             totalTodoDTOList.add(todoDTO);
             if (todoClubEntity.getResultSubmit()==1){
-                TodoCommentEntity todoCommentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndType(todoEntity, ClubEntity.toUpdateClub(clubDTO),"result");
+                TodoCommentEntity todoCommentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndIsSubmit(todoEntity, ClubEntity.toUpdateClub(clubDTO),1);
                 submitDateList.add(todoCommentEntity.getCreatedTime());
                 completeTodoList.add(todoDTO);
             } else if (todoDTO.getWriter().equals(userName)) {

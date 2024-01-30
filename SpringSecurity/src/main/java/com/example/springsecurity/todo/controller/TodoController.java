@@ -195,6 +195,7 @@ public class TodoController
         List<TodoCommentDTO> commentList = todoCommentService.findAll(todoService.findById(id), clubService.findById(clubId));
 
         model.addAttribute("commentList",commentList);
+        System.out.println("commentList = " + commentList);
         model.addAttribute("clubId",clubId);
         model.addAttribute("todo",todoDTO);
         model.addAttribute("scoreDTO",scoreDTO);

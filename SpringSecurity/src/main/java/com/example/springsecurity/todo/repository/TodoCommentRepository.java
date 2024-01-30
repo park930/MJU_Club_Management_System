@@ -13,7 +13,7 @@ public interface TodoCommentRepository extends JpaRepository<TodoCommentEntity,L
 
     List<TodoCommentEntity> findAllByTodoEntityAndTypeOrderByCreatedTimeDesc (TodoEntity todoEntity,String type);
 
-    TodoCommentEntity findByTodoEntityAndClubEntityAndType (TodoEntity todoEntity, ClubEntity clubEntity,String type);
+    TodoCommentEntity findByTodoEntityAndClubEntityAndIsSubmit (TodoEntity todoEntity, ClubEntity clubEntity,int isSubmit);
 
 
 }

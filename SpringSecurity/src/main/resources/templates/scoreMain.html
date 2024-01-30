@@ -42,7 +42,7 @@
         <tr>
             <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
                 <a th:href="@{|/todo/admin/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}" th:if="${#strings.startsWith(userId, 'admin')}"></a>
-                <span th:text="${scoreDTO.title}" th:if="${not #strings.startsWith(userId, 'admin')}"></span>
+                <a th:href="@{|/todo/receivedTodo/${clubId}/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}" th:if="${not #strings.startsWith(userId, 'admin')}"></a>
             </th>
         </tr>
         <tr>

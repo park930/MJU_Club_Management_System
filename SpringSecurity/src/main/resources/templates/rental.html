@@ -51,7 +51,7 @@
             <p th:text="'위치 : '+${rental.location}"></p>
             <p th:text="'잔여수량 : '+${rental.remain}"></p></a>
         </div>
-        <p><a th:href="@{|/rental/${rental.id}|}">대여 현황</a></p>
+        <p><a th:href="@{|/rental/${rental.id}|}" th:if="${#strings.startsWith(userId, 'admin')}">대여 현황</a></p>
     </div>
 </div>
 

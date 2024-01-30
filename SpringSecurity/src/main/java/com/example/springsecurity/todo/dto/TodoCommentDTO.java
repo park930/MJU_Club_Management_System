@@ -36,7 +36,11 @@ public class TodoCommentDTO {
         todoCommentDTO.setId(todoCommentEntity.getId());
         todoCommentDTO.setClubId(todoCommentEntity.getClubEntity().getId());
         todoCommentDTO.setTodoId(todoCommentEntity.getTodoEntity().getId());
-        todoCommentDTO.setType(todoCommentEntity.getType());
+        if (todoCommentEntity.getIsSubmit()==1){
+            todoCommentDTO.setType("결과물");
+        } else {
+            todoCommentDTO.setType("질문");
+        }
         todoCommentDTO.setContent(todoCommentEntity.getContent());
         todoCommentDTO.setResultSubmit(todoCommentEntity.getIsSubmit());
         todoCommentDTO.setCreatedTime(todoCommentEntity.getCreatedTime());

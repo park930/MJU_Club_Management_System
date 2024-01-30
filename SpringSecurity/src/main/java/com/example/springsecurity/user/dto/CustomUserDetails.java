@@ -25,6 +25,8 @@ public class CustomUserDetails implements UserDetails {
     }
     public int getUserId() { return userDTO.getId();}
 
+    public String getUserName() { return userDTO.getUsername(); }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {    //role값을 리턴해주는 메서드
 
