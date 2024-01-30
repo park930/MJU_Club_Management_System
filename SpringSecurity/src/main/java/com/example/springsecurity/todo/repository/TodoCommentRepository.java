@@ -11,7 +11,9 @@ public interface TodoCommentRepository extends JpaRepository<TodoCommentEntity,L
 
     List<TodoCommentEntity> findAllByTodoEntityAndClubEntityOrderByCreatedTimeDesc (TodoEntity todoEntity, ClubEntity clubEntity);
 
-    List<TodoCommentEntity> findAllByTodoEntityAndTypeOrderByCreatedTimeDesc (TodoEntity todoEntity,String type);
+    List<TodoCommentEntity> findAllByTodoEntityAndIsSubmitOrderByCreatedTimeDesc (TodoEntity todoEntity,int isSubmit);
+
+    List<TodoCommentEntity> findAllByTodoEntityAndClubEntityAndIsSubmitOrderByCreatedTimeDesc (TodoEntity todoEntity,ClubEntity clubEntity,int isSubmit);
 
     TodoCommentEntity findByTodoEntityAndClubEntityAndIsSubmit (TodoEntity todoEntity, ClubEntity clubEntity,int isSubmit);
 

@@ -9,6 +9,10 @@ import com.example.springsecurity.score.entity.ScoreClubEntity;
 import com.example.springsecurity.score.entity.ScoreEntity;
 import com.example.springsecurity.score.repository.ScoreClubRepository;
 import com.example.springsecurity.score.repository.ScoreRepository;
+import com.example.springsecurity.todo.entity.TodoCommentEntity;
+import com.example.springsecurity.todo.entity.TodoEntity;
+import com.example.springsecurity.todo.repository.TodoCommentRepository;
+import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +26,9 @@ import java.util.Optional;
 public class ScoreClubService {
 
     private final ScoreClubRepository scoreClubRepository;
+    private final TodoCommentRepository todoCommentRepository;
     private final ScoreRepository scoreRepository;
+    private final TodoRepository todoRepository;
     private final ClubRepository clubRepository;
 
     public void save(ScoreDTO savedScoreDTO, ClubDTO clubDTO) {
@@ -86,5 +92,39 @@ public class ScoreClubService {
         ScoreClubEntity scoreClubEntity = scoreClubRepository.findByClubEntityAndScoreEntity(ClubEntity.toUpdateClub(clubDTO), ScoreEntity.toUpdateScoreEntity(scoreDTO));
         scoreClubEntity.setPlusScoreType(plusScore);
         scoreClubRepository.save(scoreClubEntity);
+    }
+
+    public void refreshScore(ScoreDTO scoreDTO) {
+        Optional<ScoreEntity> optionalScoreEntity = scoreRepository.findById(scoreDTO.getId());
+        if (optionalScoreEntity.isPresent()){
+            ScoreEntity scoreEntity = optionalScoreEntity.get();
+            List<ScoreClubEntity> scoreClubEntityList = scoreClubRepository.findAllByScoreEntity(scoreEntity);
+            for(ScoreClubEntity scoreClubEntity : scoreClubEntityList){
+                ClubEntity clubEntity = scoreClubEntity.getClubEntity();
+                Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(scoreDTO.getTodoId());
+                if (optionalScoreEntity.isPresent()){
+                    List<TodoCommentEntity> commentEntityList = todoCommentRepository.findAllByTodoEntityAndClubEntityAndIsSubmitOrderByCreatedTimeDesc(optionalTodoEntity.get(), clubEntity, 1);
+                    if (!commentEntityList.isEmpty()){
+                        LocalDateTime time = commentEntityList.get(0).getCreatedTime();
+                        for (TodoCommentEntity todoCommentEntity : commentEntityList) {
+                            LocalDateTime tempTime = chooseLaterDateTime(todoCommentEntity.getCreatedTime(), todoCommentEntity.getUpdatedTime());
+                            saveSubmitType(scoreDTO.getTodoId(),ClubDTO.toClubDTO(clubEntity),chooseLaterDateTime(time,tempTime));
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    private LocalDateTime chooseLaterDateTime(LocalDateTime timeA, LocalDateTime timeB) {
+        if (timeA == null) {
+            return timeB;
+        } else if (timeB == null) {
+            return timeA;
+        } else {
+            return timeA.isAfter(timeB) ? timeA : timeB;
+        }
     }
 }

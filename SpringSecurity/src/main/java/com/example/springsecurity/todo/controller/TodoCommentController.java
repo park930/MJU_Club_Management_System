@@ -65,12 +65,12 @@ public class TodoCommentController {
 
     @PostMapping("/update")
     public String updateComment(@ModelAttribute TodoCommentDTO todoCommentDTO){
-        System.out.println("todoCommentDTO = " + todoCommentDTO);
         TodoCommentDTO commentDTO = todoCommentService.findById(todoCommentDTO.getId());
-        System.out.println("commentDTO = " + commentDTO);
         
         //바뀐 내용 적용
         commentDTO.setContent(todoCommentDTO.getContent());
+        //파일도 적용 필요
+
 
         TodoCommentDTO updatedComment = todoCommentService.update(commentDTO);
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());

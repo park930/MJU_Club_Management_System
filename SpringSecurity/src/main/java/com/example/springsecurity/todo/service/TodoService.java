@@ -127,15 +127,23 @@ public class TodoService {
     @Transactional
     public List<TodoCommentDTO> filterCompleteClub(TodoDTO todoDTO) {
         if (todoDTO != null){
-            List<TodoCommentEntity> todoCommentEntityList = todoCommentRepository.findAllByTodoEntityAndTypeOrderByCreatedTimeDesc(TodoEntity.toUpdateTodoEntity(todoDTO), "result");
+            List<Long> clubIdList = new ArrayList<>();
+
+            List<TodoCommentEntity> todoCommentEntityList = todoCommentRepository.findAllByTodoEntityAndIsSubmitOrderByCreatedTimeDesc(TodoEntity.toUpdateTodoEntity(todoDTO), 1);
             List<TodoCommentDTO> todoCommentDTOList = new ArrayList<>();
             for(TodoCommentEntity todoCommentEntity : todoCommentEntityList){
                 TodoCommentDTO todoCommentDTO = TodoCommentDTO.toTodoCommentDTO(todoCommentEntity);
+                Long clubId = todoCommentDTO.getClubId();
+
                 Optional<ClubEntity> optionalClubEntity = clubRepository.findById(todoCommentDTO.getClubId());
                 if (optionalClubEntity.isPresent()) {
                     todoCommentDTO.setClubName(optionalClubEntity.get().getClubName());
+                    if (!clubIdList.contains(clubId)){
+                        clubIdList.add(todoCommentDTO.getClubId());
+                        todoCommentDTOList.add(todoCommentDTO);
+                    }
                 }
-                todoCommentDTOList.add(todoCommentDTO);
+
             }
             return todoCommentDTOList;
         } else {

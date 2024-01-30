@@ -106,10 +106,13 @@
                 <table>
                     <tr th:each="comment: ${completeCommentList}">
                         <td>
-                            <a th:href="@{|/todo/receivedTodo/${comment.id}/${todoDTO.id}|}"
+                            <a th:href="@{|/todo/receivedTodo/${comment.clubId}/${todoDTO.id}|}"
                                th:text="${comment.clubName}"></a>
                         </td>
                         <td th:text="*{#temporals.format(comment.createdTime, 'yy.MM.dd   HH:mm')}"></td>
+                        <td th:if="${comment.fileAttached == 1}" class="file_input">
+                            <a th:href="${'/fileFolder/'+comment.storedFileName}" th:text="${comment.originalFileName}" download></a>
+                        </td>
                     </tr>
                 </table>
             </div>
