@@ -6,6 +6,7 @@ import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
+import com.example.springsecurity.todo.entity.TodoCommentEntity;
 import com.example.springsecurity.user.service.CustomUserDetailsService;
 import com.example.springsecurity.todo.dto.TodoCommentDTO;
 import com.example.springsecurity.todo.dto.TodoDTO;
@@ -193,13 +194,24 @@ public class TodoController
         TodoDTO todoDTO = todoService.findById(id);
         ScoreDTO scoreDTO = scoreService.findByTodoId(todoDTO.getId());
         List<TodoCommentDTO> commentList = todoCommentService.findAll(todoService.findById(id), clubService.findById(clubId));
+        int isResult = checkResult(commentList);
 
         model.addAttribute("commentList",commentList);
         System.out.println("commentList = " + commentList);
         model.addAttribute("clubId",clubId);
         model.addAttribute("todo",todoDTO);
         model.addAttribute("scoreDTO",scoreDTO);
+        model.addAttribute("isResult",isResult);
         return "receivedTodoDetail";
+    }
+
+    private int checkResult(List<TodoCommentDTO> commentList) {
+        for(TodoCommentDTO todoCommentDTO : commentList){
+            if (todoCommentDTO.getResultSubmit()==1){
+                return 1;
+            }
+        }
+        return 0;
     }
 
 

@@ -2,6 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <link rel="stylesheet" type="text/css" href="/receivedStyles.css">
     <title>detail</title>
@@ -81,14 +88,14 @@
 
     <div class="received-item">
         <div id="comment-write">
-            <form action="/receivedTodoComment/save" method="post" enctype="multipart/form-data">>
+            <form action="/receivedTodoComment/save" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="clubId" name="clubId" th:value="${clubId}">
                 <input type="hidden" id="todoId" name="todoId" th:value="${todo.id}">
                 <table class="comment-table">
                     <tr>
                         <td>유형</td>
                         <td>
-                            <input type="radio" name="resultSubmit" value="1"> 결과물
+                            <input type="radio" name="resultSubmit" value="1" th:if="${isResult==0}"> <span th:if="${isResult==0}">결과물</span>
                             <input type="radio" name="resultSubmit" value="0" checked> 질문
                         </td>
                     </tr>
@@ -117,7 +124,27 @@
                         <div class="comment-writer">
                             <span class="writer" th:text="${comment.type}"></span>
                             <span class="writer" th:text="'작성일 : '+*{#temporals.format(comment.createdTime, 'yyyy-MM-dd  HH:mm')}"></span>
+                            <span class="writer" th:text="'수정일 : '+*{#temporals.format(comment.updatedTime, 'yyyy-MM-dd  HH:mm')}"></span>
                             <a th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}" class="writer" th:if="${#strings.equals(comment.type, '결과물')}">수정</a>
+
+
+                            <a class="writer" data-toggle="modal" href="#commentUpdateModal" th:if="${#strings.equals(comment.type, '결과물')}">수정</a>
+                            <div class="modal fade" id="commentUpdateModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">×</button>
+                                            <h1 class="modal-title">결과물 수정</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <th:block th:replace="updateTodoComment::commentUpdate(${todo.id},${comment.id},${clubId},${comment})"></th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                         <div class="comment-text">
                             <span th:text="${comment.content}"></span>

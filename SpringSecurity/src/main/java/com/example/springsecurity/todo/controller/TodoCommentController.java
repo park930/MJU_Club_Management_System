@@ -72,9 +72,10 @@ public class TodoCommentController {
         //파일도 적용 필요
 
 
-        TodoCommentDTO updatedComment = todoCommentService.update(commentDTO);
+        LocalDateTime updateTime = todoCommentService.update(commentDTO);
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
-        scoreClubService.saveSubmitType(commentDTO.getTodoId(), clubDTO,updatedComment.getUpdatedTime());
+        System.out.println("updatedComment = " + updateTime);
+        scoreClubService.saveSubmitType(commentDTO.getTodoId(), clubDTO,updateTime);
         return "redirect:/todo/receivedTodo/"+todoCommentDTO.getClubId()+"/"+todoCommentDTO.getTodoId();
     }
 }

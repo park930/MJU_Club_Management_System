@@ -44,3 +44,20 @@ a {
     text-decoration: none;
     margin-right: 10px;
 }
+
+
+.input-td {
+    padding: 0;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.input-td input {
+    width: 99%;
+    border : none;
+}
+
+.full-textarea {
+    width: 99%;
+    border : none;
+}

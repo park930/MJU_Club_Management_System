@@ -12,6 +12,8 @@ import com.example.springsecurity.todo.repository.TodoCommentFileRepository;
 import com.example.springsecurity.todo.repository.TodoCommentRepository;
 import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,13 +80,19 @@ public class TodoCommentService {
     }
 
     @Transactional
-    public TodoCommentDTO update(TodoCommentDTO commentDTO) {
+    public LocalDateTime update(TodoCommentDTO commentDTO) {
         Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(commentDTO.getTodoId());
         Optional<ClubEntity> optionalClubEntity = clubRepository.findById(commentDTO.getClubId());
         if (optionalTodoEntity.isPresent() && optionalClubEntity.isPresent()){
             TodoCommentEntity todoCommentEntity = TodoCommentEntity.toUpdateTodoCommentEntity(commentDTO,optionalTodoEntity.get(),optionalClubEntity.get());
-            TodoCommentEntity saved = todoCommentRepository.save(todoCommentEntity);
-            return TodoCommentDTO.toTodoCommentDTO(saved);
+            Long id = todoCommentRepository.save(todoCommentEntity).getId();
+            Optional<TodoCommentEntity> optionalTodoCommentEntity = todoCommentRepository.findById(id);
+            if (optionalTodoCommentEntity.isPresent()){
+                TodoCommentEntity savedCommentEntity = optionalTodoCommentEntity.get();
+                return savedCommentEntity.getUpdatedTime();
+            } else {
+                return null;
+            }
         }
         return null;
     }

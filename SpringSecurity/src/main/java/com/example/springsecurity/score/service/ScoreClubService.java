@@ -103,13 +103,10 @@ public class ScoreClubService {
                 ClubEntity clubEntity = scoreClubEntity.getClubEntity();
                 Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(scoreDTO.getTodoId());
                 if (optionalScoreEntity.isPresent()){
-                    List<TodoCommentEntity> commentEntityList = todoCommentRepository.findAllByTodoEntityAndClubEntityAndIsSubmitOrderByCreatedTimeDesc(optionalTodoEntity.get(), clubEntity, 1);
-                    if (!commentEntityList.isEmpty()){
-                        LocalDateTime time = commentEntityList.get(0).getCreatedTime();
-                        for (TodoCommentEntity todoCommentEntity : commentEntityList) {
-                            LocalDateTime tempTime = chooseLaterDateTime(todoCommentEntity.getCreatedTime(), todoCommentEntity.getUpdatedTime());
-                            saveSubmitType(scoreDTO.getTodoId(),ClubDTO.toClubDTO(clubEntity),chooseLaterDateTime(time,tempTime));
-                        }
+                    TodoCommentEntity commentEntity = todoCommentRepository.findByTodoEntityAndClubEntityAndIsSubmit(optionalTodoEntity.get(), clubEntity, 1);
+                    if (commentEntity != null){
+                        saveSubmitType(scoreDTO.getTodoId(),ClubDTO.toClubDTO(clubEntity),chooseLaterDateTime(commentEntity.getCreatedTime(),commentEntity.getUpdatedTime()));
+
                     }
 
                 }
