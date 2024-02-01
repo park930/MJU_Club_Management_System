@@ -1,8 +1,11 @@
 package com.example.springsecurity.rental.service;
 
 import com.example.springsecurity.rental.dto.RentalDTO;
+import com.example.springsecurity.rental.dto.RenterDTO;
 import com.example.springsecurity.rental.entity.RentalEntity;
+import com.example.springsecurity.rental.entity.RenterEntity;
 import com.example.springsecurity.rental.repository.RentalRepository;
+import com.example.springsecurity.rental.repository.RenterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class RentalService {
 
     private final RentalRepository rentalRepository;
+    private final RenterRepository renterRepository;
 
     public List<RentalDTO> findAll() {
         List<RentalEntity> rentalEntityList = rentalRepository.findAll();
@@ -36,6 +40,23 @@ public class RentalService {
         Optional<RentalEntity> optionalRentalEntity = rentalRepository.findById(id);
         if (optionalRentalEntity.isPresent()){
             return RentalDTO.toRentalDTO(optionalRentalEntity.get());
+        } else {
+            return null;
+        }
+    }
+
+    public List<RentalDTO> findAllRenterCount() {
+        List<RentalEntity> rentalEntityList = rentalRepository.findAll();
+        List<RentalDTO> rentalDTOList = new ArrayList<>();
+
+        if (!rentalEntityList.isEmpty()){
+            for(RentalEntity rentalEntity : rentalEntityList){
+                int size = renterRepository.findAllByRentalEntityAndCheckRent(rentalEntity, 1).size();
+                RentalDTO rentalDTO = RentalDTO.toRentalDTO(rentalEntity);
+                rentalDTO.setRenterCount(size);
+                rentalDTOList.add(rentalDTO);
+            }
+            return rentalDTOList;
         } else {
             return null;
         }

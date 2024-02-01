@@ -20,6 +20,7 @@ public class RentalDTO {
 
     //일부 상황에서만 사용
     private LocalDateTime endDate;
+    private int renterCount;
 
     public static RentalDTO toRentalDTO(RentalEntity rentalEntity) {
         RentalDTO rentalDTO = new RentalDTO();

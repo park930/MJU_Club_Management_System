@@ -106,16 +106,17 @@
         <div id="right-middle-container">
 
             <div class="some-box">
-                <h2>대여 중인 물품</h2>
-                <!--                <table th:if="${myRentalList != null}" class="todo-table">-->
-                <!--                    <tr th:each="rentalDTO: ${myRentalList}">-->
-                <!--                        <td>•</td>-->
-                <!--                        <td th:text="${rentalDTO.name}"></td>-->
-                <!--                        <td th:text="${rentalDTO.location}"></td>-->
-                <!--                        <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>-->
-                <!--                    </tr>-->
-                <!--                </table>-->
-                <!--                <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>-->
+                <h2>대여물품 현황</h2>
+                <table th:if="${rentalList != null}" class="todo-table">
+                    <tr th:each="rentalDTO: ${rentalList}">
+                        <td>•</td>
+                        <td>
+                            <a th:href="@{|/rental/${rentalDTO.id}|}" th:text="${rentalDTO.name}"></a>
+                        </td>
+                        <td th:text="${rentalDTO.renterCount}+'명'"></td>
+                    </tr>
+                </table>
+                <h4 th:unless="${rentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>
             </div>
 
             <div class="todo-box">

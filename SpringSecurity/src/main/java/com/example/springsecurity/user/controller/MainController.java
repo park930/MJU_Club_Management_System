@@ -13,6 +13,7 @@ import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.qna.dto.QnaDTO;
 import com.example.springsecurity.qna.service.QnaService;
 import com.example.springsecurity.rental.dto.RentalDTO;
+import com.example.springsecurity.rental.service.RentalService;
 import com.example.springsecurity.rental.service.RenterService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import com.example.springsecurity.score.dto.ClubRatingDTO;
@@ -49,6 +50,7 @@ public class MainController {
     private final RenterService renterService;
     private final QnaService qnaService;
     private final ClubFeeService clubFeeService;
+    private final RentalService rentalService;
     private final HeartService heartService;
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -148,6 +150,7 @@ public class MainController {
         List<QnaDTO> noAnswerList = qnaService.findNoAnswerAll();
         List<BoardDTO> boardNoticeList = boardService.findNotice();
         List<ClubDTO> clubDTOList = customUserDetailsService.setClubMemberList(clubService.findAll());
+        List<RentalDTO> rentalDTOList = rentalService.findAllRenterCount();
 
         model.addAttribute("userDTO",userDTO);
         model.addAttribute("scoreList",scoreDTOList);
@@ -155,6 +158,7 @@ public class MainController {
         model.addAttribute("clubList",clubDTOList);
         model.addAttribute("adminList",adminList);
         model.addAttribute("noAnswerList",noAnswerList);
+        model.addAttribute("rentalList",rentalDTOList);
         return "admin";
     }
 }
