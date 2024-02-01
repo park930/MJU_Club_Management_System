@@ -42,7 +42,7 @@
                 <div class="date-info">
                     <span class="date"
                           th:text="'제출기한 : ['+*{#temporals.format(todo.startTime, 'MM-dd   HH:mm')}+'] ~ '"></span>
-                    <span class="date" th:text="'['+*{#temporals.format(todo.endTime, 'MM-dd   HH:mm')}+']'"></span>
+                    <span class="date" th:text="'['+*{#temporals.format(scoreDTO.endTime, 'MM-dd   HH:mm')}+']'"></span>
                 </div>
                 <div class="date-info">
                     <span class="date"

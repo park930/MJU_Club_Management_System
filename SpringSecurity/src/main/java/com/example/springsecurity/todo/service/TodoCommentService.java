@@ -80,19 +80,13 @@ public class TodoCommentService {
     }
 
     @Transactional
-    public LocalDateTime update(TodoCommentDTO commentDTO) {
+    public Long update(TodoCommentDTO commentDTO) {
         Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(commentDTO.getTodoId());
         Optional<ClubEntity> optionalClubEntity = clubRepository.findById(commentDTO.getClubId());
         if (optionalTodoEntity.isPresent() && optionalClubEntity.isPresent()){
             TodoCommentEntity todoCommentEntity = TodoCommentEntity.toUpdateTodoCommentEntity(commentDTO,optionalTodoEntity.get(),optionalClubEntity.get());
             Long id = todoCommentRepository.save(todoCommentEntity).getId();
-            Optional<TodoCommentEntity> optionalTodoCommentEntity = todoCommentRepository.findById(id);
-            if (optionalTodoCommentEntity.isPresent()){
-                TodoCommentEntity savedCommentEntity = optionalTodoCommentEntity.get();
-                return savedCommentEntity.getUpdatedTime();
-            } else {
-                return null;
-            }
+            return id;
         }
         return null;
     }

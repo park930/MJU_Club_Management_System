@@ -64,7 +64,7 @@ public class ScoreController
 
     @PostMapping("/update")
     public String updateScore(@ModelAttribute ScoreDTO scoreDTO){
-        scoreService.update(scoreDTO);
+        Long scoreId = scoreService.update(scoreDTO);
         scoreClubService.refreshScore(scoreDTO);
         return "redirect:/todo/admin/"+scoreDTO.getTodoId();
     }
