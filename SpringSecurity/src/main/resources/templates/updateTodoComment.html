@@ -14,9 +14,25 @@
     <input type="hidden" name="todoId" th:value="${todoId}">
     <input type="hidden" name="id" th:value="${commentId}">
     <input type="hidden" name="clubId" th:value="${clubId}">
-    타입: <input type="text" name="type" th:value="${todoCommentDTO.type}" readonly> <br>
-    contents: <textarea name="content" cols="30" rows="10" th:text="${todoCommentDTO.content}"></textarea> <br>
-    <input type="submit" value="답글수정">
+    <table>
+        <tr>
+            <td>타입</td>
+            <td><input type="text" name="type" th:value="${todoCommentDTO.type}" readonly></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea name="content" cols="30" rows="10" th:text="${todoCommentDTO.content}"></textarea></td>
+        </tr>
+        <tr>
+            <td>파일</td>
+            <td><input type="file" id="resultFile" name="resultFile" placeholder="파일"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="수정하기">
+            </td>
+        </tr>
+    </table>
 </form>
 
 </body>

@@ -2,27 +2,58 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/boardSave.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
     <title>update</title>
 </head>
 <body>
-<form action="/board/update" method="post" name="updateForm">
-    <input type="hidden" name="id" th:value="${boardUpdate.id}">
-    writer: <input type="text" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly> <br>
-    pass: <input type="text" name="boardPass" id="boardPass"> <br>
-    title: <input type="text" name="boardTitle" th:value="${boardUpdate.boardTitle}"> <br>
-    contents: <textarea name="boardContents" cols="30" rows="10" th:text="${boardUpdate.boardContents}"></textarea> <br>
-    <input type="hidden" name="boardHits" th:value="${boardUpdate.boardHits}">
-    <input type="button" value="글수정" onclick="boardUpdate()">
-</form>
-<script th:inline="javascript">
-    const boardUpdate = () => {
-        const pass = [[${boardUpdate.boardPass}]];
-        const inputPass = document.getElementById("boardPass").value;
-        if (pass == inputPass) {
-            document.updateForm.submit();
-        } else {
-            alert("비밀번호가 일치하지 않습니다!");
-        }
-    }
-</script>
+
+
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h1 class="head-text">글 수정</h1>
+    <div class="item">
+
+        <form action="/board/update" method="post" name="updateForm">
+            <input type="hidden" name="id" th:value="${boardUpdate.id}">
+            <input type="hidden" name="boardHits" th:value="${boardUpdate.boardHits}">
+            <table>
+                <tr>
+                    <td>작성자 <input type="text" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly></td>
+                </tr>
+                <tr>
+                    <td class="input-td"><input type="text" name="boardTitle" th:value="${boardUpdate.boardTitle}"></td>
+                </tr>
+                <tr>
+                    <td class="input-td"><textarea name="boardContents" cols="30" rows="10" th:text="${boardUpdate.boardContents}" class="full-textarea"></textarea> </td>
+                </tr>
+                <tr>
+                    <td class="submit-td">
+                        <input type="button" value="글수정" onclick="boardUpdate()" class="submit-button">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+        <script th:inline="javascript">
+            const boardUpdate = () => {
+                const pass = [[${boardUpdate.boardPass}]];
+                const inputPass = document.getElementById("boardPass").value;
+                if (pass == inputPass) {
+                    document.updateForm.submit();
+                } else {
+                    alert("비밀번호가 일치하지 않습니다!");
+                }
+            }
+        </script>
+    </div>
+</div>
+
+
 </body>
+
+
+</html>

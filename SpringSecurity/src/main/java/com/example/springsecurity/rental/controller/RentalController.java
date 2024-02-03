@@ -24,8 +24,11 @@ public class RentalController {
     public String rentalMain(Model model){
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         List<RentalDTO> rentalDTOList = renterService.updateRemain(rentalService.findAll());
+        List<RentalDTO> myRentalDTOList = renterService.findAllByUserName(id);
+
         model.addAttribute("rentalList",rentalDTOList);
         model.addAttribute("userId",id);
+        model.addAttribute("myRentalList",myRentalDTOList);
         return "rental";
     }
 

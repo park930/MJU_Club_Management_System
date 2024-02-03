@@ -103,7 +103,7 @@ public class TodoController
     public String addClub(@RequestParam(value = "scoreCheckBox", defaultValue = "false") boolean scoreCheckBox,
                           @ModelAttribute ScoreDTO scoreDTO,
                           @ModelAttribute TodoDTO todoDTO,
-                          @RequestParam(value = "checkedList") List<Long> checkedList){
+                          @RequestParam(value = "checkedList", defaultValue = "") List<Long> checkedList){
 
         TodoEntity savedTodo = todoService.saveTodo(todoDTO);
 

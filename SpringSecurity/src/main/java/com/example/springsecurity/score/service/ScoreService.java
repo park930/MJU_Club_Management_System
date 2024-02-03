@@ -27,6 +27,9 @@ public class ScoreService {
 
     public ScoreDTO findByTodoId(Long id) {
         ScoreEntity scoreEntity = scoreRepository.findByTodoId(id);
+        if (scoreEntity == null){
+            return null;
+        }
         return ScoreDTO.toScoreDTO(scoreEntity);
     }
 

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <link rel="stylesheet" type="text/css" href="/rentalStyles.css">
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <title>list</title>
 </head>
@@ -19,44 +20,60 @@
 <div th:replace="header :: header"></div>
 
 
-<h3>대여시스템</h3>
+<div class="container">
+    <h2 class="head-text">대여시스템</h2>
 
-<a class="seeButton" data-toggle="modal" href="#rentalAddModal" th:if="${#strings.startsWith(userId, 'admin')}">대여물품 추가</a>
+    <a class="seeButton" data-toggle="modal" href="#rentalAddModal" th:if="${#strings.startsWith(userId, 'admin')}">대여물품
+        추가</a>
 
 
-<div class="modal fade" id="rentalAddModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h1 class="modal-title">대여물품 추가</h1>
-            </div>
-            <div class="modal-body">
-                <th:block th:replace="rentalAdd::rentalAdd"></th:block>
+    <div class="modal fade" id="rentalAddModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h1 class="modal-title">대여물품 추가</h1>
+                </div>
+                <div class="modal-body">
+                    <th:block th:replace="rentalAdd::rentalAdd"></th:block>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-
-<hr>
-
-
-<div id="rental-items">
-    <div th:each="rental: ${rentalList}" class="rental-item">
-        <div>
-            <a th:href="@{|/rental/offer/${rental.id}|}"><img src="/noFile.png" alt="Rental Item Image">
-            <p th:text="'물품명 : '+${rental.name}"></p>
-            <p th:text="'위치 : '+${rental.location}"></p>
-            <p th:text="'잔여수량 : '+${rental.remain}"></p></a>
+    <div id="rental-items">
+        <div th:each="rental: ${rentalList}" class="rental-item">
+            <div>
+                <a th:href="@{|/rental/offer/${rental.id}|}"><img src="/noFile.png" alt="Rental Item Image">
+                    <p th:text="'물품명 : '+${rental.name}"></p>
+                    <p th:text="'위치 : '+${rental.location}"></p>
+                    <p th:text="'잔여수량 : '+${rental.remain}"></p></a>
+            </div>
+            <p><a th:href="@{|/rental/${rental.id}|}" th:if="${#strings.startsWith(userId, 'admin')}">대여 현황</a></p>
         </div>
-        <p><a th:href="@{|/rental/${rental.id}|}" th:if="${#strings.startsWith(userId, 'admin')}">대여 현황</a></p>
     </div>
+
+    <br>
+    <br>
+    <div class="item">
+        <h3 class="head-text">대여 중인 물품</h3>
+        <table th:if="${myRentalList != null}">
+            <tr>
+                <th>물품명</th>
+                <th>대여 위치</th>
+                <th>대여 기간</th>
+            </tr>
+            <tr th:each="rentalDTO: ${myRentalList}">
+                <td th:text="${rentalDTO.name}"></td>
+                <td th:text="${rentalDTO.location}"></td>
+                <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>
+            </tr>
+        </table>
+        <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>
+    </div>
+
 </div>
-
-
-
 </body>
 
 <script th:inline="javascript">
