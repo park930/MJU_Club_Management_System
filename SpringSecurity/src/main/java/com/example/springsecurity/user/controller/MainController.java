@@ -145,7 +145,6 @@ public class MainController {
     public String adminMain(Model model) {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO userDTO = customUserDetailsService.findByUserName(id);
-        List<UserDTO> adminList = customUserDetailsService.findAllAdmin();
         List<ScoreDTO> scoreDTOList = scoreService.findAll();
         List<QnaDTO> noAnswerList = qnaService.findNoAnswerAll();
         List<BoardDTO> boardNoticeList = boardService.findNotice();
@@ -156,7 +155,6 @@ public class MainController {
         model.addAttribute("scoreList",scoreDTOList);
         model.addAttribute("noticeList",boardNoticeList);
         model.addAttribute("clubList",clubDTOList);
-        model.addAttribute("adminList",adminList);
         model.addAttribute("noAnswerList",noAnswerList);
         model.addAttribute("rentalList",rentalDTOList);
         return "admin";

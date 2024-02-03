@@ -13,112 +13,95 @@
 
 <div th:replace="header :: header"></div>
 
-<button onclick="scoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">평가항목 추가</button>
-<button onclick="plusScoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">가산점 부여</button>
+<div class="container">
+    <button onclick="scoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">평가항목 추가</button>
+    <button onclick="plusScoreAddReq()" th:if="${#strings.startsWith(userId, 'admin')}">가산점 부여</button>
 
 
+    <div class="item">
+        <div id="null-info" th:if="${clubRatingDTO == null}">
+            <h1>현재 등록된 평가항목이 없습니다.</h1>
+        </div>
 
 
-<hr>
-<div id="null-info" th:if="${clubRatingDTO == null}">
-    <h1>현재 등록된 평가항목이 없습니다.</h1>
+        <div id="tables" th:if="${clubRatingDTO != null}">
+            <table class="part-table">
+                <tr>
+                    <th>평가 항목</th>
+                </tr>
+                <tr>
+                    <th>평가 배점</th>
+                </tr>
+                <tr>
+                    <td class="include-table-td">
+                        <table class="inner-table">
+                            <tr th:each="club : ${clubRatingDTO.clubDTOList}">
+                                <td th:text="${club.clubName}"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table class="part-table">
+                <tr>
+                    <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
+                        <a th:href="@{|/todo/admin/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}"
+                           th:if="${#strings.startsWith(userId, 'admin')}"></a>
+                        <a th:href="@{|/todo/receivedTodo/${clubId}/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}"
+                           th:if="${not #strings.startsWith(userId, 'admin')}"></a>
+                    </th>
+                </tr>
+                <tr>
+                    <th th:each="head : ${clubRatingDTO.headText}" th:text="${head}"></th>
+                </tr>
+
+                <tr>
+                    <th:block th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
+                        <td class="include-table-td">
+                            <!-- 기본 점수    -->
+                            <table class="inner-table">
+                                <tr th:each="score : ${scoreDTO.totalScoreList}">
+                                    <td th:text="${score}"></td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="include-table-td">
+                            <!-- 가산 점수    -->
+                            <table class="inner-table">
+                                <tr th:each="score : ${scoreDTO.totalPlusScoreList}">
+                                    <td th:text="${score}"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </th:block>
+                </tr>
+
+            </table>
+            <table class="part-table">
+                <tr>
+                    <th colspan="3">총점</th>
+                </tr>
+                <tr>
+                    <th colspan="3">동아리 지원금 : 80점</th>
+                </tr>
+                <tr>
+                    <td class="include-table-td">
+                        <table class="inner-table">
+                            <tr th:each="score : ${clubRatingDTO.totalScoreList}">
+                                <td class="total-score" th:text="${score}" colspan="3"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
 </div>
 
-
-
-<div id="tables" th:if="${clubRatingDTO != null}">
-    <table class="part-table">
-        <tr>
-            <th>평가 항목</th>
-        </tr>
-        <tr>
-            <th>평가 배점</th>
-        </tr>
-        <tr>
-            <td class="include-table-td">
-                <table class="inner-table">
-                    <tr th:each="club : ${clubRatingDTO.clubDTOList}">
-                        <td th:text="${club.clubName}"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <table class="part-table">
-        <tr>
-            <th colspan="2" th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
-                <a th:href="@{|/todo/admin/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}" th:if="${#strings.startsWith(userId, 'admin')}"></a>
-                <a th:href="@{|/todo/receivedTodo/${clubId}/${scoreDTO.todoId}|}" th:text="${scoreDTO.title}" th:if="${not #strings.startsWith(userId, 'admin')}"></a>
-            </th>
-        </tr>
-        <tr>
-            <th th:each="head : ${clubRatingDTO.headText}" th:text="${head}"></th>
-        </tr>
-
-        <tr>
-<!--        <span th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">-->
-<!--            &lt;!&ndash; 열1의 내용    &ndash;&gt;-->
-<!--            <td class="include-table-td">-->
-<!--                <table class="inner-table">-->
-<!--                    <tr th:each="score : ${scoreDTO.totalScoreList}">-->
-<!--                        <td th:text="${score}"></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--            </td>-->
-
-<!--            &lt;!&ndash; 열2의 내용    &ndash;&gt;-->
-<!--            <td class="include-table-td">-->
-<!--                <table class="inner-table">-->
-<!--                    <tr th:each="score : ${scoreDTO.totalPlusScoreList}">-->
-<!--                        <td th:text="${score}"></td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--            </td>-->
-<!--        </span>-->
-
-
-        <th:block th:each="scoreDTO : ${clubRatingDTO.updateScoreList}">
-            <td class="include-table-td">
-                <!-- 기본 점수    -->
-                <table class="inner-table">
-                    <tr th:each="score : ${scoreDTO.totalScoreList}">
-                        <td th:text="${score}"></td>
-                    </tr>
-                </table>
-            </td>
-
-            <td class="include-table-td">
-                <!-- 가산 점수    -->
-                <table class="inner-table">
-                    <tr th:each="score : ${scoreDTO.totalPlusScoreList}">
-                        <td th:text="${score}"></td>
-                    </tr>
-                </table>
-            </td>
-        </th:block>
-        </tr>
-
-    </table>
-    <table class="part-table">
-        <tr>
-            <th colspan="3">총점</th>
-        </tr>
-        <tr>
-            <th colspan="3">동아리 지원금 : 80점</th>
-        </tr>
-        <tr>
-            <td class="include-table-td">
-                <table class="inner-table">
-                    <tr th:each="score : ${clubRatingDTO.totalScoreList}">
-                        <td class="total-score" th:text="${score}" colspan="3"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-    </table>
-
-</div>
 
 </body>
 

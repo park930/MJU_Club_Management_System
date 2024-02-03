@@ -76,19 +76,6 @@
             </div>
 
             <div class="admin-box">
-                <h2>관리자 목록</h2>
-                <h3 th:if="${adminList == null}" class="empty-text">등록된 임원이 없습니다</h3>
-                <table th:if="${adminList != null}" class="todo-table">
-                    <tr th:each="admin: ${adminList}">
-                        <td>•</td>
-                        <td th:text="${admin.detailPosition}"></td>
-                        <td th:text="${admin.realName}"></td>
-                        <td th:text="${admin.phoneNumber}"></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="admin-box">
                 <h2>공지사항</h2>
                 <span th:if="${noticeList == null}" class="empty-text">등록된 공지가 없습니다.</span>
                 <table th:if="${noticeList != null}" class="todo-table">

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" type="text/css" href="/clubMemberStyles.css">
+  <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+  <title>list</title>
+</head>
+<body>
+
+<div th:replace="header :: header"></div>
+
+
+<div class="clubMember-container">
+  <h2 class="head-text">동아리 회비</h2>
+
+  <div class="clubMember-list">
+    <table>
+      <tr>
+        <th>분과</th>
+        <th>동아리명</th>
+        <th>동아리 호실</th>
+        <th>동아리 비밀번호</th>
+        <th>비고</th>
+      </tr>
+      <tr th:each="club: ${clubList}">
+        <td th:text="${club.category}"></td>
+        <td th:text="${club.clubName}"></td>
+        <td th:text="${club.clubRoom}"></td>
+        <td th:text="${club.roomPassword}"></td>
+        <td>
+          <div>
+            <a th:href="@{|/clubFee/admin/${club.id}|}">회비 조회</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+    </table>
+
+  </div>
+</div>
+
+</body>
+</html>

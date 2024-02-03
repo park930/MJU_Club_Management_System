@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/clubMemberStyles.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <title>list</title>
+</head>
+<body>
+
+<div th:replace="header :: header"></div>
+
+<div class="clubMember-container">
+    <div class="clubMember-list">
+        <h1 class="head-text">관리자 목록</h1>
+        <table>
+            <tr>
+                <th>역할</th>
+                <th>아이디</th>
+                <th>성명</th>
+                <th>전화번호</th>
+                <th>비고</th>
+            </tr>
+            <tr th:each="admin: ${adminList}">
+                <td th:text="${admin.detailPosition}"></td>
+                <td th:text="${admin.username}"></td>
+                <td th:text="${admin.realName}"></td>
+                <td th:text="${admin.phoneNumber}"></td>
+                <td>
+                    <a th:href="@{|/clubMember/manage/${admin.id}|}">관리</a>
+                    <a th:href="@{|/clubMember/delete/${admin.id}|}">삭제</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="clubMember-list">
+        <h1 class="head-text">동아리 가입 요청</h1>
+        <table>
+            <tr>
+                <th>역할</th>
+                <th>학번</th>
+                <th>성명</th>
+                <th>전화번호</th>
+                <th colspan="2">관리</th>
+            </tr>
+            <tr th:if="${clubRight==0}">
+                <td colspan="6"><h1>권한이 없습니다.</h1></td>
+            </tr>
+            <tr th:if="${clubRight==1}" th:each="tempUser: ${tempUserList}">
+                <td th:text="${tempUser.position}"></td>
+                <td th:text="${tempUser.username}"></td>
+                <td th:text="${tempUser.realName}"></td>
+                <td th:text="${tempUser.phoneNumber}"></td>
+                <td><a th:href="@{|/tempUser/agree/${tempUser.id}|}">승인</a></td>
+                <td><a th:href="@{|/tempUser/disagree/${tempUser.id}|}">거절</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+
+</html>

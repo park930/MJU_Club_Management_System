@@ -30,6 +30,13 @@ public class ClubFeeController
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        if (customUserDetails.getUserName().startsWith("admin")){
+            List<ClubDTO> clubList = clubService.findAll();
+            model.addAttribute("clubList",clubList);
+            return "adminClubFeeManagement";
+        }
+
+
         Long clubId = customUserDetails.getUserDTO().getClubId();
         List<ClubFeeDTO> clubFeeDTOList = clubFeeService.findAllByClubDTO(clubService.findById(clubId));
         List<ClubFeeDTO> feeUserList = clubFeeService.findFeeUser(clubFeeDTOList);
@@ -38,6 +45,19 @@ public class ClubFeeController
         model.addAttribute("clubId",clubId);
         return "clubFeeManagement";
     }
+
+    @GetMapping("/admin/{clubId}")
+    public String adminClubFee(@PathVariable Long clubId, Model model){
+        List<ClubFeeDTO> clubFeeDTOList = clubFeeService.findAllByClubDTO(clubService.findById(clubId));
+        List<ClubFeeDTO> feeUserList = clubFeeService.findFeeUser(clubFeeDTOList);
+        model.addAttribute("clubFeeList",clubFeeDTOList);
+        model.addAttribute("feeUserList",feeUserList);
+        model.addAttribute("clubId",clubId);
+        return "clubFeeManagement";
+    }
+
+
+
 
     @GetMapping("/add/{clubId}")
     public String clubFeeAddP(@PathVariable Long clubId, Model model){

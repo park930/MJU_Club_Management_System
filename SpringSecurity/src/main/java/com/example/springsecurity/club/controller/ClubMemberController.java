@@ -31,6 +31,14 @@ public class ClubMemberController {
     public String clubMemberP(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        if (customUserDetails.getUserName().startsWith("admin")){
+            List<UserDTO> adminList = customUserDetailsService.findAllAdmin();
+            model.addAttribute("adminList",adminList);
+            return "adminManage";
+        }
+
+
         Long clubId = customUserDetails.getClubId();
         int userId = customUserDetails.getUserId();
 
