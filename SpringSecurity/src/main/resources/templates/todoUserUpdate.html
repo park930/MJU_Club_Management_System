@@ -2,20 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
+    <link rel="stylesheet" type="text/css" href="/todoAdminDetail.css">
     <title>update</title>
 </head>
 <body>
 
+<div th:replace="header :: header"></div>
 
-<form action="/todo/user/update" method="post" name="updateForm">
-    <input type="hidden" name="id" th:value="${todoDTO.id}">
-    <input type="hidden" name="check" th:value="${todoDTO.check}">
-    작성자: <input type="text" name="writer" th:value="${todoDTO.writer}" readonly> <br>
-    제목: <input type="text" name="title" th:value="${todoDTO.title}"> <br>
-    내용: <input type="text" name="content" th:value="${todoDTO.content}"> <br>
-    시작일: <input type="datetime-local" name="startTime" th:value="${todoDTO.startTime}"> <br>
-    종료일: <input type="datetime-local" name="endTime" th:value="${todoDTO.endTime}"> <br>
-    <input type="submit" value="수정하기">
-</form>
+<div class="container">
+    <div class="item">
+        <form action="/todo/user/update" method="post" name="updateForm">
+            <input type="hidden" name="id" th:value="${todoDTO.id}">
+            <input type="hidden" name="check" th:value="${todoDTO.check}">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer" th:value="${todoDTO.writer}" readonly></td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title" th:value="${todoDTO.title}"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td>
+                        <textarea name="content" cols="30" rows="10" th:text="${todoDTO.content}"></textarea>
+                    </td>
 
+                </tr>
+                <tr>
+                    <td>시작일</td>
+                    <td><input type="datetime-local" name="startTime" th:value="${todoDTO.startTime}"></td>
+                </tr>
+                <tr>
+                    <td>종료일</td>
+                    <td><input type="datetime-local" name="endTime" th:value="${todoDTO.endTime}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit-td"><input type="submit" value="수정하기" class="submit-button"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 </body>
+</html>

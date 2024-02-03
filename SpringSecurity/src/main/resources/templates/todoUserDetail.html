@@ -2,47 +2,41 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
+    <link rel="stylesheet" type="text/css" href="/todoAdminDetail.css">
     <title>detail</title>
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
-<table>
-    <tr>
-        <th>id</th>
-        <td th:text="${todoDTO.id}"></td>
-    </tr>
-    <tr>
-        <th>writer</th>
-        <td th:text="${todoDTO.writer}"></td>
-    </tr>
-    <tr>
-        <th>title</th>
-        <td th:text="${todoDTO.title}"></td>
-    </tr>
-    <tr>
-        <th>content</th>
-        <td th:text="${todoDTO.content}"></td>
-    </tr>
-    <tr>
-        <th>시작일</th>
-        <td th:text="*{#temporals.format(todoDTO.startTime, 'yy.MM.dd HH:mm')}"></td>
-    </tr>
-    <tr>
-        <th>마감일</th>
-        <td th:text="*{#temporals.format(todoDTO.endTime, 'yy.MM.dd HH:mm')}"></td>
-    </tr>
-    <tr>
-    <th>등록일</th>
-    <td th:text="*{#temporals.format(todoDTO.createdTime, 'yy.MM.dd HH:mm')}"></td>
-    </tr>
-</table>
 
-<hr>
+<div th:replace="header :: header"></div>
 
-<a th:href="@{|/todo/user/update/${todoDTO.id}|}">수정</a>
-<a th:href="@{|/todo/user/delete/${todoDTO.id}|}">삭제</a>
 
+
+<div class="container">
+    <div class="item">
+        <div class="todo-main">
+
+            <div class="title"><h2 th:text="${todoDTO.title}"></h2></div>
+            <div class="todo-writer">
+                <span class="name" th:text="${todoDTO.writer}"></span>
+                <span class="name" th:text="*{#temporals.format(todoDTO.startTime, 'yyyy-MM-dd  HH:mm')}"></span>
+            </div>
+            <div class="todo-content">
+                <div class="margin-top">
+                    <span th:text="'['+*{#temporals.format(todoDTO.startTime, 'yy.MM.dd HH:mm')}+'] ~ '"></span>
+                    <span th:text="'['+*{#temporals.format(todoDTO.endTime, 'yy.MM.dd HH:mm')}+']'"></span><br>
+                </div>
+                <h3 th:text="${todoDTO.content}"></h3>
+            </div>
+
+            <a th:href="@{|/todo/user/update/${todoDTO.id}|}" class="seeButton">수정</a>
+            <a th:href="@{|/todo/user/delete/${todoDTO.id}|}" class="seeButton">삭제</a>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
