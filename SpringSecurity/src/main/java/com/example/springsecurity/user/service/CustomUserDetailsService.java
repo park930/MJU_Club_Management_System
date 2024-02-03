@@ -88,7 +88,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDTO findByUserId(int userId) {
         Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
         if (optionalUserEntity.isPresent()){
-            return UserDTO.toUserDTO(optionalUserEntity.get());
+            UserEntity userEntity = optionalUserEntity.get();
+            if (userEntity.getUsername().startsWith("admin")) {
+                return UserDTO.toAdminUserDTO(userEntity);
+            } else {
+                return UserDTO.toUserDTO(userEntity);
+            }
         } else {
             return null;
         }

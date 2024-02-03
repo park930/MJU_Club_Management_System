@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <link rel="stylesheet" type="text/css" href="/clubMemberStyles.css">
@@ -28,36 +32,26 @@
                 <td th:text="${admin.realName}"></td>
                 <td th:text="${admin.phoneNumber}"></td>
                 <td>
-                    <a th:href="@{|/clubMember/manage/${admin.id}|}">관리</a>
+                    <a data-toggle="modal" th:attr="href='#memberManage-' + ${admin.id}">관리</a>
+                    <div class="modal fade" th:id="'memberManage-' + ${admin.id}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h1 class="modal-title">관리자 관리</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <th:block th:replace="clubMemberManage::memberManage(${admin})"></th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <a th:href="@{|/clubMember/delete/${admin.id}|}">삭제</a>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div class="clubMember-list">
-        <h1 class="head-text">동아리 가입 요청</h1>
-        <table>
-            <tr>
-                <th>역할</th>
-                <th>학번</th>
-                <th>성명</th>
-                <th>전화번호</th>
-                <th colspan="2">관리</th>
-            </tr>
-            <tr th:if="${clubRight==0}">
-                <td colspan="6"><h1>권한이 없습니다.</h1></td>
-            </tr>
-            <tr th:if="${clubRight==1}" th:each="tempUser: ${tempUserList}">
-                <td th:text="${tempUser.position}"></td>
-                <td th:text="${tempUser.username}"></td>
-                <td th:text="${tempUser.realName}"></td>
-                <td th:text="${tempUser.phoneNumber}"></td>
-                <td><a th:href="@{|/tempUser/agree/${tempUser.id}|}">승인</a></td>
-                <td><a th:href="@{|/tempUser/disagree/${tempUser.id}|}">거절</a></td>
-            </tr>
-        </table>
-    </div>
 </div>
 </body>
 

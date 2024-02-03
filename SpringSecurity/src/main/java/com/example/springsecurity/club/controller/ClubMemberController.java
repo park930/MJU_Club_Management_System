@@ -61,9 +61,9 @@ public class ClubMemberController {
     @GetMapping("/manage/{userId}")
     public String manageP(@PathVariable int userId, Model model){
         UserDTO userDTO = customUserDetailsService.findByUserId(userId);
-        UserDTO clubChairMan = customUserDetailsService.findClubChairMan(userDTO.getClubId());
+//        UserDTO clubChairMan = customUserDetailsService.findClubChairMan(userDTO.getClubId());
         model.addAttribute("userDTO", userDTO);
-        model.addAttribute("chairMan",clubChairMan);
+//        model.addAttribute("chairMan",clubChairMan);
         return "clubMemberManage";
     }
 
