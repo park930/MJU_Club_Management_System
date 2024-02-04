@@ -131,6 +131,7 @@ div#tables {
     text-align: center;
     display: flex;
     flex-wrap: nowrap;
+    justify-content: center;
 }
 
 .fc-col-header-cell-cushion {
@@ -146,6 +147,7 @@ div#tables {
 .part-table a {
     color: wheat;
     text-decoration: none;
+    font-size: 1.1rem;
 }
 
 
