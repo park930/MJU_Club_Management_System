@@ -10,9 +10,21 @@
 <form action="/qnaAnswer/update" method="post" name="updateForm">
     <input type="hidden" name="id" th:value="${qnaAnswer.id}">
     <input type="hidden" name="qnaId" th:value="${qnaId}">
-    writer: <input type="text" name="answerWriter" th:value="${qnaAnswer.answerWriter}" readonly> <br>
-    contents: <textarea name="answerContents" cols="30" rows="10" th:text="${qnaAnswer.answerContents}"></textarea> <br>
-    <input type="submit" value="수정하기">
+    <table>
+        <tr>
+            <td>작성자</td>
+            <td><input type="text" name="answerWriter" th:value="${qnaAnswer.answerWriter}" readonly></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea name="answerContents" cols="30" rows="10" th:text="${qnaAnswer.answerContents}"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="수정하기">
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </th:block>
