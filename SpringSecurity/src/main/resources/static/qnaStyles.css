@@ -182,3 +182,7 @@ div#comment-write {
 #comment-write-btn {
     width: 100%;
 }
+
+.radio-td span {
+    margin-right: 10px;
+}

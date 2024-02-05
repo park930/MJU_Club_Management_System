@@ -2,19 +2,51 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/qnaStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
+    <link rel="stylesheet" type="text/css" href="/boardSave.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <title>save</title>
 </head>
 <body>
 
-<form action="/qna/save" method="post" enctype="multipart/form-data">
-    <input type="text" name="userId" th:value="${userId}" hidden> <br>
-    비밀글 여부:
-    <input type="radio" name="secret" value="1" checked> O
-    <input type="radio" name="secret" value="0"> X
-    writer: <input type="text" name="boardWriter" th:value="${userName}" readonly> <br>
-    title: <input type="text" name="boardTitle"> <br>
-    contents: <textarea name="boardContents" cols="30" rows="10"></textarea> <br>
-    <input type="submit" value="글작성">
-</form>
+
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <h1 class="head-text">Q&A 작성</h1>
+    <div class="item">
+
+        <form action="/qna/save" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="boardWriter" th:value="${userName}">
+            <input type="hidden" name="userId" th:value="${userId}">
+
+            <table>
+                <tr>
+                    <td>비밀글 여부</td>
+                    <td class="radio-td">
+                        <input type="radio" name="secret" value="1" checked> <span>O</span>
+                        <input type="radio" name="secret" value="0"> <span>X</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="input-td" colspan="2">
+                        <input type="text" name="boardTitle" placeholder="제목">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="input-td" colspan="2">
+                        <textarea name="boardContents" cols="30" rows="10" placeholder="내용" class="full-textarea"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="submit-td" colspan="2">
+                        <input type="submit" value="글작성" class="submit-button">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 </body>
 </html>

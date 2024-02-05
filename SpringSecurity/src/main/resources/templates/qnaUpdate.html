@@ -2,16 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/qnaStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
+    <link rel="stylesheet" type="text/css" href="/boardSave.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <title>Title</title>
 </head>
 <body>
 
-<form action="/qna/update" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" th:value="${qnaDTO.id}">
-    제목 : <input type="text" name="boardTitle" th:value="${qnaDTO.boardTitle}"> <br>
-    내용 : <input type="text" name="boardContents" th:value="${qnaDTO.boardContents}"> <br>
-    <input type="submit" value="수정하기">
-</form>
+<div th:replace="header :: header"></div>
 
+
+<div class="container">
+    <h1 class="head-text">Q&A 수정</h1>
+    <div class="item">
+
+        <form action="/qna/update" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="${qnaDTO.id}">
+
+            <table>
+                <tr>
+                    <td class="input-td"><input type="text" name="boardTitle" th:value="${qnaDTO.boardTitle}"></td>
+                </tr>
+                <tr>
+                    <td class="input-td">
+                        <textarea name="boardContents" cols="30" rows="10" placeholder="내용" class="full-textarea"
+                                  th:text="${qnaDTO.boardContents}"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="submit-td">
+                        <input type="submit" value="수정하기" class="submit-button">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>
