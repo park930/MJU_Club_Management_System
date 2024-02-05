@@ -93,8 +93,11 @@ public class QnaController {
 
         QnaDTO qnaDTO = qnaService.findById(qnaId);
         List<QnaAnswerDTO> qnaAnswerDTOList = qnaAnswerService.findAll(qnaId);
+        int right = qnaService.getRight(id,qnaDTO.getBoardWriter());
+        model.addAttribute("userId",id);
         model.addAttribute("qnaAnswerList",qnaAnswerDTOList);
         model.addAttribute("qnaDTO",qnaDTO);
+        model.addAttribute("right",right);
         return "qnaDetail";
     }
 
@@ -131,5 +134,26 @@ public class QnaController {
         qnaAnswerService.deleteById(qnaAnswerId);
         return "redirect:/qna/admin/"+qnaId;
     }
+
+    @GetMapping("/update/{qnaId}")
+    public String updateQnA(@PathVariable Long qnaId, Model model){
+        QnaDTO qnaDTO = qnaService.findById(qnaId);
+        model.addAttribute("qnaDTO",qnaDTO);
+        return "qnaUpdate";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute QnaDTO qnaDTO){
+        Long id = qnaService.update(qnaDTO);
+        return "redirect:/qna/"+qnaDTO.getId();
+    }
+
+
+    @GetMapping("/delete/{qnaId}")
+    public String deleteQnA(@PathVariable Long qnaId){
+        qnaService.deleteById(qnaId);
+        return "redirect:/qna/paging";
+    }
+
 
 }

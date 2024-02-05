@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/qna/update" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${qnaDTO.id}">
+    제목 : <input type="text" name="boardTitle" th:value="${qnaDTO.boardTitle}"> <br>
+    내용 : <input type="text" name="boardContents" th:value="${qnaDTO.boardContents}"> <br>
+    <input type="submit" value="수정하기">
+</form>
+
+</body>
+</html>

@@ -16,6 +16,8 @@
 <div class="qna-container">
     <div class="qna-item">
         <div class="qna-view">
+            <a class="seeButton" th:href="@{|/qna/update/${qnaDTO.id}|}" th:if="${right == 1}">수정</a>
+            <a class="seeButton" th:href="@{|/qna/detele/${qnaDTO.id}|}" th:if="${right == 1}">삭제</a>
             <h1 class="title" th:text="${qnaDTO.boardTitle}"></h1>
             <div class="qna-writer">
                 <span class="name" th:text="${qnaDTO.boardWriter}"></span>

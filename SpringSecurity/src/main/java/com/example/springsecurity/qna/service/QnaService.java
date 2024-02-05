@@ -121,4 +121,30 @@ public class QnaService {
             return qnaDTOList;
         }
     }
+
+    public int getRight(String id, String boardWriter) {
+        if (id.startsWith("admin") || id.equals(boardWriter)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public void deleteById(Long qnaId) {
+        Optional<QnaEntity> optionalQnaEntity = qnaRepository.findById(qnaId);
+        if (optionalQnaEntity.isPresent()){
+            qnaRepository.delete(optionalQnaEntity.get());
+        }
+    }
+
+    public Long update(QnaDTO qnaDTO) {
+        Optional<QnaEntity> optionalQnaEntity = qnaRepository.findById(qnaDTO.getId());
+        if (optionalQnaEntity.isPresent()){
+            QnaEntity qnaEntity = optionalQnaEntity.get();
+            qnaEntity.setBoardTitle(qnaDTO.getBoardTitle());
+            qnaEntity.setBoardContents(qnaDTO.getBoardContents());
+            return qnaRepository.save(qnaEntity).getId();
+        }
+        return qnaDTO.getId();
+    }
 }
