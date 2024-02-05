@@ -55,8 +55,28 @@
         <td th:text="${clubFee.purpose}"></td>
         <td th:text="*{#temporals.format(clubFee.date, 'yyyy-MM-dd  HH:mm')}"></td>
         <td th:text="${clubFee.balance}+'원'"></td>
-        <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
-        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
+        <td>
+<!--          <a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a>-->
+
+          <a class="seeButton" data-toggle="modal" th:attr="href='#fee-' + ${clubFee.id}">수정</a>
+          <div class="modal fade" th:id="'fee-' + ${clubFee.id}" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h1 class="modal-title">회비 이력 수정</h1>
+                </div>
+                <div class="modal-body">
+                  <th:block th:replace="clubFeeUpdate::clubFeeUpdate(${clubFee})"></th:block>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </td>
+        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}" class="seeButton">삭제</a></td>
       </tr>
     </table>
   </div>
@@ -73,8 +93,28 @@
         <td th:text="${clubFee.userName}"></td>
         <td th:text="${clubFee.amount}+'원'"></td>
         <td th:text="*{#temporals.format(clubFee.date, 'yyyy-MM-dd  HH:mm')}"></td>
-        <td><a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a></td>
-        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}">삭제</a></td>
+        <td>
+<!--          <a th:href="@{|/clubFee/update/${clubFee.id}|}">수정</a>-->
+
+          <a class="seeButton" data-toggle="modal" th:attr="href='#fee-' + ${clubFee.id}">수정</a>
+          <div class="modal fade" th:id="'fee-' + ${clubFee.id}" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h1 class="modal-title">회비 이력 수정</h1>
+                </div>
+                <div class="modal-body">
+                  <th:block th:replace="clubFeeUpdate::clubFeeUpdate(${clubFee})"></th:block>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </td>
+        <td><a th:href="@{|/clubFee/delete/${clubFee.id}|}" class="seeButton">삭제</a></td>
       </tr>
     </table>
   </div>

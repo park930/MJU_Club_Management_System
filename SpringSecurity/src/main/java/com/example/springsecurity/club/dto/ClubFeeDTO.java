@@ -33,7 +33,7 @@ public class ClubFeeDTO {
     private int totalPlusFee;
     private int totalMinusFee;
 
-    public static ClubFeeDTO toClubFeeDTO(ClubFeeEntity clubFeeEntity) {
+    public static ClubFeeDTO toClubFeeDTO(ClubFeeEntity clubFeeEntity,Long clubId) {
         ClubFeeDTO clubFeeDTO = new ClubFeeDTO();
         clubFeeDTO.setId(clubFeeEntity.getId());
         clubFeeDTO.setType(clubFeeEntity.getType());
@@ -41,6 +41,7 @@ public class ClubFeeDTO {
         clubFeeDTO.setAmount(clubFeeEntity.getAmount());
         clubFeeDTO.setDate(clubFeeEntity.getDate());
         clubFeeDTO.setPurpose(clubFeeEntity.getPurpose());
+        clubFeeDTO.setClubId(clubId);
         return clubFeeDTO;
     }
 }

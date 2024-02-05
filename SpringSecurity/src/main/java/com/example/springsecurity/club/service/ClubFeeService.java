@@ -32,7 +32,7 @@ public class ClubFeeService {
 
         List<ClubFeeDTO> clubFeeDTOList = new ArrayList<>();
         for(ClubFeeEntity clubFeeEntity : clubFeeEntityList){
-            clubFeeDTOList.add(ClubFeeDTO.toClubFeeDTO(clubFeeEntity));
+            clubFeeDTOList.add(ClubFeeDTO.toClubFeeDTO(clubFeeEntity,clubDTO.getId()));
         }
 
         int balance=0;
@@ -82,7 +82,7 @@ public class ClubFeeService {
         Optional<ClubFeeEntity> optionalClubFeeEntity = clubFeeRepository.findById(clubFeeId);
         if (optionalClubFeeEntity.isPresent()){
             ClubFeeEntity clubFeeEntity = optionalClubFeeEntity.get();
-            return ClubFeeDTO.toClubFeeDTO(clubFeeEntity);
+            return ClubFeeDTO.toClubFeeDTO(clubFeeEntity,clubFeeEntity.getClubEntity().getId());
         } else {
             return null;
         }
