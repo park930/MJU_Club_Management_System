@@ -105,11 +105,17 @@
                     </tr>
                     <tr>
                         <td>파일</td>
-                        <td><input type="file" id="resultFile" name="resultFile" placeholder="내용"></td>
+                        <td><input type="file" id="resultFile" name="resultFile" onchange="fileSelect(this.files)" placeholder="내용"></td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <input type="submit" value="제출하기">
+                        <td></td>
+                        <td id="fileList-td">
+                            <div id="file-list"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="submit-td">
+                            <input type="submit" class="submit-button" value="제출하기">
                         </td>
                     </tr>
                 </table>
@@ -156,6 +162,46 @@
 </body>
 
 <script th:inline="javascript">
+
+    let selectFile = [];
+
+    function fileSelect(file) {
+        console.log(file);
+        console.log(file[0].name);
+        selectFile.push(file[0]);
+
+        const fileList = document.getElementById('file-list');
+        const item = document.createElement('div');
+        const fileNameSpan = document.createElement('span');
+        const fileName = document.createTextNode(file[0].name);
+        const deleteButton = document.createElement('button');
+
+        deleteButton.classList.add('small-button');
+
+        deleteButton.addEventListener('click', (event) => {
+            item.remove();
+            event.preventDefault();
+            deleteFile(file[0]);
+        });
+
+        deleteButton.innerText="X";
+        fileNameSpan.appendChild(fileName);
+        item.appendChild(fileNameSpan);
+        item.appendChild(deleteButton);
+        fileList.appendChild(item);
+
+    }
+
+    function deleteFile(deleteFile) {
+        const inputFile = document.querySelector('input[name="resultFile"]');
+        const dataTransfer = new DataTransfer();
+        selectFile = selectFile.filter(file => file!==deleteFile);
+        selectFile.forEach(file => {
+            dataTransfer.items.add(file);
+        })
+        inputFile.files = dataTransfer.files;
+    }
+
 
 </script>
 

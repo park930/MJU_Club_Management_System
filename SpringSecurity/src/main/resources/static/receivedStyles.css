@@ -103,7 +103,6 @@ div#score-info {
 }
 
 .comment-table {
-    width: 40%;
     border-collapse: collapse;
     border: 2px solid #d4d4d4;
     border-radius: 8px;
@@ -176,4 +175,29 @@ div#comment-write {
 
 .flex-item .received-item {
     flex: 0.48;
+}
+
+#file-list span {
+    color: #187bbe;
+    font-weight: bold;
+}
+
+div#file-list {
+    background-color: #e8e8e8;
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 10px;
+}
+
+#fileList-td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.submit-button {
+    width: 100%;
+    background-color: #313c41;
+    color: white;
+    font-weight: bold;
+    height : 4rem;
 }
