@@ -1,5 +1,6 @@
 package com.example.springsecurity.todo.controller;
 
+import com.example.springsecurity.board.dto.CommentDTO;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.entity.ClubEntity;
 import com.example.springsecurity.club.service.ClubService;
@@ -80,4 +81,17 @@ public class TodoCommentController {
         }
         return "redirect:/todo/receivedTodo/"+todoCommentDTO.getClubId()+"/"+todoCommentDTO.getTodoId();
     }
+
+//    @GetMapping("/fileLoad/{commentId}")
+//    public ResponseEntity fileLoad(@PathVariable Long commentId){
+//
+//        if (saveResult != null){
+//            //작성 성공 시, 댓글 목록들을 가져와서 리턴
+//            List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
+//            return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("해당 게시물이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
+//        }
+//    }
+
 }

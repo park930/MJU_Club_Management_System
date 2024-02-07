@@ -4,38 +4,55 @@
     <meta charset="UTF-8">
     <title>detail</title>
     <!-- jquery cdn -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 
 
 <th:block th:fragment="commentUpdate(todoId,commentId,clubId,todoCommentDTO)">
-<body>
-<form action="/receivedTodoComment/update" method="post" name="updateForm">
-    <input type="hidden" name="todoId" th:value="${todoId}">
-    <input type="hidden" name="id" th:value="${commentId}">
-    <input type="hidden" name="clubId" th:value="${clubId}">
-    <table>
-        <tr>
-            <td>타입</td>
-            <td><input type="text" name="type" th:value="${todoCommentDTO.type}" readonly></td>
-        </tr>
-        <tr>
-            <td>내용</td>
-            <td><textarea name="content" cols="30" rows="10" th:text="${todoCommentDTO.content}"></textarea></td>
-        </tr>
-        <tr>
-            <td>파일</td>
-            <td><input type="file" id="resultFile" name="resultFile" placeholder="파일"></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="수정하기">
-            </td>
-        </tr>
-    </table>
-</form>
+    <body>
+    <form action="/receivedTodoComment/update" method="post" name="updateForm">
+        <input type="hidden" name="todoId" th:value="${todoId}">
+        <input type="hidden" name="id" th:value="${commentId}">
+        <input type="hidden" name="clubId" th:value="${clubId}">
+        <table>
+            <tr>
+                <td>타입</td>
+                <td><input type="text" name="type" th:value="${todoCommentDTO.type}" readonly></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><textarea name="content" cols="30" rows="10" th:text="${todoCommentDTO.content}"></textarea></td>
+            </tr>
+            <tr>
+                <td>파일</td>
+                <td><input type="file" id="resultFile" name="resultFile" placeholder="파일"></td>
+            </tr>
+            <tr th:if="${todoCommentDTO.originalFileName != null}">
+                <td></td>
+                <td id="fileList-td">
+                    <div id="file-list">
+                        <div>
+                            <span th:text="${todoCommentDTO.originalFileName}"></span>
+                            <button class="small-button">x</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="수정하기">
+                </td>
+            </tr>
+        </table>
+    </form>
 
-</body>
+    </body>
+    <script th:inline="javascript">
+        console.log("here")
+
+    </script>
+
 </th:block>
 
 </html>
