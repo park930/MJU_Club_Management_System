@@ -33,9 +33,9 @@ public class JoinService {
         if (userRepository.existsByUsername(userDTO.getUsername())){
             return;
         }
+        userDTO.setPhoneNumber(userDTO.getPhoneNumber1()+"-"+userDTO.getPhoneNumber2()+"-"+userDTO.getPhoneNumber3());
         userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
-        System.out.println("userDTO = " + userDTO);
 
         UserEntity userEntity = UserEntity.toNewAdminEntity(userDTO);
         userEntity.setRole("ROLE_ADMIN");
@@ -46,10 +46,14 @@ public class JoinService {
 
     public void joinProcess(UserDTO userDTO,String type){
 
-        //DB에 이미 동일한 username이 있는 계정이 있는지
-        if (userRepository.existsByUsername(userDTO.getUsername())){
-            return;
-        }
+//        //DB에 이미 동일한 username이 있는 계정이 있는지
+//        if (userRepository.existsByUsername(userDTO.getUsername())){
+//            return;
+//        }
+
+        userDTO.setPhoneNumber(userDTO.getPhoneNumber1()+"-"+userDTO.getPhoneNumber2()+"-"+userDTO.getPhoneNumber3());
+        System.out.println("userDTO = " + userDTO);
+
 
         Optional<ClubEntity> optionalClubEntity = clubRepository.findById(userDTO.getClubId());
         if (optionalClubEntity.isPresent()){
@@ -57,19 +61,11 @@ public class JoinService {
 
             if (type.equals("normal")) {
                 TempUserEntity userEntity = TempUserEntity.toNewTempUserEntity(userDTO,optionalClubEntity.get());
-                if (userDTO.getUsername().startsWith("admin")) {
-                    userEntity.setRole("ROLE_ADMIN");     //강제로 회원가입자는 ADMIN으로 해놓는다.
-                } else {
-                    userEntity.setRole("ROLE_USER");     //강제로 회원가입자는 ADMIN으로 해놓는다.
-                }
+                userEntity.setRole("ROLE_USER");     //강제로 회원가입자는 ADMIN으로 해놓는다.
                 tempUserRepository.save(userEntity);
             } else {
                 UserEntity userEntity = UserEntity.toNewUserEntity(userDTO,optionalClubEntity.get());
-                if (userDTO.getUsername().startsWith("admin")) {
-                    userEntity.setRole("ROLE_ADMIN");     //강제로 회원가입자는 ADMIN으로 해놓는다.
-                } else {
-                    userEntity.setRole("ROLE_USER");     //강제로 회원가입자는 ADMIN으로 해놓는다.
-                }
+                userEntity.setRole("ROLE_USER");     //강제로 회원가입자는 ADMIN으로 해놓는다.
                 userRepository.save(userEntity);
             }
         }

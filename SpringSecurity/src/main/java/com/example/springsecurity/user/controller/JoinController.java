@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,20 +45,21 @@ public class JoinController {
     }
 
     @PostMapping("/joinProc")
-    public String joinProcess(UserDTO userDTO){
+    public String joinProcess(@ModelAttribute UserDTO userDTO){
         joinService.joinProcess(userDTO,"Executives");
         return "redirect:/login";
     }
 
     @PostMapping("/joinAdminProc")
-    public String joinAdminProcess(UserDTO userDTO){
+    public String joinAdminProcess(@ModelAttribute UserDTO userDTO){
         joinService.joinAdminProcess(userDTO);
         return "redirect:/login";
     }
 
 
     @PostMapping("/tempJoinProc")
-    public String tempJoinProcess(UserDTO userDTO){
+    public String tempJoinProcess(@ModelAttribute UserDTO userDTO){
+        System.out.println("모델어트리 userDTO = " + userDTO);
         joinService.joinProcess(userDTO,"normal");
         return "redirect:/login";
     }

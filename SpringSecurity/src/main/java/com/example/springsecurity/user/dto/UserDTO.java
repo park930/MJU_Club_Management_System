@@ -21,6 +21,11 @@ public class UserDTO {
     private String position;
     private String detailPosition;
 
+
+    private String phoneNumber1;
+    private String phoneNumber2;
+    private String phoneNumber3;
+
     public static UserDTO toUserDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
