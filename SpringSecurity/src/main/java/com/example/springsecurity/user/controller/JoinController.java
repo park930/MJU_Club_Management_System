@@ -1,15 +1,19 @@
 package com.example.springsecurity.user.controller;
 
+import com.example.springsecurity.board.dto.CommentDTO;
 import com.example.springsecurity.club.dto.ClubDTO;
 import com.example.springsecurity.club.service.ClubService;
 import com.example.springsecurity.user.dto.JoinDTO;
 import com.example.springsecurity.user.dto.UserDTO;
 import com.example.springsecurity.user.service.JoinService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -56,6 +60,12 @@ public class JoinController {
     public String tempJoinProcess(UserDTO userDTO){
         joinService.joinProcess(userDTO,"normal");
         return "redirect:/login";
+    }
+
+    @PostMapping("/idCheck")
+    public ResponseEntity idCheckProc(@RequestParam String username){
+        int checkId = joinService.checkId(username);
+        return new ResponseEntity<>(checkId, HttpStatus.OK);
     }
 
 }

@@ -11,6 +11,7 @@ import com.example.springsecurity.user.repository.TempUserRepository;
 import com.example.springsecurity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -92,4 +93,11 @@ public class JoinService {
     }
 
 
+    public int checkId(String userName) {
+        if (userRepository.existsByUsername(userName)){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
