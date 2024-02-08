@@ -19,6 +19,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,7 +38,6 @@ public class TodoCommentController {
 
     @PostMapping("/save")
     public String saveTodoComment(@ModelAttribute TodoCommentDTO todoCommentDTO) throws IOException {
-        System.out.println("todoCommentDTO = " + todoCommentDTO);
         TodoDTO todoDTO = todoService.findById(todoCommentDTO.getTodoId());
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
         LocalDateTime saveTime = todoCommentService.save(todoCommentDTO, todoDTO, clubDTO);
@@ -65,33 +65,25 @@ public class TodoCommentController {
     }
 
     @PostMapping("/update")
-    public String updateComment(@ModelAttribute TodoCommentDTO todoCommentDTO){
-        TodoCommentDTO commentDTO = todoCommentService.findById(todoCommentDTO.getId());
-        
-        //바뀐 내용 적용
-        commentDTO.setContent(todoCommentDTO.getContent());
-        //파일도 적용 필요
+    public String updateComment(@ModelAttribute TodoCommentDTO todoCommentDTO,
+                                @RequestParam(required = false) String deleteFileId) throws IOException {
 
+        System.out.println("업데이트 전");
+        Long commentId = todoCommentService.updateComment(todoCommentDTO,deleteFileId);
+
+        
+        System.out.println("deleteFileId = " + deleteFileId);
+        System.out.println("todoCommentDTO = " + todoCommentDTO);
 
         ClubDTO clubDTO = clubService.findById(todoCommentDTO.getClubId());
-        TodoCommentDTO updatedComment = todoCommentService.findById(todoCommentService.update(commentDTO));
+
+        TodoCommentDTO updatedComment = todoCommentService.findById(commentId);
         if (updatedComment != null){
             System.out.println("updatedComment.getUpdatedTime() = " + updatedComment.getUpdatedTime());
-            scoreClubService.saveSubmitType(commentDTO.getTodoId(), clubDTO,updatedComment.getUpdatedTime());
+            scoreClubService.saveSubmitType(updatedComment.getTodoId(), clubDTO,updatedComment.getUpdatedTime());
         }
         return "redirect:/todo/receivedTodo/"+todoCommentDTO.getClubId()+"/"+todoCommentDTO.getTodoId();
     }
 
-//    @GetMapping("/fileLoad/{commentId}")
-//    public ResponseEntity fileLoad(@PathVariable Long commentId){
-//
-//        if (saveResult != null){
-//            //작성 성공 시, 댓글 목록들을 가져와서 리턴
-//            List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
-//            return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("해당 게시물이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
-//        }
-//    }
 
 }

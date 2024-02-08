@@ -2,13 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
     <link rel="stylesheet" type="text/css" href="/menuStyles.css">
     <link rel="stylesheet" type="text/css" href="/receivedStyles.css">
     <title>detail</title>
@@ -128,23 +121,16 @@
                 <ul>
                     <li th:each="comment: ${commentList}">
                         <div class="comment-writer">
-                            <span class="writer" th:text="${comment.type}"></span>
+                            <span class="writer">
+                                <span class="result" th:if="${#strings.equals(comment.type, '결과물')}" th:text="${comment.type}"></span>
+                                <span class="ques" th:if="${#strings.equals(comment.type, '질문')}" th:text="${comment.type}"></span>
+                            </span>
                             <span class="writer" th:text="'작성일 : '+*{#temporals.format(comment.createdTime, 'yyyy-MM-dd  HH:mm')}"></span>
                             <span class="writer" th:if="${comment.updatedTime != null}" th:text="'수정일 : '+*{#temporals.format(comment.updatedTime, 'yyyy-MM-dd  HH:mm')}"></span>
-                            <a class="writer" data-toggle="modal" href="#commentUpdateModal" th:if="${#strings.equals(comment.type, '결과물')}">수정</a>
-                            <div class="modal fade" id="commentUpdateModal" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">×</button>
-                                            <h1 class="modal-title">결과물 수정</h1>
-                                        </div>
-                                        <div class="modal-body">
-                                            <th:block th:replace="updateTodoComment::commentUpdate(${todo.id},${comment.id},${clubId},${comment})"></th:block>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                            <a class="writer" th:href="@{|/receivedTodoComment/update/${clubId}/${todo.id}/${comment.id}|}" th:if="${#strings.equals(comment.type, '결과물')}">수정</a>
+
+
                         </div>
                         <div class="comment-text">
                             <span th:text="${comment.content}"></span>
@@ -166,11 +152,17 @@
     let selectFile = [];
 
     function fileSelect(file) {
+
+        const fileList = document.getElementById('file-list');
+        while (fileList.firstChild) {
+            fileList.removeChild(fileList.firstChild);
+        }
+
+
         console.log(file);
         console.log(file[0].name);
         selectFile.push(file[0]);
 
-        const fileList = document.getElementById('file-list');
         const item = document.createElement('div');
         const fileNameSpan = document.createElement('span');
         const fileName = document.createTextNode(file[0].name);
@@ -184,7 +176,7 @@
             deleteFile(file[0]);
         });
 
-        deleteButton.innerText="X";
+        deleteButton.innerText="x";
         fileNameSpan.appendChild(fileName);
         item.appendChild(fileNameSpan);
         item.appendChild(deleteButton);
