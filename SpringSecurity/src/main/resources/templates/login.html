@@ -16,12 +16,22 @@
     </div>
     <div class="login-item">
         <form action="/loginProc" method="post" name="loginForm">
-            <input id="username" type="text" name="username" placeholder="id"/>
-            <input id="password" type="password" name="password" placeholder="password"/>
-            <input type="submit" value="login">
+            <input id="username" type="text" name="username" placeholder="학번"/>
+            <input id="password" type="password" name="password" placeholder="비밀번호"/>
+            <input type="submit" value="로그인">
         </form>
+    </div>
+    <div class="login-item">
+        <button onclick="join()" id="joinBtn">회원가입</button>
     </div>
 </div>
 </body>
+<script>
+    const join = () => {
+        location.href="/tempJoin";
+    }
+
+</script>
+
 </html>
 
