@@ -5,31 +5,109 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/join.css">
     <title>Document</title>
 </head>
 <body>
-<h1>가입페이지</h1>
-<hr>
-<form action="/joinAdminProc" method="post" name="joinForm">
-    <h3>관리자는 이름을 "admin"으로 시작해야함</h3>
-    <input type="text" value="admin" hidden>
 
-    학번(아이디) : <input type="text" name="username" placeholder="학번"/><br>
-    비밀번호 : <input type="password" name="password" placeholder="Password"/>
-    성명 : <input type="text" name="realName" placeholder="학번"/><br>
-    전화번호 : <input type="number" name="phoneNumber1"/>-
-    <input type="number" name="phoneNumber2"/>-
-    <input type="number" name="phoneNumber3"/><br>
-    직책 :
-    <select id="detailPosition" name="detailPosition">
-        <option value="회장">회장</option>
-        <option value="부회장">부회장</option>
-        <option value="국장">국장</option>
-        <option value="부원">부원</option>
-    </select>
-    <input type="text" name="position" value="임원" hidden/><br>
+<div class="join-container">
+    <h1>명지대학교 동아리 관리 시스템</h1>
+    <h2>[ 관리자 등록 ]</h2>
+    <form action="/joinAdminProc" method="post" name="joinForm" onsubmit="return validateForm()">
+        <h3>관리자는 이름을 "admin"으로 시작해야함</h3>
+        <input type="hidden" value="admin">
+        <input type="hidden" name="position" value="임원"/>
+        <input type="hidden" value="0" name="idCheckResult" id="idCheckResult">
 
-    <input type="submit" value="Join"/>
-</form>
+
+        <table>
+            <tr>
+                <td>아이디</td>
+                <td colspan="2">
+                    <input type="text" name="username" id="username" placeholder="아이디(admin으로 시작)"/>
+                </td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" name="password" placeholder="Password"/></td>
+                <td>
+                    <button type="button" id="idCheckBtn" class="idCheck" onclick="checkLoginId()">중복 확인</button>
+                </td>
+            </tr>
+            <tr>
+                <td>성명</td>
+                <td colspan="2"><input type="text" name="realName" placeholder="이름"/></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td colspan="2">
+                    <input type="number" name="phoneNumber1" class="phoneInput"/>-
+                    <input type="number" name="phoneNumber2" class="phoneInput"/>-
+                    <input type="number" name="phoneNumber3" class="phoneInput"/>
+                </td>
+            </tr>
+            <tr>
+                <td>직책</td>
+                <td colspan="2">
+                    <select id="detailPosition" name="detailPosition">
+                        <option value="회장">회장</option>
+                        <option value="부회장">부회장</option>
+                        <option value="국장">국장</option>
+                        <option value="부원">부원</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="가입"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 </body>
+
+
+<script th:inline="javascript">
+    function checkLoginId() {
+        let username = document.getElementById("username").value;
+
+        $.ajax({
+            url: '/idCheck',
+            type: 'POST',
+            data: {username: username},
+            success: function (checkId) {
+                // 서버로부터 응답을 받았을 때 실행되는 코드입니다.
+                // 응답에 따라 팝업에 메시지를 표시합니다.
+                if (checkId === 1) {
+                    alert("아이디 '" + username + "'은(는) 중복되지 않습니다.");
+
+                    document.getElementById("username").readOnly = true;
+                    //id가 idCheckResult인 input의 value를 1로 바꿔주는 작업
+                    document.getElementById("idCheckResult").value = "1";
+
+                } else {
+                    alert("이미 사용 중인 학번입니다.");
+                }
+            },
+            error: function () {
+                alert('서버와의 통신 중 에러가 발생했습니다.');
+            }
+        });
+    }
+
+    function validateForm() {
+        let idCheckResult = document.getElementById("idCheckResult").value;
+        if (idCheckResult === "0") {
+            alert("아이디 중복체크를 완료하세요");
+            return false; // 서브밋 취소
+        }
+        return true; // 서브밋 허용
+    }
+
+</script>
+
+
 </html>

@@ -65,3 +65,19 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #2980b9;
 }
+
+.phoneInput {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.idCheck {
+    background-color: #295980;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #ddd;
+    width: 100%;
+    padding : 10px;
+    border-radius: 11px;
+}
