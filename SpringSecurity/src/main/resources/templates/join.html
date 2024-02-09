@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/join.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,11 +14,14 @@
     <h1>명지대학교 동아리 관리 시스템</h1>
     <h2>[ 동아리 회장 가입 ]</h2>
     <hr>
-    <form action="/joinProc" method="post" name="joinForm">
+    <form action="/joinProc" method="post" name="joinForm" onsubmit="return validateForm()">
+        <input type="hidden" value="0" name="idCheckResult" id="idCheckResult">
+        <input type="hidden" name="position" value="임원" />
+        <input type="hidden" name="detailPosition" value="회장" />
         <table>
             <tr>
                 <td>동아리 선택</td>
-                <td>
+                <td colspan="2">
                     <select name="clubId">
                         <option th:each="club : ${clubList}" th:value="${club.id}" th:text="${club.clubName}"></option>
                     </select>
@@ -25,33 +29,72 @@
             </tr>
             <tr>
                 <td>학번(아이디)</td>
-                <td><input type="text" name="username" placeholder="학번"/></td>
+                <td><input type="text" name="username" id="username" placeholder="학번"/></td>
+                <td><button type="button" id="idCheckBtn" class="idCheck" onclick="checkLoginId()">중복 확인</button></td>
             </tr>
             <tr>
                 <td>비밀번호</td>
-                <td><input type="password" name="password" placeholder="Password"/></td>
+                <td colspan="2"><input type="password" name="password" placeholder="Password"/></td>
             </tr>
             <tr>
                 <td>성명</td>
-                <td><input type="text" name="realName" placeholder="이름"/></td>
+                <td colspan="2"><input type="text" name="realName" placeholder="이름"/></td>
             </tr>
             <tr>
                 <td>전화번호</td>
-                <td>
-                    <input type="number" name="phoneNumber1"/>-
-                    <input type="number" name="phoneNumber2"/>-
-                    <input type="number" name="phoneNumber3"/>
+                <td colspan="2">
+                    <input type="number" name="phoneNumber1" class="phoneInput"/>-
+                    <input type="number" name="phoneNumber2" class="phoneInput"/>-
+                    <input type="number" name="phoneNumber3" class="phoneInput"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     <input type="submit" value="가입"/>
                 </td>
             </tr>
         </table>
-        <input type="text" name="position" value="임원" hidden/>
-        <input type="text" name="detailPosition" value="회장" hidden/>
     </form>
 </div>
 </body>
+
+<script th:inline="javascript">
+    function checkLoginId() {
+        let username = document.getElementById("username").value;
+
+        $.ajax({
+            url: '/idCheck',
+            type: 'POST',
+            data: { username: username },
+            success: function(checkId) {
+                // 서버로부터 응답을 받았을 때 실행되는 코드입니다.
+                // 응답에 따라 팝업에 메시지를 표시합니다.
+                if (checkId === 1) {
+                    alert("학번 '" + username + "'은(는) 중복되지 않습니다.");
+
+                    document.getElementById("username").readOnly = true;
+                    //id가 idCheckResult인 input의 value를 1로 바꿔주는 작업
+                    document.getElementById("idCheckResult").value = "1";
+
+                } else {
+                    alert("이미 사용 중인 학번입니다.");
+                }
+            },
+            error: function() {
+                alert('서버와의 통신 중 에러가 발생했습니다.');
+            }
+        });
+    }
+
+    function validateForm() {
+        let idCheckResult = document.getElementById("idCheckResult").value;
+        if (idCheckResult === "0") {
+            alert("아이디 중복체크를 완료하세요");
+            return false; // 서브밋 취소
+        }
+        return true; // 서브밋 허용
+    }
+
+</script>
+
 </html>
