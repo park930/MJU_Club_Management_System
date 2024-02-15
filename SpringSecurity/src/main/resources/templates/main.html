@@ -37,33 +37,33 @@
             </div>
         </div>
 
-        <div class="favorite-box">
-            <div class="favorite-item">
-                <h2>즐겨찾기</h2>
-                <h3 th:if="${#lists.isEmpty(favoriteBoardDTOList)}" class="empty-text">즐겨찾기가 없습니다.</h3>
-                <table th:if="${favoriteBoardDTOList != null}">
-                    <tr th:each="favoriteBoardDTO : ${favoriteBoardDTOList}">
-                        <td>•</td>
-                        <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}"
-                               th:text="${favoriteBoardDTO.boardTitle}"></a></td>
-                        <td th:text="${favoriteBoardDTO.boardWriter}+'님'"></td>
-                    </tr>
-                </table>
+        <div class="favorite-heart-box">
+            <h3 class="header"><span id="favoriteHeader" class="header-link">즐겨찾기</span><span class="slash"> / </span><span id="heartHeader" class="header-link">좋아요</span></h3>
+            <div class="content" id="favoriteContent">
+                <div class="favorite-item">
+                    <h3 th:if="${#lists.isEmpty(favoriteBoardDTOList)}" class="empty-text">즐겨찾기가 없습니다.</h3>
+                    <table th:if="${favoriteBoardDTOList != null}">
+                        <tr th:each="favoriteBoardDTO : ${favoriteBoardDTOList}">
+                            <td>•</td>
+                            <td><a th:href="@{|/board/${favoriteBoardDTO.boardId}|}"
+                                   th:text="${favoriteBoardDTO.boardTitle}"></a></td>
+                            <td th:text="${favoriteBoardDTO.boardWriter}+'님'"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </div>
-
-        <div class="heart-box">
-            <div class="heart-item">
-                <h2>"좋아요" 목록</h2>
-                <h3 th:if="${#lists.isEmpty(heartBoardList)}" class="empty-text">좋아요가 없습니다.</h3>
-                <table th:if="${heartBoardList != null}">
-                    <tr th:each="heartBoard : ${heartBoardList}">
-                        <td>•</td>
-                        <td><a th:href="@{|/board/${heartBoard.id}|}" th:text="${heartBoard.boardTitle}"></a></td>
-                        <td th:text="${heartBoard.boardWriter}+'님'"></td>
-                        <td><a th:href="@{|/heart/${heartBoard.id}/${id}|}">❤️</a></td>
-                    </tr>
-                </table>
+            <div class="content" id="heartContent" style="display: none;">
+                <div class="heart-item">
+                    <h3 th:if="${#lists.isEmpty(heartBoardList)}" class="empty-text">좋아요가 없습니다.</h3>
+                    <table th:if="${heartBoardList != null}">
+                        <tr th:each="heartBoard : ${heartBoardList}">
+                            <td>•</td>
+                            <td><a th:href="@{|/board/${heartBoard.id}|}" th:text="${heartBoard.boardTitle}"></a></td>
+                            <td th:text="${heartBoard.boardWriter}+'님'"></td>
+                            <td><a th:href="@{|/heart/${heartBoard.id}/${id}|}">❤️</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -71,37 +71,8 @@
 
     <div id="right-container">
 
-        <div id="right-top-container">
+        <div id="notice-container">
             <div class="admin-box">
-                <h2>동연회 임원</h2>
-                <h3 th:if="${adminChairManList == null}" class="empty-text">등록된 임원이 없습니다</h3>
-                <table th:if="${adminChairManList != null}" class="todo-table">
-                    <tr th:each="admin: ${adminChairManList}">
-                        <td>•</td>
-                        <td th:text="${admin.detailPosition}"></td>
-                        <td th:text="${admin.realName}"></td>
-                        <td th:text="${admin.phoneNumber}"></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="admin-box">
-                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                    <h2>동연회 요청</h2>
-                    <h3 th:if="${#lists.isEmpty(receiveTodoList)}" class="empty-text">등록된 요청이 없습니다</h3>
-                    <table th:if="${receiveTodoList != null}" class="todo-table">
-                        <tr th:each="todo: ${receiveTodoList}">
-                            <td>•</td>
-                            <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
-                                   th:text="${todo.title}"></a></td>
-                            <td th:text="*{#temporals.format(todo.endTime, 'MM월dd일까지')}"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="admin-box">
-                <h2>공지사항</h2>
                 <span th:if="${noticeList == null}" class="empty-text">등록된 공지가 없습니다.</span>
                 <table th:if="${noticeList != null}" class="todo-table">
                     <tr th:each="notice: ${noticeList}">
@@ -114,95 +85,290 @@
             </div>
         </div>
 
+        <div id="right-top-container">
+
+            <div class="admin-box">
+                <h3 class="header"><span id="receivedHeader" class="header-link">동연회 요청</span><span class="slash"> / </span><span id="adminHeader" class="header-link">동연회 임원</span></h3>
+                <div class="content" id="adminContent" style="display: none;">
+                    <div class="admin-item">
+                        <h3 th:if="${adminChairManList == null}" class="empty-text">등록된 임원이 없습니다</h3>
+                        <table th:if="${adminChairManList != null}" class="todo-table">
+                            <tr th:each="admin: ${adminChairManList}">
+                                <td>•</td>
+                                <td th:text="${admin.detailPosition}"></td>
+                                <td th:text="${admin.realName}"></td>
+                                <td th:text="${admin.phoneNumber}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content" id="receivedContent">
+                    <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                        <h3 th:if="${#lists.isEmpty(receiveTodoList)}" class="empty-text">등록된 요청이 없습니다</h3>
+                        <table th:if="${receiveTodoList != null}" class="todo-table">
+                            <tr th:each="todo: ${receiveTodoList}">
+                                <td>•</td>
+                                <td><a th:href="@{|/todo/receivedTodo/${clubId}/${todo.id}|}"
+                                       th:text="${todo.title}"></a></td>
+                                <td th:text="*{#temporals.format(todo.endTime, 'MM월dd일까지')}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 
         <div id="right-middle-container">
-            <div class="todo-box">
-                <div id="my-todo-list">
-                    <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>나의 일정</h2>
-                        <h3 th:if="${#lists.isEmpty(myTodoList)}" class="empty-text">등록된 일정이 없습니다</h3>
-                        <table th:if="${myTodoList != null}" class="todo-table">
-                            <tr th:each="todo: ${myTodoList}">
-                                <td>•</td>
-                                <td><a th:href="@{|/todo/user/${todo.id}|}"
-                                       th:text="${todo.title}"></a>
-                                </td>
-                                <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>
-                                <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clubInfo-box">
-                <div id="clubMember-list">
-                    <div id="clubMember-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>동아리 임원</h2>
-                        <table th:if="${chairManList != null}" class="todo-table">
-                            <tr th:each="chairMan: ${chairManList}">
-                                <td>•</td>
-                                <td th:text="${chairMan.detailPosition}"></td>
-                                <td th:text="${chairMan.realName}"></td>
-                                <td th:text="${chairMan.phoneNumber}"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="clubInfo-box">
-                <div id="clubMoney-list">
-                    <div id="clubMoney-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                        <h2>동아리 회비</h2>
-                        <div class="zt-skill-bar">
-                            <div th:data-width="${feePercent}" th:text="${feePercent}+'%'"></div>
+            <div class="my-box">
+                <h3 class="header"><span id="myQNAHeader" class="header-link">나의 Q&A</span><span class="slash"> / </span><span id="myPlanHeader" class="header-link">나의 일정</span><span class="slash"> / </span><span id="myRentalHeader" class="header-link">대여품목</span></h3>
+                <div class="content" id="myPlanContent" style="display: none;">
+                    <div id="my-todo-list">
+                        <div id="my-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <h3 th:if="${#lists.isEmpty(myTodoList)}" class="empty-text">등록된 일정이 없습니다</h3>
+                            <table th:if="${myTodoList != null}" class="todo-table">
+                                <tr th:each="todo: ${myTodoList}">
+                                    <td>•</td>
+                                    <td><a th:href="@{|/todo/user/${todo.id}|}"
+                                           th:text="${todo.title}"></a>
+                                    </td>
+                                    <td th:text="*{#temporals.format(todo.startTime, 'MM.dd')}"></td>
+                                    <td th:text="*{#temporals.format(todo.endTime, 'yy.MM.dd   HH:mm')}"></td>
+                                </tr>
+                            </table>
                         </div>
-                        <span th:text="'총 입금액 : '+${totalDepositAmount}+'원'"></span><br>
-                        <span th:text="'총 사용액 : '+${totalSpentAmount}+'원'"></span>
                     </div>
                 </div>
+
+                <div class="content" id="myQNAContent">
+                    <table th:if="${myQnaList != null}" class="todo-table">
+                        <tr th:each="qnaDTO: ${myQnaList}">
+                            <td>•</td>
+                            <td><a th:href="@{|/qna/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>
+                            <td th:text="${qnaDTO.answerString}"></td>
+                        </tr>
+                    </table>
+                    <h3 th:unless="${myQnaList != null}" class="empty-text">나의 QnA가 없습니다.</h3>
+                </div>
+
+                <div class="content" id="myRentalContent" style="display: none;">
+                    <table th:if="${myRentalList != null}" class="todo-table">
+                        <tr th:each="rentalDTO: ${myRentalList}">
+                            <td>•</td>
+                            <td th:text="${rentalDTO.name}"></td>
+                            <td th:text="${rentalDTO.location}"></td>
+                            <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>
+                        </tr>
+                    </table>
+                    <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>
+                </div>
+
             </div>
         </div>
+
 
 
         <div id="right-bottom-container">
-            <div class="achievement-box">
-                <h2>지원금 기준 달성도</h2>
-                <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>
-                <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
-            </div>
+            <div class="clubInfo-box">
+                <h3 class="header"><span id="scoreHeader" class="header-link">동아리평가 달성도</span><span class="slash"> / </span><span id="clubFeeHeader" class="header-link">동아리 회비</span><span class="slash"> / </span><span id="clubAdminHeader" class="header-link">동아리 임원</span></h3>
+                <div class="content" id="scoreContent">
+                    <div class="round-graph chart1"><span class="center" th:text="${percentScore} + '%'"></span></div>
+                    <div th:text="'현재 점수 : '+${clubScore}+'점'"></div>
+                </div>
 
-            <div class="QnA-box">
-                <h2>나의 Q&A</h2>
-                <table th:if="${myQnaList != null}" class="todo-table">
-                    <tr th:each="qnaDTO: ${myQnaList}">
-                        <td>•</td>
-                        <td><a th:href="@{|/qna/${qnaDTO.id}|}" th:text="${qnaDTO.boardTitle}"></a></td>
-                        <td th:text="${qnaDTO.answerString}"></td>
-                    </tr>
-                </table>
-                <h3 th:unless="${myQnaList != null}" class="empty-text">나의 QnA가 없습니다.</h3>
-            </div>
+                <div class="content" id="clubFeeContent" style="display: none;">
+                    <div id="clubMoney-list">
+                        <div id="clubMoney-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <div class="zt-skill-bar">
+                                <div th:data-width="${feePercent}" th:text="${feePercent}+'%'"></div>
+                            </div>
+                            <span th:text="'총 입금액 : '+${totalDepositAmount}+'원'"></span><br>
+                            <span th:text="'총 사용액 : '+${totalSpentAmount}+'원'"></span>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="some-box">
-                <h2>대여 중인 물품</h2>
-                <table th:if="${myRentalList != null}" class="todo-table">
-                    <tr th:each="rentalDTO: ${myRentalList}">
-                        <td>•</td>
-                        <td th:text="${rentalDTO.name}"></td>
-                        <td th:text="${rentalDTO.location}"></td>
-                        <td th:text="*{#temporals.format(rentalDTO.endDate, 'MM월dd까지')}"></td>
-                    </tr>
-                </table>
-                <h4 th:unless="${myRentalList != null}" class="empty-text">대여 중인 물품이 없습니다.</h4>
+                <div class="content" id="clubAdminContent" style="display: none;">
+                    <div id="clubMember-list">
+                        <div id="clubMember-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
+                            <table th:if="${chairManList != null}" class="todo-table">
+                                <tr th:each="chairMan: ${chairManList}">
+                                    <td>•</td>
+                                    <td th:text="${chairMan.detailPosition}"></td>
+                                    <td th:text="${chairMan.realName}"></td>
+                                    <td th:text="${chairMan.phoneNumber}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
+
     </div>
 </div>
 </body>
 
 <script th:inline="javascript">
+
+    window.addEventListener("load", function() {
+        let favoriteHeader = document.getElementById("favoriteHeader");
+        let heartHeader = document.getElementById("heartHeader");
+
+        let adminHeader = document.getElementById("adminHeader");
+        let receivedHeader = document.getElementById("receivedHeader");
+
+        let myPlanHeader = document.getElementById("myPlanHeader");
+        let myQNAHeader = document.getElementById("myQNAHeader");
+        let myRentalHeader = document.getElementById("myRentalHeader");
+
+        let scoreHeader = document.getElementById("scoreHeader");
+        let clubFeeHeader = document.getElementById("clubFeeHeader");
+        let clubAdminHeader = document.getElementById("clubAdminHeader");
+
+        // 초기에 즐겨찾기 내용이 보여지므로 해당 헤더를 선택된 상태로 설정
+        favoriteHeader.classList.add("selected");
+        heartHeader.classList.remove("selected");
+
+        receivedHeader.classList.add("selected");
+        adminHeader.classList.remove("selected");
+
+        myQNAHeader.classList.add("selected");
+        myPlanHeader.classList.remove("selected");
+        myRentalHeader.classList.remove("selected");
+
+        scoreHeader.classList.add("selected");
+        clubFeeHeader.classList.remove("selected");
+        clubAdminHeader.classList.remove("selected");
+
+    });
+
+
+    // 클릭 이벤트 리스너 등록
+    document.getElementById("favoriteHeader").addEventListener("click", function() { toggleContent("favorite"); });
+    document.getElementById("heartHeader").addEventListener("click", function() { toggleContent("heart"); });
+
+    document.getElementById("adminHeader").addEventListener("click", function() { toggleContent("admin"); });
+    document.getElementById("receivedHeader").addEventListener("click", function() { toggleContent("received"); });
+
+    document.getElementById("myPlanHeader").addEventListener("click", function() { toggleContent("plan"); });
+    document.getElementById("myQNAHeader").addEventListener("click", function() { toggleContent("qna"); });
+    document.getElementById("myRentalHeader").addEventListener("click", function() { toggleContent("rental"); });
+
+    document.getElementById("scoreHeader").addEventListener("click", function() { toggleContent("score"); });
+    document.getElementById("clubFeeHeader").addEventListener("click", function() { toggleContent("clubFee"); });
+    document.getElementById("clubAdminHeader").addEventListener("click", function() { toggleContent("clubAdmin"); });
+
+
+    // 컨텐츠 전환 함수 정의
+    function toggleContent(activeTab) {
+        let favoriteHeader = document.getElementById("favoriteHeader");
+        let heartHeader = document.getElementById("heartHeader");
+
+        let adminHeader = document.getElementById("adminHeader");
+        let receivedHeader = document.getElementById("receivedHeader");
+
+        let myPlanHeader = document.getElementById("myPlanHeader");
+        let myQNAHeader = document.getElementById("myQNAHeader");
+        let myRentalHeader = document.getElementById("myRentalHeader");
+
+        let scoreHeader = document.getElementById("scoreHeader");
+        let clubFeeHeader = document.getElementById("clubFeeHeader");
+        let clubAdminHeader = document.getElementById("clubAdminHeader");
+        //////////////////////////////////////////////////////////////////////////
+
+        let favoriteContent = document.getElementById("favoriteContent");
+        let heartContent = document.getElementById("heartContent");
+
+        let adminContent = document.getElementById("adminContent");
+        let receivedContent = document.getElementById("receivedContent");
+
+        let myPlanContent = document.getElementById("myPlanContent");
+        let myQNAContent = document.getElementById("myQNAContent");
+        let myRentalContent = document.getElementById("myRentalContent");
+
+        let scoreContent = document.getElementById("scoreContent");
+        let clubFeeContent = document.getElementById("clubFeeContent");
+        let clubAdminContent = document.getElementById("clubAdminContent");
+        //////////////////////////////////////////////////////////////////////////
+
+
+        // 선택된 탭에 따라 스타일 변경
+        if (activeTab === "favorite") {
+            favoriteHeader.classList.add("selected");
+            heartHeader.classList.remove("selected");
+            favoriteContent.style.display = "block";
+            heartContent.style.display = "none";
+        } else if (activeTab === "heart") {
+            favoriteHeader.classList.remove("selected");
+            heartHeader.classList.add("selected");
+            favoriteContent.style.display = "none";
+            heartContent.style.display = "block";
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "received") {
+            receivedHeader.classList.add("selected");
+            adminHeader.classList.remove("selected");
+            receivedContent.style.display = "block";
+            adminContent.style.display = "none";
+        } else if (activeTab === "admin") {
+            receivedHeader.classList.remove("selected");
+            adminHeader.classList.add("selected");
+            receivedContent.style.display = "none";
+            adminContent.style.display = "block";
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "plan") {
+            myPlanHeader.classList.add("selected");
+            myQNAHeader.classList.remove("selected");
+            myRentalHeader.classList.remove("selected");
+            myPlanContent.style.display = "block";
+            myQNAContent.style.display = "none";
+            myRentalContent.style.display = "none";
+        } else if (activeTab === "qna") {
+            myPlanHeader.classList.remove("selected");
+            myQNAHeader.classList.add("selected");
+            myRentalHeader.classList.remove("selected");
+            myPlanContent.style.display = "none";
+            myQNAContent.style.display = "block";
+            myRentalContent.style.display = "none";
+        } else if (activeTab === "rental") {
+            myPlanHeader.classList.remove("selected");
+            myQNAHeader.classList.remove("selected");
+            myRentalHeader.classList.add("selected");
+            myPlanContent.style.display = "none";
+            myQNAContent.style.display = "none";
+            myRentalContent.style.display = "block";
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "score") {
+            scoreHeader.classList.add("selected");
+            clubFeeHeader.classList.remove("selected");
+            clubAdminHeader.classList.remove("selected");
+            scoreContent.style.display = "block";
+            clubFeeContent.style.display = "none";
+            clubAdminContent.style.display = "none";
+        } else if (activeTab === "clubFee") {
+            scoreHeader.classList.remove("selected");
+            clubFeeHeader.classList.add("selected");
+            clubAdminHeader.classList.remove("selected");
+            scoreContent.style.display = "none";
+            clubFeeContent.style.display = "block";
+            clubAdminContent.style.display = "none";
+        } else if (activeTab === "clubAdmin") {
+            scoreHeader.classList.remove("selected");
+            clubFeeHeader.classList.remove("selected");
+            clubAdminHeader.classList.add("selected");
+            scoreContent.style.display = "none";
+            clubFeeContent.style.display = "none";
+            clubAdminContent.style.display = "block";
+        }
+
+    }
+
+
 
     const id = [[${id}]];
 
