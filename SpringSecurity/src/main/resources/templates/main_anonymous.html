@@ -24,16 +24,9 @@
             </div>
         </div>
 
-        <div class="favorite-box">
-            <div class="favorite-item">
-                <h2>즐겨찾기</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-            </div>
-        </div>
-
-        <div class="heart-box">
-            <div class="heart-item">
-                <h2>"좋아요" 목록</h2>
+        <div class="favorite-heart-box">
+            <h3 class="header"><span id="favoriteHeader" class="header-link">즐겨찾기</span><span class="slash"> / </span><span id="heartHeader" class="header-link">좋아요</span></h3>
+            <div class="content" id="favoriteContent">
                 <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
             </div>
         </div>
@@ -41,76 +34,171 @@
 
 
     <div id="right-container">
-        <div id="right-top-container">
-            <div class="admin-box">
-                <h2>동연회 임원</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-            </div>
 
+        <div id="notice-container">
             <div class="admin-box">
-                <div id="receive-todo-items" th:if="${not #strings.equals(id, 'anonymousUser')}">
-                    <h2>동연회 요청</h2>
-                    <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-                </div>
-            </div>
-
-            <div class="admin-box">
-                <h2>공지사항</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                <span th:if="${noticeList == null}" class="empty-text">등록된 공지가 없습니다.</span>
+                <table th:if="${noticeList != null}" class="todo-table">
+                    <tr th:each="notice: ${noticeList}">
+                        <td>•</td>
+                        <td><a th:href="@{|/board/${notice.id}|}"
+                               th:text="${notice.boardTitle}"></a></td>
+                        <td th:text="*{#temporals.format(notice.boardCreatedTime, 'yy.MM.dd')}"></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
+        <div id="right-top-container">
+            <div class="admin-box">
+                <h3 class="header"><span id="receivedHeader" class="header-link">동연회 요청</span><span class="slash"> / </span><span id="adminHeader" class="header-link">동연회 임원</span></h3>
+                <div class="content" id="adminContent">
+                    <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                </div>
+            </div>
+        </div>
 
         <div id="right-middle-container">
-            <div class="todo-box">
-                <div id="my-todo-list">
-                    <div id="my-todo-items">
-                        <h2>나의 일정</h2>
-                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clubInfo-box">
-                <div id="clubMember-list">
-                    <div id="clubMember-items">
-                        <h2>동아리 임원</h2>
-                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clubInfo-box">
-                <div id="clubMoney-list">
-                    <div id="clubMoney-items">
-                        <h2>동아리 회비</h2>
-                        <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-                    </div>
+            <div class="my-box">
+                <h3 class="header"><span id="myQNAHeader" class="header-link">나의 Q&A</span><span class="slash"> / </span><span id="myPlanHeader" class="header-link">나의 일정</span><span class="slash"> / </span><span id="myRentalHeader" class="header-link">대여품목</span></h3>
+                <div class="content" id="myPlanContent">
+                    <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
                 </div>
             </div>
         </div>
 
         <div id="right-bottom-container">
-            <div class="achievement-box">
-                <h2>지원금 기준 달성도</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-            </div>
-
-            <div class="QnA-box">
-                <h2>나의 Q&A</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
-            </div>
-
-            <div class="some-box">
-                <h2>대여 중인 물품</h2>
-                <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+            <div class="clubInfo-box">
+                <h3 class="header"><span id="scoreHeader" class="header-link">동아리평가 달성도</span><span class="slash"> / </span><span id="clubFeeHeader" class="header-link">동아리 회비</span><span class="slash"> / </span><span id="clubAdminHeader" class="header-link">동아리 임원</span></h3>
+                <div class="content" id="scoreContent">
+                    <a href="/login" ><h3 class="login-need">로그인이 필요합니다.</h3></a>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 </body>
 
 <script th:inline="javascript">
+
+
+
+    window.addEventListener("load", function() {
+        let favoriteHeader = document.getElementById("favoriteHeader");
+        let heartHeader = document.getElementById("heartHeader");
+
+        let adminHeader = document.getElementById("adminHeader");
+        let receivedHeader = document.getElementById("receivedHeader");
+
+        let myPlanHeader = document.getElementById("myPlanHeader");
+        let myQNAHeader = document.getElementById("myQNAHeader");
+        let myRentalHeader = document.getElementById("myRentalHeader");
+
+        let scoreHeader = document.getElementById("scoreHeader");
+        let clubFeeHeader = document.getElementById("clubFeeHeader");
+        let clubAdminHeader = document.getElementById("clubAdminHeader");
+
+        // 초기에 즐겨찾기 내용이 보여지므로 해당 헤더를 선택된 상태로 설정
+        favoriteHeader.classList.add("selected");
+        heartHeader.classList.remove("selected");
+
+        receivedHeader.classList.add("selected");
+        adminHeader.classList.remove("selected");
+
+        myQNAHeader.classList.add("selected");
+        myPlanHeader.classList.remove("selected");
+        myRentalHeader.classList.remove("selected");
+
+        scoreHeader.classList.add("selected");
+        clubFeeHeader.classList.remove("selected");
+        clubAdminHeader.classList.remove("selected");
+
+    });
+
+
+    // 클릭 이벤트 리스너 등록
+    document.getElementById("favoriteHeader").addEventListener("click", function() { toggleContent("favorite"); });
+    document.getElementById("heartHeader").addEventListener("click", function() { toggleContent("heart"); });
+
+    document.getElementById("adminHeader").addEventListener("click", function() { toggleContent("admin"); });
+    document.getElementById("receivedHeader").addEventListener("click", function() { toggleContent("received"); });
+
+    document.getElementById("myPlanHeader").addEventListener("click", function() { toggleContent("plan"); });
+    document.getElementById("myQNAHeader").addEventListener("click", function() { toggleContent("qna"); });
+    document.getElementById("myRentalHeader").addEventListener("click", function() { toggleContent("rental"); });
+
+    document.getElementById("scoreHeader").addEventListener("click", function() { toggleContent("score"); });
+    document.getElementById("clubFeeHeader").addEventListener("click", function() { toggleContent("clubFee"); });
+    document.getElementById("clubAdminHeader").addEventListener("click", function() { toggleContent("clubAdmin"); });
+
+
+    // 컨텐츠 전환 함수 정의
+    function toggleContent(activeTab) {
+        let favoriteHeader = document.getElementById("favoriteHeader");
+        let heartHeader = document.getElementById("heartHeader");
+
+        let adminHeader = document.getElementById("adminHeader");
+        let receivedHeader = document.getElementById("receivedHeader");
+
+        let myPlanHeader = document.getElementById("myPlanHeader");
+        let myQNAHeader = document.getElementById("myQNAHeader");
+        let myRentalHeader = document.getElementById("myRentalHeader");
+
+        let scoreHeader = document.getElementById("scoreHeader");
+        let clubFeeHeader = document.getElementById("clubFeeHeader");
+        let clubAdminHeader = document.getElementById("clubAdminHeader");
+        //////////////////////////////////////////////////////////////////////////
+
+
+        // 선택된 탭에 따라 스타일 변경
+        if (activeTab === "favorite") {
+            favoriteHeader.classList.add("selected");
+            heartHeader.classList.remove("selected");
+        } else if (activeTab === "heart") {
+            favoriteHeader.classList.remove("selected");
+            heartHeader.classList.add("selected");
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "received") {
+            receivedHeader.classList.add("selected");
+            adminHeader.classList.remove("selected");
+        } else if (activeTab === "admin") {
+            receivedHeader.classList.remove("selected");
+            adminHeader.classList.add("selected");
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "plan") {
+            myPlanHeader.classList.add("selected");
+            myQNAHeader.classList.remove("selected");
+            myRentalHeader.classList.remove("selected");
+        } else if (activeTab === "qna") {
+            myPlanHeader.classList.remove("selected");
+            myQNAHeader.classList.add("selected");
+            myRentalHeader.classList.remove("selected");
+        } else if (activeTab === "rental") {
+            myPlanHeader.classList.remove("selected");
+            myQNAHeader.classList.remove("selected");
+            myRentalHeader.classList.add("selected");
+        }
+        //////////////////////////////////////////////////////////////////////////
+        if (activeTab === "score") {
+            scoreHeader.classList.add("selected");
+            clubFeeHeader.classList.remove("selected");
+            clubAdminHeader.classList.remove("selected");
+        } else if (activeTab === "clubFee") {
+            scoreHeader.classList.remove("selected");
+            clubFeeHeader.classList.add("selected");
+            clubAdminHeader.classList.remove("selected");
+        } else if (activeTab === "clubAdmin") {
+            scoreHeader.classList.remove("selected");
+            clubFeeHeader.classList.remove("selected");
+            clubAdminHeader.classList.add("selected");
+        }
+
+    }
+
+
 
     const id = [[${id}]];
 
@@ -120,18 +208,6 @@
 
     const login = () => {
         location.href="/login";
-    }
-
-    const boardPagingReq = () => {
-        location.href="/board/paging";
-    }
-
-    const rentReq = () => {
-        location.href="/rental/"
-    }
-
-    const clubReq = () => {
-        location.href="/club/"
     }
 
 

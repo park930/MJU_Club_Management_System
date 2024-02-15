@@ -59,18 +59,21 @@ public class MainController {
 
         // 비회원인 경우
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (id.equals("anonymousUser")){
-            return "main_anonymous";
-        }
 
         if (id.startsWith("admin")){
             return "redirect:/adminMain";
         }
 
+        List<BoardDTO> boardNoticeList = boardService.findNotice();
+        model.addAttribute("noticeList",boardNoticeList);
+
+        if (id.equals("anonymousUser")){
+            return "main_anonymous";
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         TodoPersonalDTO todoPersonalDTO = null;
 
-        List<BoardDTO> boardNoticeList = boardService.findNotice();
 
         List<ClubDTO> clubDTOList = clubService.findAll();
         List<ScoreDTO> updateScoreList = scoreService.getScoreInfo(scoreClubService.findAll(),scoreService.findAll(),clubDTOList);
@@ -137,7 +140,6 @@ public class MainController {
         model.addAttribute("role",role);
         model.addAttribute("clubScore",clubScore);
         model.addAttribute("percentScore",percentScore);
-        model.addAttribute("noticeList",boardNoticeList);
         return "main";
     }
 
