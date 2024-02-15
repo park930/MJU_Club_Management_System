@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <title>메인화면</title>
-</head>
+<th:block th:replace="topHeader :: headerFragment"></th:block>
 <body>
 
 <div th:fragment="header" class="top-header">
@@ -23,10 +15,23 @@
             <a href="/clubMember/" class="nav-item">부원 관리</a>
             <a href="/clubFee/" class="nav-item">회비 내역</a>
             <a href="/qna/paging" class="nav-item">Q&A</a>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    동아리 관리
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/score/">동아리 평가</a>
+                    <a class="dropdown-item" href="/club/">동아리 목록</a>
+                    <a class="dropdown-item" href="/clubMember/">부원 관리</a>
+                    <a class="dropdown-item" href="/clubFee/">회비 내역</a>
+                </div>
+            </div>
+
         </div>
     </nav>
+
 </div>
 
 </body>
-
 </html>

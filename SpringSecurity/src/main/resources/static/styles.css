@@ -42,7 +42,7 @@ table {
 
 
 #main-container {
-    background-color: #f7f7f7;
+    /*background-color: #f7f7f7;*/
     display: flex;
     width: 1100px;
     margin: 0 auto;
