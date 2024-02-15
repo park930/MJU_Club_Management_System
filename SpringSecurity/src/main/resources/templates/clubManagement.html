@@ -18,29 +18,30 @@
   <div th:replace="header :: header"></div>
 </div>
 
-
+<div class="container">
 <h2>중앙 동아리 목록</h2>
 
-<div class="club-container">
-  <div class="club-item" th:each="club: ${clubList}">
-    <table>
-      <tr>
-        <th th:text="${club.category}"></th>
-      </tr>
-      <tr>
-        <td>
-          <img src="/noFile.png" alt="Rental Item Image">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h2 th:text="${club.clubName}"></h2>
-        </td>
-      </tr>
-      <tr>
-        <th th:text="${club.clubRoom}+'호실'"></th>
-      </tr>
-    </table>
+  <div class="club-container">
+    <div class="club-item" th:each="club: ${clubList}">
+      <table>
+        <tr>
+          <th th:text="${club.category}"></th>
+        </tr>
+        <tr>
+          <td>
+            <img src="/noFile.png" alt="Rental Item Image">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h2 th:text="${club.clubName}"></h2>
+          </td>
+        </tr>
+        <tr>
+          <th th:text="${club.clubRoom}+'호실'"></th>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
 

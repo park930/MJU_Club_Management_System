@@ -1,6 +1,7 @@
 #board-container {
-    margin-top: 50px;
-    width: 90%;
+
+    width: 1100px;
+    margin : 0 auto;
 }
 
 .board_view {

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div th:replace="header :: header"></div>
+<div th:replace="header :: header" ></div>
 
 <!-------------------------------------------------------------------------------------------------------------------->
 <div id="main-container" th:if="${not #strings.equals(id, 'anonymousUser')}">
@@ -74,9 +74,13 @@
         <div id="notice-container">
             <div class="admin-box">
                 <span th:if="${noticeList == null}" class="empty-text">등록된 공지가 없습니다.</span>
-                <table th:if="${noticeList != null}" class="todo-table">
+                <table th:if="${noticeList != null}" class="todo-table" id="notice-table">
                     <tr th:each="notice: ${noticeList}">
-                        <td>•</td>
+                        <td>
+                            <span>
+                                <img src="/speaker.png" alt="notice" id="speaker">
+                            </span>
+                        </td>
                         <td><a th:href="@{|/board/${notice.id}|}"
                                th:text="${notice.boardTitle}"></a></td>
                         <td th:text="*{#temporals.format(notice.boardCreatedTime, 'yy.MM.dd')}"></td>

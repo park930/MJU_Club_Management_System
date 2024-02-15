@@ -44,7 +44,8 @@ table {
 #main-container {
     background-color: #f7f7f7;
     display: flex;
-    margin: 10px;
+    width: 1100px;
+    margin: 0 auto;
 }
 
 /********************좌측 컨테이너*****************/
@@ -275,4 +276,14 @@ a {
     color: #808080;
     margin-left: 3px;
     margin-right: 3px;
+}
+
+
+
+#notice-table td:first-child {
+    width: 10%;
+}
+
+#speaker {
+    height: 1.6rem;
 }
