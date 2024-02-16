@@ -4,7 +4,9 @@
 
 a#home_like {
     text-decoration: none; /* 밑줄 제거 */
-    color: black;          /* 글자색을 검은색으로 설정 */
+    color: white;          /* 글자색을 검은색으로 설정 */
+    font-size: 2.59rem;
+    padding: 20px;
 }
 
 
@@ -12,12 +14,13 @@ a#home_like {
     display: flex;
     justify-content: center; /* 중앙 정렬 (선택 사항) */
     align-items: center; /* 세로 중앙 정렬 (선택 사항) */
+    margin-right: 8rem;
 }
 
 
 
 #logo {
-    padding: 10px;
+    padding-left: 10px;
     text-align: center;
     font-size: 2rem;
 }
@@ -26,29 +29,48 @@ a#home_like {
 
 #main-nav {
     background-color: #0e102f;
-    padding: 5px;
-    margin-bottom: 1.1rem;
+    margin-bottom: 4rem;
+    /*border-bottom: 3px solid #a7a7a7; !* 테두리 추가 *!*/
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 5px 0 10px;
+    border-radius: 10px;
 }
 
-#menu-items .nav-item {
-    margin-left: 27px; /* 좌측 마진 설정 */
-    margin-right: 27px; /* 우측 마진 설정 */
+#menu-items .nav-item , .dropdown a {
+    margin-left: 1.3rem; /* 좌측 마진 설정 */
+    margin-right: 1.3rem; /* 우측 마진 설정 */
     font-weight: bold;
     text-align: center;
     background-color: transparent;
     text-decoration: none;
+    font-size: 1.62rem;
 }
 
 
-.nav-item, #logout  {
-    padding: 10px;
+.nav-item, #logout, .dropdown a  {
+    padding: 10px 10px 0;
     margin: 5px;
     cursor: pointer;
-    background-color: #38454b;
-    color: white;
+    /*background-color: #38454b;*/
+    /*color: white;*/
     border: none;
     border-radius: 4px;
 }
+
+#logout {
+    padding: 10px;
+    margin: 5px;
+    background-color: #38454b;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+
 
 button{
     padding: 10px;
@@ -65,7 +87,7 @@ button:hover, .nav-item {
     background-color: #4e77be;
 }
 
-#menu-items .nav-item:hover {
+#menu-items .nav-item:hover, .dropdown a {
     color: #bbdfff8f;
 }
 
@@ -116,4 +138,13 @@ h1,h2, h3, h4, h5, h6,
 .top-header , .container {
     width: 1100px;
     margin : 0 auto;
+}
+
+
+.dropdown-ul {
+    list-style-type: none;
+}
+
+#menu-items a {
+    color: #e9ebec;
 }

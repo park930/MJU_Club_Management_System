@@ -4,32 +4,35 @@
 <body>
 
 <div th:fragment="header" class="top-header">
-    <h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
     <nav id="main-nav">
+        <div>
+            <h1 id="logo"><a id="home_like" href="/">동아리 관리 시스템</a></h1>
+        </div>
         <div id="menu-items">
             <a href="/board/paging" class="nav-item">자유게시판</a>
             <a href="/rental/" class="nav-item">대여 시스템</a>
             <a href="/todo/divide" class="nav-item">일정 관리</a>
-            <a href="/score/" class="nav-item">동아리 평가</a>
-            <a href="/club/" class="nav-item">동아리 목록</a>
-            <a href="/clubMember/" class="nav-item">부원 관리</a>
-            <a href="/clubFee/" class="nav-item">회비 내역</a>
             <a href="/qna/paging" class="nav-item">Q&A</a>
-
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     동아리 관리
-                </button>
+                </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/score/">동아리 평가</a>
-                    <a class="dropdown-item" href="/club/">동아리 목록</a>
-                    <a class="dropdown-item" href="/clubMember/">부원 관리</a>
-                    <a class="dropdown-item" href="/clubFee/">회비 내역</a>
+                    <ul class="dropdown-ul">
+                        <li><a class="dropdown-item" href="/score/">동아리 평가</a></li>
+                        <li><a class="dropdown-item" href="/club/">동아리 목록</a></li>
+                        <li><a class="dropdown-item" href="/clubMember/">부원 관리</a></li>
+                        <li><a class="dropdown-item" href="/clubFee/">회비 내역</a></li>
+                    </ul>
                 </div>
             </div>
 
         </div>
     </nav>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </div>
 
