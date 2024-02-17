@@ -8,6 +8,8 @@ import com.example.springsecurity.score.entity.ScoreClubEntity;
 import com.example.springsecurity.score.entity.ScoreEntity;
 import com.example.springsecurity.score.repository.ScoreClubRepository;
 import com.example.springsecurity.score.repository.ScoreRepository;
+import com.example.springsecurity.todo.entity.TodoEntity;
+import com.example.springsecurity.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ScoreService {
     private final ScoreRepository scoreRepository;
+    private final TodoRepository todoRepository;
 
     public ScoreDTO saveScoreTable(ScoreDTO scoreDTO) {
         ScoreEntity scoreEntity = ScoreEntity.toNewScoreEntity(scoreDTO);
@@ -226,6 +229,12 @@ public class ScoreService {
 
     public Long update(ScoreDTO scoreDTO) {
         ScoreEntity scoreEntity = ScoreEntity.toUpdateScoreEntity(scoreDTO);
+        Optional<TodoEntity> optionalTodoEntity = todoRepository.findById(scoreDTO.getTodoId());
+        if (optionalTodoEntity.isPresent()){
+            TodoEntity todoEntity = optionalTodoEntity.get();
+            todoEntity.setEndTime(scoreDTO.getEndTime());
+            todoRepository.save(todoEntity);
+        }
         return scoreRepository.save(scoreEntity).getId();
     }
 }

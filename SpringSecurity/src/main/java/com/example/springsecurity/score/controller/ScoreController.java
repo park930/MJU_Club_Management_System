@@ -8,6 +8,8 @@ import com.example.springsecurity.score.dto.ScoreClubDTO;
 import com.example.springsecurity.score.dto.ScoreDTO;
 import com.example.springsecurity.score.service.ScoreClubService;
 import com.example.springsecurity.score.service.ScoreService;
+import com.example.springsecurity.todo.dto.TodoDTO;
+import com.example.springsecurity.todo.service.TodoService;
 import com.example.springsecurity.user.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,7 @@ public class ScoreController
 {
     private final ScoreService scoreService;
     private final ClubService clubService;
+    private final TodoService todoService;
     private final ScoreClubService scoreClubService;
 
     @GetMapping("/")
