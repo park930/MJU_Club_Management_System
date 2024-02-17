@@ -2,20 +2,58 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/menuStyles.css">
+    <link rel="stylesheet" type="text/css" href="/baseFrame.css">
     <title>update</title>
 </head>
 <body>
-<h3 th:text="'학번 : '+${userDTO.username}"></h3>
-<h3 th:text="'이름 : '+${userDTO.realName}"></h3>
-<h3 th:text="'전화번호 : '+${userDTO.phoneNumber}"></h3>
 
-<form action="/rental/offer/update" method="post" name="updateForm">
-    <input type="hidden" name="rentalId" th:value="${rentalId}">
-    <input type="hidden" name="id" th:value="${renterId}">
-    대여 시작일: <input type="datetime-local" name="startDate" th:value="${renterDTO.startDate}"> <br>
-    대여 반납일: <input type="datetime-local" name="endDate" th:value="${renterDTO.endDate}"> <br>
-    <input type="hidden" name="userName" th:value="${userDTO.username}">
-    <input type="submit" value="수정하기">
-</form>
+<div th:replace="header :: header"></div>
+
+<div class="container">
+    <div class="item">
+        <table>
+            <tr>
+                <th>학번</th>
+                <td><h3 th:text="${userDTO.username}"></h3></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td><h3 th:text="${userDTO.realName}"></h3></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td><h3 th:text="${userDTO.phoneNumber}"></h3></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="item">
+        <form action="/rental/offer/update" method="post" name="updateForm">
+            <input type="hidden" name="rentalId" th:value="${rentalId}">
+            <input type="hidden" name="id" th:value="${renterId}">
+            <input type="hidden" name="userName" th:value="${userDTO.username}">
+
+            <table>
+                <tr>
+                    <th>대여 시작일</th>
+                    <td><input type="datetime-local" name="startDate" th:value="${renterDTO.startDate}"></td>
+                </tr>
+                <tr>
+                    <th>대여 반납일</th>
+                    <td><input type="datetime-local" name="endDate" th:value="${renterDTO.endDate}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="수정하기" class="submit-button"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+
 
 </body>
+</html>
